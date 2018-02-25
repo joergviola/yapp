@@ -1,0 +1,28 @@
+<template>
+  <div class="animated fadeIn">
+      <row>
+        <list label="Projects" type="project" with="client_id:company" cols="12" detail="/project/">
+          <template slot="header">
+            <column span="4"><b>Name</b></column>
+            <column span="4"><b>Client</b></column>
+            <column span="4"><b>State</b></column>
+          </template>
+          <template scope="row">
+            <column span="4">{{row.item.name}}</column>
+            <column span="4">{{row.item.client_id.name}}</column>
+            <column span="4">{{row.item.state}}</column>
+          </template>
+        </list>
+      </row>
+    </div>
+</template>
+
+<script>
+    import {all} from '@/components/all.js'
+
+    export default {
+      name: 'companies',
+      components: all,
+
+    }
+</script>
