@@ -25,6 +25,7 @@
 <script>
 
 import TypeAhead from 'vue2-typeahead'
+import config from '@/config.js'
 
 export default {
     name: 'to-one',
@@ -49,7 +50,7 @@ export default {
         clazz() { return 'form-group col-sm-' + this.cols },
         toUrl() { return this.to + this.selected.id },
         querySrc() {
-            return "http://localhost/tony/backend/public/api/1.0/"+ this.type + "?q="+this.display+"%3D:keyword" // encoded =
+            return config.api + '/api/1.0/'+ this.type + "?q="+this.display+"%3D:keyword" // encoded =
         }
     },
     data() {

@@ -76,8 +76,8 @@
                     }, this )
                 }
                 const request = this.isNew
-                    ? this.$http.post('http://localhost/tony/backend/public/api/1.0/'+this.type, this.item)
-                    : this.$http.put('http://localhost/tony/backend/public/api/1.0/'+this.type, this.item)
+                    ? this.$http.post(config.api + '/api/1.0/'+this.type, this.item)
+                    : this.$http.put(config.api + '/api/1.0/'+this.type, this.item)
 
                 request.then(response => {
                             this.$router.go(-1)
@@ -95,7 +95,7 @@
             },
             remove() {
                 this.$http
-                    .delete('http://localhost/tony/backend/public/api/1.0/'+this.type+'/' + this.id)
+                    .delete(config.api + '/api/1.0/'+this.type+'/' + this.id)
                     .then(response => {
                             this.$router.go(-1)
                         },
