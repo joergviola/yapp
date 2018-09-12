@@ -14,6 +14,18 @@
         </template>
       </ressource>
     </row>
+    <row>
+      <list label="Persons" type="user" with="company_id:company" cols="12" detail="/users/user/" :query="userQuery">
+        <template slot="header">
+          <column span="4"><b>Name</b></column>
+          <column span="4"><b>E-Mail</b></column>
+        </template>
+        <template scope="row">
+          <column span="4">{{row.item.name}}</column>
+          <column span="4">{{row.item.email}}</column>
+        </template>
+      </list>
+    </row>
   </div>
 </template>
 
@@ -23,5 +35,8 @@
     export default {
       name: 'company',
       components: all,
+      computed: {
+          userQuery() { return 'company_id=' + this.$route.params.id },
+      },
     }
 </script>

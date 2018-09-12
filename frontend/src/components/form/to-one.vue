@@ -2,7 +2,7 @@
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
         <div v-if="edit" class="input-group">
-            <TypeAhead ref="edit" v-model="input" :src="querySrc" :getResponse="getResponse" :onHit="onHit"></TypeAhead>
+            <TypeAhead ref="edit" v-model="input" :src="querySrc" :getResponse="getResponse" :onHit="onHit" :minChars=1></TypeAhead>
             <span class="input-group-btn">
                 <button type="button" class="btn btn-primary" v-on:click="cancel()">
                     <i class="fa fa-ban"></i>
@@ -41,8 +41,9 @@ export default {
     },
     watch: {
         value: function(val) {
-            console.log('updated')
+            console.log('updated', val)
             this.selected = val
+            this.edit = val==null
             this.input = this.value?this.value[this.display]:''
         },
     },
@@ -50,14 +51,14 @@ export default {
         clazz() { return 'form-group col-sm-' + this.cols },
         toUrl() { return this.to + this.selected.id },
         querySrc() {
-            return config.api + '/api/1.0/'+ this.type + "?q="+this.display+"%3D:keyword" // encoded =
+            return config.api + '/api/1.0/'+ this.type + "?q="+this.display+"%7E:keyword" // encoded =
         }
     },
     data() {
         return {
             field: null,
             type: null,
-            edit: false,
+            edit: true,
             input: null,
             data: null,
             selected: null

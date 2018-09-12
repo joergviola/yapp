@@ -7,6 +7,7 @@
           <text-input label="E-Mail" v-model="$.item.email"></text-input>
           <password-input label="Password" v-model="$.item.password"></password-input>
           <to-one label="Company" v-model="$.item.company_id" with="company_id:company" display="name" to="/companies/company/"></to-one>
+          <to-one label="Role" v-model="$.item.role_id" with="role_id:role" display="name"></to-one>
         </template>
       </ressource>
     </row>

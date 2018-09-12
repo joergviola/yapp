@@ -17,7 +17,7 @@ class APIController extends Controller {
 	    if ($q) {
             $q = explode('&', urldecode($q));
             foreach ($q as $where) {
-                if (!preg_match('/([a-z]+)(=|~|!=)(.*)/', $where, $matches, PREG_OFFSET_CAPTURE)) continue;
+                if (!preg_match('/([a-z_]+)(=|~|!=)(.*)/', $where, $matches, PREG_OFFSET_CAPTURE)) continue;
                 $field=$matches[1][0];
                 $operator=$matches[2][0];
                 $value=$matches[3][0];
@@ -63,12 +63,14 @@ class APIController extends Controller {
     public function create(Request $request, $entity) {
 	    $data = $this->data($request);
 	    try {
-            $data['company_id'] = 1;
-            $data['state'] = 'New';
-            $data['created_by'] = 1;
-            $data['updated_by'] = 1;
-            $data['created_at'] = new \DateTime();
-            $data['updated_at'] = new \DateTime();
+            $data = array_merge([
+                'company_id' => 1,
+                'state' => 'New',
+                'created_by' => 1,
+                'updated_by' => 1,
+                'created_at' => new \DateTime(),
+                'updated_at' => new \DateTime()
+            ], $data);
 		    $id = $this->db($entity)
 		               ->insertGetId($data);
 		    return $this->get($request, $entity, $id);
