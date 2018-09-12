@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
       <row>
-        <list label="Projects" type="project" with="client_id:company" cols="12" detail="/project/"  query="state!=Lead">
+        <list label="Projects" type="project" with="client_id:company" cols="12" detail="/lead/" query="state=Lead">
           <template slot="header">
             <column span="4"><b>Name</b></column>
             <column span="4"><b>Client</b></column>
