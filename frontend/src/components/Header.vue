@@ -18,7 +18,7 @@
   </header>
 </template>
 <script>
-import config from '@/config.js'
+import api from '@/api.js'
 
 
 
@@ -45,9 +45,7 @@ export default {
       document.body.classList.toggle('aside-menu-hidden')
     },
       logout() {
-          let  url = config.api + '/api/1.0/logout'
-          this.$http
-              .post(url, {}, {credentials: true})
+          api.logout()
               .then(response => {
                       this.$router.push('/login')
                   },

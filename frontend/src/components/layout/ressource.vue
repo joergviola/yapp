@@ -18,7 +18,7 @@
 
 <script>
     import Vue from 'vue'
-    import config from '@/config.js'
+    import api from '@/api.js'
 
     export default {
         name: 'ressource',
@@ -35,12 +35,7 @@
         },
         mounted() {
             if (!this.isNew) {
-                let  url = config.api + '/api/1.0/'+this.type+'/' + this.id
-                if (this.with.length>0) {
-                    url += '?with=' + this.with.map(w => w.field+':'+w.type).join(',')
-                }
-                this.$http
-                    .get(url, {credentials: true})
+                api.read(this.type, this.id, this.with)
                     .then(response => {
                             console.log('GET RESULT', response.body);
                             this.item = response.body;
@@ -80,8 +75,8 @@
                     }, this )
                 }
                 const request = this.isNew
-                    ? this.$http.post(config.api + '/api/1.0/'+this.type, this.item, {credentials: true})
-                    : this.$http.put(config.api + '/api/1.0/'+this.type, this.item, {credentials: true})
+                    ? api.create(this.type, this.item)
+                    : api.update(this.type, this.item)
 
                 request.then(response => {
                             this.$router.go(-1)
@@ -109,8 +104,7 @@
                     }
                 ).then(value => {
                   if (value.value) {
-                      this.$http
-                          .delete(config.api + '/api/1.0/'+this.type+'/' + this.id, {credentials: true})
+                      api.delete(this.type, this.id)
                           .then(response => {
                                   this.$router.go(-1)
                               },

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import config from '@/config.js'
+import api from '@/api.js'
 
 export default {
     name: 'login',
@@ -55,12 +55,7 @@ export default {
     },
     methods : {
         login() {
-            let  url = config.api + '/api/1.0/login'
-            this.$http
-                .post(url, {
-                    username: this.username,
-                    password: this.password
-                }, {credentials: true})
+            api.login(this.username, this.password)
                 .then(response => {
                         window.user = response.body.user
                         this.$router.push('/')

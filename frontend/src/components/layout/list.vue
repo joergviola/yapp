@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import config from '@/config.js'
+    import api from '@/api.js'
 
     export default {
         name: 'list',
@@ -44,19 +44,7 @@
             }
         },
         mounted() {
-            let url = config.api + '/api/1.0/'+this.type
-            let sep = '?'
-            if (this.query) {
-                url += sep + "q="+ encodeURIComponent(this.query)
-                sep = '&'
-            }
-            if (this.with) {
-                url += sep + 'with=' + this.with
-                sep = '&'
-            }
-
-            this.$http
-                .get(url, {credentials: true})
+            api.list(this.type, this.query, this.with)
                 .then(response => {
                         console.log('GET RESULT', response.body);
                         this.items = response.body;
