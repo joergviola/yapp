@@ -78,11 +78,12 @@ class APIController extends Controller {
     public function create(Request $request, $entity) {
 	    $data = $this->data($request);
 	    try {
+	        $user = Auth::user();
             $data = array_merge([
-                'company_id' => 1,
+                'company_id' => $user->company_id,
                 'state' => 'New',
-                'created_by' => 1,
-                'updated_by' => 1,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
                 'created_at' => new \DateTime(),
                 'updated_at' => new \DateTime()
             ], $data);

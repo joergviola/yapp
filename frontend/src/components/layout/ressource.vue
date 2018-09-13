@@ -80,8 +80,8 @@
                     }, this )
                 }
                 const request = this.isNew
-                    ? this.$http.post(config.api + '/api/1.0/'+this.type, this.item)
-                    : this.$http.put(config.api + '/api/1.0/'+this.type, this.item)
+                    ? this.$http.post(config.api + '/api/1.0/'+this.type, this.item, {credentials: true})
+                    : this.$http.put(config.api + '/api/1.0/'+this.type, this.item, {credentials: true})
 
                 request.then(response => {
                             this.$router.go(-1)
@@ -110,7 +110,7 @@
                 ).then(value => {
                   if (value.value) {
                       this.$http
-                          .delete(config.api + '/api/1.0/'+this.type+'/' + this.id)
+                          .delete(config.api + '/api/1.0/'+this.type+'/' + this.id, {credentials: true})
                           .then(response => {
                                   this.$router.go(-1)
                               },

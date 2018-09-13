@@ -4,6 +4,16 @@
     <b-link class="navbar-brand" to="#"></b-link>
     <button class="navbar-toggler sidebar-toggler d-md-down-none mr-auto" type="button" @click="sidebarMinimize">&#9776;</button>
     <button @click="logout">logout</button>
+
+    <b-nav is-nav-bar class="ml-auto">
+      <b-nav-item-dropdown right>
+        <template slot="button-content">
+          <span class="d-md-down-none">{{ user }}</span>
+        </template>
+        <b-dropdown-item @click="logout"><i class="fa fa-lock"></i> Logout</b-dropdown-item>
+      </b-nav-item-dropdown>
+    </b-nav>
+
     <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" @click="asideToggle">&#9776;</button>
   </header>
 </template>
@@ -14,6 +24,9 @@ import config from '@/config.js'
 
 export default {
   name: 'header',
+    computed: {
+      user() {return window.user ? window.user.name : "None"}
+    },
   methods: {
     sidebarToggle (e) {
       e.preventDefault()

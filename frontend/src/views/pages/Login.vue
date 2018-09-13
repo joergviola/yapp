@@ -62,6 +62,7 @@ export default {
                     password: this.password
                 }, {credentials: true})
                 .then(response => {
+                        window.user = response.body.user
                         this.$router.push('/')
                     },
                     err => {
