@@ -19,12 +19,18 @@ function queryUrl(type, query, withs=null) {
 
 export default {
 
-    queryUrl: queryUrl,
-
-    list: (type, query, withs) => {
-
-        return Vue.http.get(queryUrl(type, encodeURIComponent(query), withs), {credentials: true})
-    },
+    list: (type, query, withs) => new Promise(function(resolve, reject) {
+        Vue.http.get(queryUrl(type, encodeURIComponent(query), withs), {credentials: true})
+            .then(response => {
+                    console.log('GET RESULT', response.body);
+                    resolve(response.body);
+                },
+                err => {
+                    this.$swal( err.statusText, err.body.message?err.body.message:err.body, 'error')
+                    reject(err)
+                })
+            }
+        ),
 
     create: (type, item) => Vue.http.post(config.api + '/api/1.0/'+type, item, {credentials: true}),
 

@@ -46,16 +46,11 @@
         mounted() {
             api.list(this.type, this.query, this.with)
                 .then(response => {
-                        console.log('GET RESULT', response.body);
-                        this.items = response.body;
+                        this.items = response;
                         this.items.forEach(item => {
                             item.url = this.detail+item.id
                         })
-                    },
-                    err => this.$swal( err.statusText,
-                        err.body.message?err.body.message:err.body,
-                        'error')
-
+                    }
         );
         }
     }

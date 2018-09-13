@@ -2,7 +2,7 @@
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
         <div v-if="edit" class="input-group">
-            <TypeAhead ref="edit" v-model="input" :src="querySrc" :getResponse="getResponse" :onHit="onHit" :minChars=1></TypeAhead>
+            <TypeAhead ref="edit" v-model="input" src=":keyword" :getResponse="getResponse" :onHit="onHit" :minChars=1 :fetch="fetch"></TypeAhead>
             <span class="input-group-btn">
                 <button type="button" class="btn btn-primary" v-on:click="cancel()">
                     <i class="fa fa-ban"></i>
@@ -53,9 +53,6 @@ export default {
     computed: {
         clazz() { return 'form-group col-sm-' + this.cols },
         toUrl() { return this.to + this.selected.id },
-        querySrc() {
-            return api.queryUrl(this.type, this.display+"%7E:keyword")
-        }
     },
     data() {
         return {
@@ -84,8 +81,8 @@ export default {
             this.edit = false;
         },
         getResponse: function (response) {
-            this.data = response.data
-            return response.data.map(d => d.name)
+            this.data = response
+            return response.map(d => d.name)
         },
         onHit: function (item, vue, index) {
             vue.query = item
@@ -93,7 +90,10 @@ export default {
             this.edit = false;
             this.updateValue(this.selected)
         },
-
+        fetch(url) {
+            console.log("JUHUU")
+            return api.list(this.type, this.display+"~"+url, null)
+        }
     }
 }
 </script>
