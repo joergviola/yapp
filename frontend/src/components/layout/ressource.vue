@@ -4,10 +4,10 @@
       <div class="card-header">
         <strong>{{label}}</strong>
       </div>
-      <div class="card-block" v-on:fieldchange="fieldChange" v-on:with="addWith">
+      <div class="card-block" v-on:fieldchange="fieldChange" v-on:with="addWith" id="1">
         <slot :item="item"></slot>
       </div>
-      <div class="card-footer">
+      <div class="card-footer" id="2">
         <a class="btn btn-danger" v-if="!isNew" v-on:click="remove()">Remove</a>
         <a class="btn btn-primary pull-right" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
         <a class="btn btn-default pull-right" v-on:click="cancel()">Cancel</a>
@@ -20,14 +20,14 @@
     import config from '@/config.js'
     export default {
         name: 'ressource',
-        props: ['label', 'type', 'id', 'cols'],
+        props: ['label', 'type', 'id', 'cols', 'tmpl'],
         computed: {
             clazz() { return 'col-sm-' + this.cols },
             isNew() { return this.id=='new' }
         },
         data() {
             return {
-                item: {},
+                item: this.tmpl || {},
                 with: [],
             }
         },

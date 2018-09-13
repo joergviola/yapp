@@ -17,6 +17,18 @@
         </template>
       </ressource>
     </row>
+    <row>
+      <list label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
+        <template slot="header">
+          <column span="4"><b>name</b></column>
+          <column span="4"><b>Due</b></column>
+        </template>
+        <template scope="row">
+          <column span="4">{{row.item.name}}</column>
+          <column span="4">{{row.item.due_at}}</column>
+        </template>
+      </list>
+    </row>
   </div>
 </template>
 
@@ -26,5 +38,9 @@
     export default {
       name: 'project',
       components: all,
+        computed: {
+            userQuery() { return 'project_id=' + this.$route.params.id },
+            taskDetail() { return '/project/' + this.$route.params.id + '/task/' },
+        },
     }
 </script>
