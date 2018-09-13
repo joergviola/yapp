@@ -33,10 +33,17 @@
 
     export default {
         name: 'list',
-        props: ['label', 'cols', 'query', 'type', 'detail', 'with'],
+        props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy'],
         computed: {
             clazz() { return 'col-sm-' + this.cols },
             detailNew() { return this.detail + 'new' }
+        },
+        watch: {
+            reload() {
+                this.load()
+                console.log("reload")
+
+            }
         },
         data() {
             return {
@@ -44,14 +51,19 @@
             }
         },
         mounted() {
-            api.list(this.type, this.query, this.with)
-                .then(response => {
-                        this.items = response;
-                        this.items.forEach(item => {
-                            item.url = this.detail+item.id
-                        })
-                    }
-        );
+            this.load()
+        },
+        methods : {
+            load() {
+                api.list(this.type, this.query, this.with, this.orderBy)
+                    .then(response => {
+                            this.items = response;
+                            this.items.forEach(item => {
+                                item.url = this.detail+item.id
+                            })
+                        }
+                    );
+            }
         }
     }
 </script>

@@ -22,7 +22,7 @@
 
     export default {
         name: 'ressource',
-        props: ['label', 'type', 'id', 'cols', 'tmpl'],
+        props: ['label', 'type', 'id', 'cols', 'tmpl', 'next'],
         computed: {
             clazz() { return 'col-sm-' + this.cols },
             isNew() { return this.id=='new' }
@@ -79,15 +79,19 @@
                     : api.update(this.type, this.item)
 
                 request.then(response => {
+                        if (this.next) {
+                            this.next(response)
+                        } else {
                             this.$router.go(-1)
-                        },
-                        err => {
-                            this.$swal( err.statusText,
-                                err.body.message?err.body.message:err.body,
-                                'error');
-                            console.log(err)
                         }
-                    );
+                    },
+                    err => {
+                        this.$swal(err.statusText,
+                            err.body.message ? err.body.message : err.body,
+                            'error');
+                        console.log(err)
+                    }
+                );
             },
             cancel() {
                 this.$router.go(-1)

@@ -19,12 +19,28 @@
       </ressource>
     </row>
     <row>
-      <list label="Actions" type="action" cols="12" detail="/project/task/action" :query="userQuery">
+      <list label="Actions" type="action" cols="12" with="created_by:user" :query="userQuery" :reload="latestId" orderBy="created_at:desc">
         <template slot="header">
-          <column span="12"><b>Comment</b></column>
+          <ressource label="What have you done" type="action" id="new" :tmpl="actionTmpl" cols="12" :next="actionCreated">
+            <template scope="$">
+              <row>
+                <textarea-input label="Comment" v-model="$.item.comment" cols="12"></textarea-input>
+              </row>
+              <row>
+                <date-input label="Started" v-model="$.item.from" cols="3" time=true></date-input>
+                <date-input label="Stopped" v-model="$.item.to" cols="3" time=true></date-input>
+                <div class="col-sm-3">
+                  <button class="btn btn-primary" v-on:click="toggle($.item)">{{running ? 'Stop' : 'Start'}}</button>
+                </div>
+              </row>
+            </template>
+          </ressource>
         </template>
         <template scope="row">
-          <column span="12">{{row.item.comment}}</column>
+          <column span="12">
+            {{row.item.comment}} <br>
+            <small>{{row.item.created_at}} {{row.item.created_by.name}} {{ duration(row.item) }}</small>
+          </column>
         </template>
       </list>
     </row>
@@ -33,15 +49,62 @@
 
 <script>
     import {all} from '@/components/all.js'
+    import moment from 'moment'
 
     export default {
         name: 'task',
         components: all,
+        data() {
+            return {
+                latestId : null,
+                running: null,
+            }
+        },
         computed: {
             userQuery() { return 'task_id=' + this.$route.params.id },
             tmpl() {
                 return {
                     project_id: this.$route.params.pid
+                }
+            },
+            actionTmpl() {
+                return {
+                    task_id: this.$route.params.id,
+                    from: moment().format('YYYY-MM-DDTHH:mm'),
+                    to: moment().format('YYYY-MM-DDTHH:mm'),
+                }
+            },
+        },
+        methods: {
+            actionCreated(action) {
+                this.latestId = action.body.id
+                console.log("LID", action)
+            },
+            duration(action) {
+                if (!action.to || !action.from) return ""
+                const ms = new Date(action.to).getTime() - new Date(action.from).getTime()
+                if (ms<=0) return ""
+                let m = Math.round(ms/(1000*60))
+                let h = Math.round(m/60)
+                m = m % 60;
+                return f(h) + ":" + f(m)
+
+                function f(t) {
+                    return (t<10 ? "0" : "") + t
+                }
+            },
+            toggle: function (item) {
+                const self = this;
+                if (this.running) {
+                    clearTimeout(self.running)
+                    self.running = null;
+                } else {
+                    update()
+
+                    function update() {
+                        item.to = moment().format('YYYY-MM-DDTHH:mm:ss')
+                        self.running = setTimeout(update, 1000)
+                    }
                 }
             }
         }

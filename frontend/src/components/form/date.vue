@@ -1,7 +1,7 @@
 <template>
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
-        <input type="date" :name="field" :id="field" class="form-control"
+        <input :type="type" :name="field" :id="field" class="form-control"
                v-bind:value="value" v-on:input="updateValue($event.target.value)">
     </div>
 </template>
@@ -9,9 +9,10 @@
 <script>
 export default {
     name: 'date-input',
-    props:['label', 'field', 'value', 'cols'],
+    props:['label', 'field', 'value', 'cols', 'time'],
     computed: {
-        clazz() { return 'form-group col-sm-' + this.cols }
+        clazz() { return 'form-group col-sm-' + this.cols },
+        type() { return this.time ? 'datetime-local' : 'date' },
     },
     methods: {
         // Instead of updating the value directly, this

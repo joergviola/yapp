@@ -3,7 +3,7 @@ import config from '@/config.js'
 import Vue from 'vue'
 
 
-function queryUrl(type, query, withs=null) {
+function queryUrl(type, query, withs=null, orderBy=null) {
     let url = config.api + '/api/1.0/'+type
     let sep = '?'
     if (query) {
@@ -14,13 +14,17 @@ function queryUrl(type, query, withs=null) {
         url += sep + 'with=' + withs
         sep = '&'
     }
+    if (orderBy) {
+        url += sep + 'orderBy=' + orderBy
+        sep = '&'
+    }
     return url;
 }
 
 export default {
 
-    list: (type, query, withs) => new Promise(function(resolve, reject) {
-        Vue.http.get(queryUrl(type, encodeURIComponent(query), withs), {credentials: true})
+    list: (type, query, withs, orderBy) => new Promise(function(resolve, reject) {
+        Vue.http.get(queryUrl(type, encodeURIComponent(query), withs, orderBy), {credentials: true})
             .then(response => {
                     console.log('GET RESULT', response.body);
                     resolve(response.body);

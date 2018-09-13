@@ -49,6 +49,11 @@ class APIController extends Controller {
                 }
             }
         }
+        $orderby = $request->input('orderBy');
+	    if ($orderby) {
+	        list($field, $order) = explode(':', $orderby);
+	        $query->orderBy($field, $order);
+        }
 		$result = $query->get()->toArray();
         $with = $request->input('with');
 	    $this->with($result, $with);

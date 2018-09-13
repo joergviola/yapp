@@ -63,10 +63,9 @@ class Base extends Migration
         Schema::create('action', function (Blueprint $table) {
             $this->standard($table);
             $table->string('comment')->nullable();
-            $table->date('from')->nullable();
-            $table->date('to')->nullable();
+            $table->dateTime('from')->nullable();
+            $table->dateTime('to')->nullable();
             $table->integer('task_id')->unsigned();
-            $table->integer('used')->unsigned()->nullable();
 
             $table->foreign('task_id')->references('id')->on('task');
         });
@@ -117,7 +116,6 @@ class Base extends Migration
             $table->string('telefone')->nullable();
             $table->string('username')->nullable();
             $table->string('password')->nullable();
-            $table->string('remember_token')->nullable();
             $table->integer('role_id')->unsigned();
             $table->rememberToken();
 
