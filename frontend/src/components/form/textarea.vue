@@ -1,14 +1,14 @@
 <template>
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
-        <input type="date" :name="field" :id="field" class="form-control"
-               v-bind:value="value" v-on:input="updateValue($event.target.value)">
+        <textarea :name="field" :id="field" class="form-control" rows="5"
+                 v-bind:value="value" v-on:input="updateValue($event.target.value)"></textarea>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'date-input',
+    name: 'textarea-input',
     props:['label', 'field', 'value', 'cols'],
     computed: {
         clazz() { return 'form-group col-sm-' + this.cols }

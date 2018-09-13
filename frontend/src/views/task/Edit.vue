@@ -7,7 +7,7 @@
             <text-input label="Name" v-model="$.item.name" cols="12"></text-input>
           </row>
           <row>
-            <text-input label="Description" v-model="$.item.description" cols="12"></text-input>
+            <textarea-input label="Description" v-model="$.item.description" cols="12"></textarea-input>
           </row>
           <row>
             <date-input label="Starts" v-model="$.item.starts_at" cols="6"></date-input>
