@@ -36,8 +36,8 @@
     import {all} from '@/components/all.js'
 
     export default {
-      name: 'project',
-      components: all,
+        name: 'project',
+        components: all,
         computed: {
             userQuery() { return 'project_id=' + this.$route.params.id },
             taskDetail() { return '/project/' + this.$route.params.id + '/task/' },

@@ -10,9 +10,12 @@
             </span>
         </div>
         <div v-if="!edit" class="input-group">
-            <router-link v-if="selected" :to="toUrl" class="form-control">
+            <router-link v-if="selected && toUrl" :to="toUrl" class="form-control">
                 {{ selected.name }}
             </router-link>
+            <span v-if="!toUrl"class="form-control">
+                {{ selected.name }}
+            </span>
             <span class="input-group-btn">
                 <button type="button" class="btn btn-primary" v-on:click="startEdit()">
                     <i class="fa fa-pencil"></i>

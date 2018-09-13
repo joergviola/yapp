@@ -123,7 +123,9 @@ class APIController extends Controller {
 			$ids = $this->distinct($result, $column);
 			$references = $this->query($type, $ids);
 			foreach ($result as $r) {
-				$r->$column = $references[$r->$column];
+			    if ($r->$column) {
+                    $r->$column = $references[$r->$column];
+                }
 			}
 		}
     }

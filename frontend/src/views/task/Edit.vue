@@ -10,8 +10,10 @@
             <textarea-input label="Description" v-model="$.item.description" cols="12"></textarea-input>
           </row>
           <row>
-            <date-input label="Starts" v-model="$.item.starts_at" cols="6"></date-input>
-            <date-input label="Due" v-model="$.item.due_at" cols="6"></date-input>
+            <date-input label="Starts" v-model="$.item.starts_at" cols="3"></date-input>
+            <date-input label="Due" v-model="$.item.due_at" cols="3"></date-input>
+            <to-one label="Assigned" v-model="$.item.user_id" with="user_id:user" display="name" cols="3"></to-one>
+            <to-one label="Project" v-model="$.item.project_id" with="project_id:project" display="name" cols="3" to="/project/" ></to-one>
           </row>
         </template>
       </ressource>

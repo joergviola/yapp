@@ -17,7 +17,9 @@
 </template>
 
 <script>
+    import Vue from 'vue'
     import config from '@/config.js'
+
     export default {
         name: 'ressource',
         props: ['label', 'type', 'id', 'cols', 'tmpl'],
@@ -27,7 +29,7 @@
         },
         data() {
             return {
-                item: this.tmpl || {},
+                item: {},
                 with: [],
             }
         },
@@ -50,6 +52,8 @@
                             console.log(err)
                         }
                     );
+            } else {
+                Vue.nextTick(() => this.item = this.tmpl || {})
             }
         },
         methods : {
@@ -70,7 +74,7 @@
             save() {
                 if (this.with) {
                     this.with.forEach(w =>{
-                        if (this.item[w.field]) {
+                        if (this.item[w.field] && typeof this.item[w.field]==='object') {
                             this.item[w.field] = this.item[w.field].id
                         }
                     }, this )
