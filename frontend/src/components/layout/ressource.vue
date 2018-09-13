@@ -98,13 +98,26 @@
                 this.$router.go(-1)
             },
             remove() {
-                this.$http
-                    .delete(config.api + '/api/1.0/'+this.type+'/' + this.id)
-                    .then(response => {
-                            this.$router.go(-1)
-                        },
-                        err => console.log(err)
-                    );
+                this.$swal(// "Are you sure?",
+                    //this.label + "will be deleted. This cannot be undone",
+                    {
+                        type: 'warning',
+                        title: "Are you sure?",
+                        text: this.label + " will be deleted. This cannot be undone",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                    }
+                ).then(value => {
+                  if (value.value) {
+                      this.$http
+                          .delete(config.api + '/api/1.0/'+this.type+'/' + this.id)
+                          .then(response => {
+                                  this.$router.go(-1)
+                              },
+                              err => console.log(err)
+                          );
+                  }
+                });
             }
         }
     }
