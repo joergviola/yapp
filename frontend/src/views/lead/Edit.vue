@@ -17,7 +17,7 @@
         </template>
       </ressource>
     </row>
-    <row>
+    <row v-if="!isNew">
       <list label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
         <template slot="header">
           <column span="4"><b>name</b></column>
@@ -41,6 +41,7 @@
         computed: {
             userQuery() { return 'project_id=' + this.$route.params.id },
             taskDetail() { return '/project/' + this.$route.params.id + '/task/' },
+            isNew() { return this.$route.params.id=='new' },
         },
     }
 </script>
