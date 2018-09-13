@@ -56,7 +56,7 @@
             }
 
             this.$http
-                .get(url)
+                .get(url, {credentials: true})
                 .then(response => {
                         console.log('GET RESULT', response.body);
                         this.items = response.body;

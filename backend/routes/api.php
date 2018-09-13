@@ -13,10 +13,3 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::middleware('auth:api')->group(function () {
-    Route::get('/1.0/{entity}', 'APIController@index');
-    Route::get('/1.0/{entity}/{id}', 'APIController@get');
-    Route::post('/1.0/{entity}', 'APIController@create');
-    Route::put('/1.0/{entity}', 'APIController@update');
-    Route::delete('/1.0/{entity}/{id}', 'APIController@delete');
-//});

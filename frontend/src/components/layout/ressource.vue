@@ -40,7 +40,7 @@
                     url += '?with=' + this.with.map(w => w.field+':'+w.type).join(',')
                 }
                 this.$http
-                    .get(url)
+                    .get(url, {credentials: true})
                     .then(response => {
                             console.log('GET RESULT', response.body);
                             this.item = response.body;

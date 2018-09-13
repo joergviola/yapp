@@ -117,6 +117,7 @@ class Base extends Migration
             $table->string('telefone')->nullable();
             $table->string('username')->nullable();
             $table->string('password')->nullable();
+            $table->string('remember_token')->nullable();
             $table->integer('role_id')->unsigned();
             $table->rememberToken();
 
@@ -145,7 +146,7 @@ class Base extends Migration
             'name' => 'SuperAdmin',
             'email' => 'admin@admin.admin',
             'username' => 'SuperAdmin',
-            'password' => 'Admin',
+            'password' => Hash::make('Admin'),
             'role_id' => 1,
         ]);
 

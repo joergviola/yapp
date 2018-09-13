@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 // Containers
 import Full from '@/containers/Full'
+import Login from '@/views/pages/Login'
 
 // Views
 import nav from '@/nav.js'
@@ -24,12 +25,18 @@ export default new Router({
   linkActiveClass: 'open active',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
-    {
-      path: '/',
-      redirect: '/dashboard',
-      name: 'Home',
-      component: Full,
-      children: mapRoutes(nav)
-    }
+      {
+          path: '/',
+          redirect: '/dashboard',
+          name: 'Home',
+          component: Full,
+          children: mapRoutes(nav)
+      },
+      {
+          path: '/login',
+          name: 'Login',
+          component: Login,
+          children: mapRoutes(nav)
+      }
   ]
 })

@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::post('/api/1.0/login', 'APIController@login');
+Route::middleware('auth')->group(function () {
+    Route::post('/api/1.0/logout', 'APIController@logout');
+    Route::get('/api/1.0/{entity}', 'APIController@index');
+    Route::get('/api/1.0/{entity}/{id}', 'APIController@get');
+    Route::post('/api/1.0/{entity}', 'APIController@create');
+    Route::put('/api/1.0/{entity}', 'APIController@update');
+    Route::delete('/api/1.0/{entity}/{id}', 'APIController@delete');
 });

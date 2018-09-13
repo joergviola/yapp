@@ -7,9 +7,23 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Input;
+use Illuminate\Support\Facades\Auth;
 
 
 class APIController extends Controller {
+
+    public function login(Request $request) {
+        if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
+            return response()->json(['user'=>Auth::user()]);
+        } else {
+            abort(401);
+        }
+    }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        return response()->json([]);
+    }
 
     public function index(Request $request, $entity) {
         $query = $this->db($entity);
@@ -38,6 +52,7 @@ class APIController extends Controller {
 		$result = $query->get()->toArray();
         $with = $request->input('with');
 	    $this->with($result, $with);
+
 	    return $result;
     }
 
