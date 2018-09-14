@@ -37,9 +37,18 @@
           </ressource>
         </template>
         <template scope="row">
-          <column span="12">
-            {{row.item.comment}} <br>
-            <small>{{row.item.created_at}} {{row.item.created_by.name}} {{ duration(row.item) }}</small>
+          <column v-if="row.item.created_by.id==1" span="4"></column>
+          <column span="8">
+            <div class="card">
+              <div class="card-block">
+                <div> {{row.item.comment}} </div>
+                <div v-if="duration(row.item)"> Booked: {{ duration(row.item) }} </div>
+              </div>
+              <div class="card-footer" id="2">
+                <small>{{row.item.created_at}} {{row.item.created_by.name}} </small>
+              </div>
+            </div>
+            <column v-if="row.item.created_by.id!=1" span="4"></column>
           </column>
         </template>
       </list>
@@ -81,9 +90,9 @@
                 console.log("LID", action)
             },
             duration(action) {
-                if (!action.to || !action.from) return ""
+                if (!action.to || !action.from) return false
                 const ms = new Date(action.to).getTime() - new Date(action.from).getTime()
-                if (ms<=0) return ""
+                if (ms<=0) return false
                 let m = Math.round(ms/(1000*60))
                 let h = Math.round(m/60)
                 m = m % 60;
