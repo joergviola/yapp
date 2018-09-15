@@ -1,5 +1,6 @@
 
 import config from '@/config.js'
+import types from '@/types'
 import Vue from 'vue'
 
 
@@ -21,13 +22,25 @@ function queryUrl(type, query, withs=null, orderBy=null) {
     return url;
 }
 
+function mixin(type, item) {
+    const o = types[type];
+    if (o) {
+        Object.assign(item, o)
+    }
+    return item
+}
+
 export default {
+
+    mixin: mixin,
 
     list: (type, query, withs, orderBy) => new Promise(function(resolve, reject) {
         Vue.http.get(queryUrl(type, encodeURIComponent(query), withs, orderBy), {credentials: true})
             .then(response => {
-                    console.log('GET RESULT', response.body);
-                    resolve(response.body);
+                    const result = response.body
+                    console.log('GET RESULT', result);
+                    result.forEach(item => mixin(type, item))
+                    resolve(result)
                 },
                 err => {
                     this.$swal( err.statusText, err.body.message?err.body.message:err.body, 'error')
@@ -38,13 +51,20 @@ export default {
 
     create: (type, item) => Vue.http.post(config.api + '/api/1.0/'+type, item, {credentials: true}),
 
-    read: (type, id, withs) => {
+    read: (type, id, withs) => new Promise(function(resolve, reject) {
         let  url = config.api + '/api/1.0/'+type+'/' + id
         if (withs.length>0) {
             url += '?with=' + withs.map(w => w.field+':'+w.type).join(',')
         }
-        return Vue.http.get(url, {credentials: true})
-    },
+        Vue.http.get(url, {credentials: true})
+            .then(response => {
+                    resolve(mixin(type, response.body));
+                },
+                err => {
+                    this.$swal( err.statusText, err.body.message?err.body.message:err.body, 'error')
+                    reject(err)
+                })
+    }),
 
     update: (type, item) => Vue.http.put(config.api + '/api/1.0/'+type, item, {credentials: true}),
 

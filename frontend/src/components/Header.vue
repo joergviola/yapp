@@ -3,11 +3,11 @@
     <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button" @click="mobileSidebarToggle">&#9776;</button>
     <b-link class="navbar-brand" to="#"></b-link>
     <button class="navbar-toggler sidebar-toggler d-md-down-none mr-auto" type="button" @click="sidebarMinimize">&#9776;</button>
-    <button @click="logout">logout</button>
 
     <b-nav is-nav-bar class="ml-auto">
       <b-nav-item-dropdown right>
         <template slot="button-content">
+          <img src="static/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
           <span class="d-md-down-none">{{ user }}</span>
         </template>
         <b-dropdown-item @click="logout"><i class="fa fa-lock"></i> Logout</b-dropdown-item>

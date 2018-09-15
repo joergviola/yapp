@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource label="Task" type="task" :id="$route.params.id" :tmpl="tmpl" cols="12">
+      <ressource label="Task" type="task" :id="$route.params.id" :tmpl="tmpl" cols="12" :afterLoad="taskLoaded">
         <template scope="$">
           <row>
             <text-input label="Name" v-model="$.item.name" cols="12"></text-input>
@@ -14,6 +14,9 @@
             <date-input label="Due" v-model="$.item.due_at" cols="3"></date-input>
             <to-one label="Assigned" v-model="$.item.user_id" with="user_id:user" display="name" cols="3"></to-one>
             <to-one label="Project" v-model="$.item.project_id" with="project_id:project" display="name" cols="3" to="/project/" ></to-one>
+          </row>
+          <row>
+            <text-input label="Used" v-model="$.item.used" cols="3"></text-input>
           </row>
         </template>
       </ressource>
@@ -37,7 +40,10 @@
           </ressource>
         </template>
         <template scope="row">
-          <column v-if="row.item.created_by.id==1" span="4"></column>
+          <column v-if="row.item.created_by.id==1" span="3"></column>
+          <column span="1">
+            <img src="static/img/avatars/6.jpg" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
+          </column>
           <column span="8">
             <div class="card">
               <div class="card-block">
@@ -45,10 +51,10 @@
                 <div v-if="duration(row.item)"> Booked: {{ duration(row.item) }} </div>
               </div>
               <div class="card-footer" id="2">
-                <small>{{row.item.created_at}} {{row.item.created_by.name}} </small>
+                <small> {{row.item.created_by.name}} <span :title="row.item.created_at">{{fromNow(row.item.created_at)}}</span></small>
               </div>
             </div>
-            <column v-if="row.item.created_by.id!=1" span="4"></column>
+            <column v-if="row.item.created_by.id!=1" span="3"></column>
           </column>
         </template>
       </list>
@@ -67,6 +73,7 @@
             return {
                 latestId : null,
                 running: null,
+                task: null
             }
         },
         computed: {
@@ -85,8 +92,12 @@
             },
         },
         methods: {
+            taskLoaded(task) {
+                this.task = task
+            },
             actionCreated(action) {
                 this.latestId = action.body.id
+                this.task.refreshUsed()
                 console.log("LID", action)
             },
             duration(action) {
@@ -115,7 +126,10 @@
                         self.running = setTimeout(update, 1000)
                     }
                 }
-            }
+            },
+            fromNow(date) {
+                return moment(date).fromNow()
+            },
         }
     }
 </script>

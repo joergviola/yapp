@@ -22,7 +22,7 @@
 
     export default {
         name: 'ressource',
-        props: ['label', 'type', 'id', 'cols', 'tmpl', 'next'],
+        props: ['label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad'],
         computed: {
             clazz() { return 'col-sm-' + this.cols },
             isNew() { return this.id=='new' }
@@ -35,23 +35,16 @@
         },
         mounted() {
             if (!this.isNew) {
-                api.read(this.type, this.id, this.with)
-                    .then(response => {
-                            console.log('GET RESULT', response.body);
-                            this.item = response.body;
-                        },
-                        err => {
-                            this.$swal( err.statusText,
-                                err.body.message,
-                                'error');
-                            console.log(err)
-                        }
-                    );
+                api.read(this.type, this.id, this.with).then(item => this.setItem(item));
             } else {
-                Vue.nextTick(() => this.item = this.tmpl || {})
+                Vue.nextTick(() => this.setItem(api.mixin(this.type, this.tmpl || {})))
             }
         },
         methods : {
+            setItem(item) {
+                this.item = item
+                if (this.afterLoad) this.afterLoad(item)
+            },
             getValue(field) {
                 console.log('GETVALUE', field, this.item[field])
                 return this.item[field]
