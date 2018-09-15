@@ -66,7 +66,14 @@ export default {
                 })
     }),
 
-    update: (type, item) => Vue.http.put(config.api + '/api/1.0/'+type, item, {credentials: true}),
+    update: (type, item) => {
+        Object.keys(item).forEach(key => {
+            if (item[key] && typeof item[key]==='object') {
+                item[key] = item[key].id
+            }
+        });
+        return Vue.http.put(config.api + '/api/1.0/'+type, item, {credentials: true})
+    },
 
     delete: (type, id) => Vue.http.delete(config.api + '/api/1.0/'+type + '/' + id, {credentials: true}),
 

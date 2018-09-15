@@ -60,13 +60,6 @@
                 console.log('field-change', event)
             },
             save() {
-                if (this.with) {
-                    this.with.forEach(w =>{
-                        if (this.item[w.field] && typeof this.item[w.field]==='object') {
-                            this.item[w.field] = this.item[w.field].id
-                        }
-                    }, this )
-                }
                 const request = this.isNew
                     ? api.create(this.type, this.item)
                     : api.update(this.type, this.item)
