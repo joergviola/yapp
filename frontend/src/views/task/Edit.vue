@@ -16,7 +16,9 @@
             <to-one label="Project" v-model="$.item.project_id" with="project_id:project" display="name" cols="3" to="/project/" ></to-one>
           </row>
           <row>
-            <text-input label="Used" v-model="$.item.used" cols="3"></text-input>
+            <time-input label="Planned" v-model="$.item.planned" cols="3"></time-input>
+            <time-input label="Used" v-model="$.item.used" cols="3" disabled></time-input>
+            <progressbar label="Used" :value="$.item.progress ? $.item.progress() : 0" cols="6"></progressbar>
           </row>
         </template>
       </ressource>
@@ -80,7 +82,7 @@
             userQuery() { return 'task_id=' + this.$route.params.id },
             tmpl() {
                 return {
-                    project_id: this.$route.params.pid
+                    project_id: this.$route.params.pid,
                 }
             },
             actionTmpl() {
@@ -101,10 +103,9 @@
                 console.log("LID", action)
             },
             duration(action) {
-                if (!action.to || !action.from) return false
-                const ms = new Date(action.to).getTime() - new Date(action.from).getTime()
-                if (ms<=0) return false
-                let m = Math.round(ms/(1000*60))
+                const duration = action.duration()
+                if (duration==0) return false
+                let m = Math.round(duration/60)
                 let h = Math.round(m/60)
                 m = m % 60;
                 return f(h) + ":" + f(m)

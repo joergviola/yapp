@@ -2,7 +2,7 @@
 import config from '@/config.js'
 import types from '@/types'
 import Vue from 'vue'
-
+//import Router from './router';
 
 function queryUrl(type, query, withs=null, orderBy=null) {
     let url = config.api + '/api/1.0/'+type
@@ -30,6 +30,13 @@ function mixin(type, item) {
     return item
 }
 
+function handleError(err) {
+    if (err.status==401) {
+        Vue.$Router.push("/login")
+    }
+    Vue.swal( err.statusText, err.body.message?err.body.message:err.body, 'error')
+}
+
 export default {
 
     mixin: mixin,
@@ -43,7 +50,7 @@ export default {
                     resolve(result)
                 },
                 err => {
-                    this.$swal( err.statusText, err.body.message?err.body.message:err.body, 'error')
+                    handleError(err)
                     reject(err)
                 })
             }
@@ -61,7 +68,7 @@ export default {
                     resolve(mixin(type, response.body));
                 },
                 err => {
-                    this.$swal( err.statusText, err.body.message?err.body.message:err.body, 'error')
+                    handleError(err)
                     reject(err)
                 })
     }),

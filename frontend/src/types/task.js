@@ -8,5 +8,11 @@ export default {
             this.used = actions.reduce((used, action) => used + action.duration(), 0)
             api.update('task', this)
         })
+    },
+    progress() {
+        if (!this.planned || !this.used) return 0
+        if (this.used > this.planned) return 100
+        if (this.used < 0 ) return 0
+        return Math.round(100*this.used/this.planned)
     }
 }

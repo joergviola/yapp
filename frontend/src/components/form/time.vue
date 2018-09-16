@@ -1,0 +1,44 @@
+<template>
+    <div  :class="clazz">
+        <label v-if="label" :for="field">{{label}}</label>
+        <input type="text" :name="field" :id="field" class="form-control" :disabled="disabled"
+               :value="timeValue" v-on:blur="updateValue($event.target.value)">
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'time-input',
+    props:['label', 'field', 'value', 'cols', 'time', 'disabled'],
+    computed: {
+        clazz() { return 'form-group col-sm-' + this.cols },
+    },
+    data() {
+        return {
+            timeValue: "00:00"
+        }
+    },
+    watch: {
+        value() {
+            let m = Math.floor(this.value/60)
+            let h = Math.floor(m/60)
+            m = m % 60;
+            this.timeValue = f(h) + ":" + f(m)
+
+            function f(t) {
+                return (t<10 ? "0" : "") + t
+            }
+        }
+    },
+    methods: {
+        updateValue: function (value) {
+            const values = value.split(':');
+            while (values.length<3) values.push(0)
+            let time = 0;
+            values.forEach(c => time = 60*time+(parseInt(c)||0));
+            console.log(value, values, time)
+            this.$emit('input', time)
+        }
+    }
+}
+</script>
