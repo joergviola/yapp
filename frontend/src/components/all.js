@@ -8,6 +8,7 @@ import passwordinput from '../components/form/password.vue'
 import progress from '../components/form/progress.vue'
 import toOne from '../components/form/to-one.vue'
 import ressource from '../components/layout/ressource.vue'
+import editor from '../components/layout/editor.vue'
 import list from '../components/layout/list.vue'
 import row from '../components/layout/row.vue'
 import column from '../components/layout/col.vue'
@@ -23,6 +24,7 @@ const all = {
     'to-one': toOne,
     ressource,
     list,
+    editor,
     row,
     column,
 }

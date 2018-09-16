@@ -4,19 +4,22 @@
       <div class="card-header">
         <strong>{{label}}</strong>
       </div>
-      <div class="card-block">
-        <div class="row">
+      <div class="card-block table">
+        <div class="row header">
           <slot name="header"></slot>
         </div>
         <div v-if="!detail" v-for="item in items" class="row">
           <slot :item="item"></slot>
         </div>
         <div v-if="detail" v-for="item in items">
-          <router-link :to="item.url">
-            <div  class="row">
-                <slot :item="item"></slot>
-            </div>
-          </router-link>
+            <editor class="row" :type='type' :value="item">
+              <slot :item="item"></slot>
+              <div class="col-sm-1">
+                <router-link :to="item.transient.url">
+                  &gt;
+                </router-link>
+              </div>
+            </editor>
         </div>
       </div>
       <div class="card-footer">
@@ -30,10 +33,12 @@
 
 <script>
     import api from '@/api.js'
+    import editor from './editor.vue'
 
     export default {
         name: 'list',
         props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy'],
+        components: {editor},
         computed: {
             clazz() { return 'col-sm-' + this.cols },
             detailNew() { return this.detail + 'new' }
@@ -47,7 +52,7 @@
         },
         data() {
             return {
-                items: []
+                items: [],
             }
         },
         mounted() {
@@ -59,10 +64,13 @@
                     .then(response => {
                             this.items = response;
                             this.items.forEach(item => {
-                                item.url = this.detail+item.id
+                                item.transient = {url : this.detail+item.id}
                             })
                         }
                     );
+            },
+            save() {
+                console.log("save")
             }
         }
     }

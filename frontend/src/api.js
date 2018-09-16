@@ -2,7 +2,7 @@
 import config from '@/config.js'
 import types from '@/types'
 import Vue from 'vue'
-//import Router from './router';
+import Router from './router';
 
 function queryUrl(type, query, withs=null, orderBy=null) {
     let url = config.api + '/api/1.0/'+type
@@ -32,10 +32,19 @@ function mixin(type, item) {
 
 function handleError(err) {
     if (err.status==401) {
-        Vue.$Router.push("/login")
+        Router.push("/login")
     }
     Vue.swal( err.statusText, err.body.message?err.body.message:err.body, 'error')
 }
+
+let dehydrate = function (item) {
+    Object.keys(item).forEach(key => {
+        if (item[key] && typeof item[key] === 'object') {
+            item[key] = item[key].id
+        }
+    });
+    delete item.transient
+};
 
 export default {
 
@@ -56,7 +65,11 @@ export default {
             }
         ),
 
-    create: (type, item) => Vue.http.post(config.api + '/api/1.0/'+type, item, {credentials: true}),
+    create: (type, item) => {
+        dehydrate(item)
+        console.log('CREATE', item)
+        return Vue.http.post(config.api + '/api/1.0/'+type, item, {credentials: true})
+    },
 
     read: (type, id, withs) => new Promise(function(resolve, reject) {
         let  url = config.api + '/api/1.0/'+type+'/' + id
@@ -74,11 +87,8 @@ export default {
     }),
 
     update: (type, item) => {
-        Object.keys(item).forEach(key => {
-            if (item[key] && typeof item[key]==='object') {
-                item[key] = item[key].id
-            }
-        });
+        dehydrate(item)
+        console.log('UPDATE', item)
         return Vue.http.put(config.api + '/api/1.0/'+type, item, {credentials: true})
     },
 

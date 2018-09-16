@@ -4,3 +4,30 @@
   display: inline;
   float: right;
 }
+
+.table {
+  .row {
+    border-bottom: solid #DDDDDD 1px;
+  }
+
+  .row:hover {
+    background-color: #EEEEEE;
+  }
+
+  .header {
+    div {
+      padding: 10px 30px;
+    }
+  }
+
+  .form-control {
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    background-color: transparent;
+  }
+
+  .form-group {
+    margin-bottom: 0px;
+  }
+}

@@ -1,17 +1,44 @@
 <template>
   <div class="animated fadeIn">
+
     <row>
-      <list label="My Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
+      <list label="My Tasks" type="task" cols="12" with="project_id:project" :detail="taskDetail" :query="userQuery">
         <template slot="header">
-          <column span="4"><b>name</b></column>
-          <column span="4"><b>Due</b></column>
+          <column span="7"><b>Name</b></column>
+          <column span="2"><b>Project</b></column>
+          <column span="2"><b>Due</b></column>
         </template>
         <template scope="row">
-          <column span="4">{{row.item.name}}</column>
-          <column span="4">{{row.item.due_at}}</column>
+          <text-input v-model="row.item.name" cols="7"></text-input>
+          <column span="2">
+            <router-link :to="'/project/'+row.item.project_id.id">
+              {{row.item.project_id.name}}
+            </router-link>
+          </column>
+          <date-input v-model="row.item.due_at" cols="2"></date-input>
         </template>
       </list>
     </row>
+
+    <row>
+      <list label="My Time Entries" type="action" cols="12" with="task_id:task" :query="'created_by='+1">
+        <template slot="header">
+          <column span="4"><b>From</b></column>
+          <column span="4"><b>To</b></column>
+          <column span="3"><b>Task</b></column>
+        </template>
+        <template scope="row">
+          <date-input v-model="row.item.from" time=true cols="4"></date-input>
+          <date-input v-model="row.item.to" time=true cols="4"></date-input>
+          <column span="3">
+            <router-link :to="'/project/'+row.item.task_id.project_id+'/task/'+row.item.task_id.id">
+              {{row.item.task_id.name}}
+            </router-link>
+          </column>
+        </template>
+      </list>
+    </row>
+
   </div>
 </template>
 
