@@ -40,6 +40,9 @@
                 Vue.nextTick(() => this.setItem(api.mixin(this.type, this.tmpl || {})))
             }
         },
+        watch: {
+            tmpl() {this.setItem(api.mixin(this.type, this.tmpl || {}))}
+        },
         methods : {
             setItem(item) {
                 this.item = item
@@ -66,7 +69,7 @@
 
                 request.then(response => {
                         if (this.next) {
-                            this.next(response)
+                            this.next(response.body)
                         } else {
                             this.$router.go(-1)
                         }

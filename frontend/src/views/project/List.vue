@@ -21,7 +21,7 @@
     import {all} from '@/components/all.js'
 
     export default {
-      name: 'companies',
+      name: 'projects',
       components: all,
 
     }

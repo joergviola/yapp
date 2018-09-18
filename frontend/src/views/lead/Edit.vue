@@ -1,7 +1,21 @@
 <template>
   <div class="animated fadeIn">
+    <row v-if="isNew">
+        <ressource label="Company" type="company" :id="$route.params.id" cols="12" :next="companyCreated">
+          <template scope="$">
+            <row>
+              <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
+              <text-input label="E-Mail" v-model="$.item.email" cols="6"></text-input>
+            </row>
+            <row>
+              <text-input label="Website" v-model="$.item.website" cols="6"></text-input>
+              <text-input label="Telefone" v-model="$.item.telefone" cols="6"></text-input>
+            </row>
+          </template>
+        </ressource>
+    </row>
     <row>
-      <ressource label="Project" type="project" :id="$route.params.id" cols="12">
+      <ressource label="Project" type="project" :id="$route.params.id" cols="12" :tmpl="taskTmpl">
         <template scope="$">
           <row>
             <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
@@ -43,5 +57,15 @@
             taskDetail() { return '/project/' + this.$route.params.id + '/task/' },
             isNew() { return this.$route.params.id=='new' },
         },
+        data() {
+            return {
+                taskTmpl: {}
+            }
+        },
+        methods: {
+            companyCreated(company) {
+                this.taskTmpl = {client_id: company}
+            }
+        }
     }
 </script>

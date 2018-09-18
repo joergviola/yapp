@@ -10,9 +10,9 @@ import nav from '@/nav.js'
 
 Vue.use(Router)
 
-function mapRoutes(nav) {
-  if (!nav) return null;
-  return nav.map(n => ({
+function mapRoutes(routes) {
+  if (!routes) return null;
+  return routes.map(n => ({
         path: n.url.substring(1),
         name: n.name,
         component: n.component,

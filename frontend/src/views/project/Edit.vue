@@ -20,12 +20,17 @@
     <row v-if="!isNew">
       <list label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
         <template slot="header">
-          <column span="4"><b>name</b></column>
-          <column span="4"><b>Due</b></column>
+          <column span="5"><b>Name</b></column>
+          <column span="2"><b>Due</b></column>
+          <column span="1"><b>Planned</b></column>
+          <column span="1"><b>Used</b></column>
         </template>
         <template scope="row">
-          <column span="4">{{row.item.name}}</column>
-          <column span="4">{{row.item.due_at}}</column>
+          <text-input v-model="row.item.name" cols="5"></text-input>
+          <date-input v-model="row.item.due_at" cols="2"></date-input>
+          <time-input v-model="row.item.planned" cols="1"></time-input>
+          <time-input v-model="row.item.used" cols="1" disabled></time-input>
+          <progressbar :value="row.item.progress ? row.item.progress() : 0" cols="2"></progressbar>
         </template>
       </list>
     </row>
