@@ -2,7 +2,8 @@
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
         <input :type="type" :name="field" :id="field" class="form-control"
-               v-bind:value="value" v-on:input="updateValue($event.target.value)">
+               v-bind:value="value" v-on:input="updateValue($event.target.value)"
+               v-on:blur="$parent.$emit('blur', $event.target.value)">
     </div>
 </template>
 
