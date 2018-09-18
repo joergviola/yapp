@@ -6,17 +6,26 @@ import VueResource from 'vue-resource'
 import App from './App'
 import router from './router'
 import VueSweetalert2 from 'vue-sweetalert2';
+import api from './api.js'
 
 Vue.use(VueSweetalert2);
 Vue.use(BootstrapVue)
 Vue.use(VueResource);
 
+window.STATE = {}
+
+
+api.user().then(user => {
+    STATE.user = user
+    console.log('USER:', STATE.user)
     /* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: {
-    App
-  }
+    new Vue({
+        el: '#app',
+        router,
+        template: '<App/>',
+        components: {
+            App
+        }
+    })
 })
+

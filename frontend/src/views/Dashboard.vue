@@ -2,7 +2,7 @@
   <div class="animated fadeIn">
 
     <row>
-      <list label="My Tasks" type="task" cols="12" with="project_id:project" :detail="taskDetail" :query="userQuery">
+      <list label="My Tasks" type="task" cols="12" with="project_id:project" :detail="taskDetail" :query="'user_id=' + userId ">
         <template slot="header">
           <column span="7"><b>Name</b></column>
           <column span="2"><b>Project</b></column>
@@ -23,7 +23,7 @@
     </row>
 
     <row>
-      <list label="My Time Entries" type="action" cols="12" with="task_id:task" :query="'created_by='+1">
+      <list label="My Time Entries" type="action" cols="12" with="task_id:task" :query="'created_by='+userId">
         <template slot="header">
           <column span="4"><b>From</b></column>
           <column span="4"><b>To</b></column>
@@ -51,7 +51,7 @@
         name: 'dashboard',
         components: all,
         computed: {
-            userQuery() { return 'user_id=' + 1 },
+            userId() { return STATE.user.id },
             taskDetail() { return '/project/$/task/' },
         },
     }

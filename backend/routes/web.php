@@ -13,6 +13,7 @@
 
 Route::post('/api/1.0/login', 'APIController@login');
 Route::middleware('auth')->group(function () {
+    Route::get('/api/1.0/login', 'APIController@user');
     Route::post('/api/1.0/logout', 'APIController@logout');
     Route::get('/api/1.0/{entity}', 'APIController@index');
     Route::get('/api/1.0/{entity}/{id}', 'APIController@get');

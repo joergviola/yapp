@@ -94,6 +94,20 @@ export default {
 
     delete: (type, id) => Vue.http.delete(config.api + '/api/1.0/'+type + '/' + id, {credentials: true}),
 
+
+    user : () => new Promise(function(resolve, reject) {
+        let  url = config.api + '/api/1.0/login'
+        Vue.http.get(url, {credentials: true})
+            .then(response => {
+                    resolve(mixin('user', response.body));
+                },
+                err => {
+                    if (err.status==401) resolve(null);
+                    handleError(err)
+                    reject(err)
+                })
+    }),
+
     login :  (username, password) => Vue.http.post(config.api + '/api/1.0/login', {
         username: username,
         password: password

@@ -46,7 +46,7 @@
         <template slot="header">
         </template>
         <template scope="row">
-          <column v-if="row.item.created_by.id==1" span="3"></column>
+          <column v-if="row.item.created_by.id==userId" span="3"></column>
           <column span="1">
             <img src="static/img/avatars/6.jpg" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
           </column>
@@ -60,7 +60,7 @@
                 <small> {{row.item.created_by.name}} <span :title="row.item.created_at">{{fromNow(row.item.created_at)}}</span></small>
               </div>
             </div>
-            <column v-if="row.item.created_by.id!=1" span="3"></column>
+            <column v-if="row.item.created_by.id!=userId" span="3"></column>
           </column>
         </template>
       </list>
@@ -83,6 +83,7 @@
             }
         },
         computed: {
+            userId() { return STATE.user.id },
             userQuery() { return 'task_id=' + this.$route.params.id },
             tmpl() {
                 return {

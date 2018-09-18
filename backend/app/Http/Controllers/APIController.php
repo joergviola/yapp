@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Auth;
 
 class APIController extends Controller {
 
+    public function user() {
+        return response()->json(Auth::user());
+    }
+
     public function login(Request $request) {
         if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
             return response()->json(['user'=>Auth::user()]);

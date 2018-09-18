@@ -20,12 +20,11 @@
 <script>
 import api from '@/api.js'
 
-
-
 export default {
+
   name: 'header',
     computed: {
-      user() {return window.user ? window.user.name : "None"}
+      user() {return STATE.user ? STATE.user.name : "None"}
     },
   methods: {
     sidebarToggle (e) {

@@ -57,7 +57,7 @@ export default {
         login() {
             api.login(this.username, this.password)
                 .then(response => {
-                        window.user = response.body.user
+                        STATE.user = response.body.user
                         this.$router.push('/')
                     },
                     err => {
