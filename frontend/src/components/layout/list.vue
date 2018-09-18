@@ -10,6 +10,13 @@
         </div>
         <div v-if="!detail" v-for="item in items" class="row">
           <slot :item="item"></slot>
+          <div class="col-sm-1">
+            <div class="form-control">
+              <a v-if="trash" href="#" v-on:click.prevent="remove(item)">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </div>
         </div>
         <div v-if="detail" v-for="item in items">
             <editor class="row" :type='type' :value="item">
@@ -19,6 +26,9 @@
                   <router-link :to="item.transient.url">
                     <i class="fa fa-chevron-right"></i>
                   </router-link>
+                  <a v-if="trash" href="#">
+                    <i class="fa fa-trash"></i>
+                  </a>
                 </div>
               </div>
             </editor>
@@ -39,7 +49,7 @@
 
     export default {
         name: 'list',
-        props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain'],
+        props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash'],
         components: {editor},
         computed: {
             clazz() { return 'col-sm-' + this.cols },
@@ -73,6 +83,26 @@
             },
             save() {
                 console.log("save")
+            },
+            remove(item) {
+                this.$swal(
+                    {
+                        type: 'warning',
+                        title: "Are you sure?",
+                        text: "The row will be deleted. This cannot be undone",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                    }
+                ).then(value => {
+                    if (value.value) {
+                        api.delete(this.type, item.id)
+                            .then(response => {
+                                  this.load()
+                                },
+                                err => console.log(err)
+                            );
+                    }
+                });
             }
         }
     }
