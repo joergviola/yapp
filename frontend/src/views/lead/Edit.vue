@@ -15,7 +15,7 @@
         </ressource>
     </row>
     <row>
-      <ressource label="Project" type="project" :id="$route.params.id" cols="12" :tmpl="taskTmpl">
+      <ressource label="Lead" type="project" :id="$route.params.id" cols="12" :tmpl="taskTmpl">
         <template scope="$">
           <row>
             <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
