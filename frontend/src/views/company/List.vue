@@ -4,11 +4,11 @@
         <list label="Companies" type="company" cols="12" detail="/companies/company/">
           <template slot="header">
             <column span="6"><b>Name</b></column>
-            <column span="6"><b>E-Mail</b></column>
+            <column span="5"><b>E-Mail</b></column>
           </template>
           <template scope="row">
             <column span="6">{{row.item.name}}</column>
-            <column span="6">{{row.item.email}}</column>
+            <column span="5">{{row.item.email}}</column>
           </template>
         </list>
       </row>

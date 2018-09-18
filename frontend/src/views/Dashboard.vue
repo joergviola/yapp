@@ -11,9 +11,11 @@
         <template scope="row">
           <text-input v-model="row.item.name" cols="7"></text-input>
           <column span="2">
-            <router-link :to="'/project/'+row.item.project_id.id">
-              {{row.item.project_id.name}}
-            </router-link>
+            <div class="form-control">
+              <router-link :to="'/project/'+row.item.project_id.id">
+                {{row.item.project_id.name}}
+              </router-link>
+            </div>
           </column>
           <date-input v-model="row.item.due_at" cols="2"></date-input>
         </template>

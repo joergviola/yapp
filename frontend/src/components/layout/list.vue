@@ -4,7 +4,7 @@
       <div class="card-header">
         <strong>{{label}}</strong>
       </div>
-      <div class="card-block table">
+      <div :class="'card-block'+(plain?'':' table')">
         <div class="row header">
           <slot name="header"></slot>
         </div>
@@ -15,9 +15,11 @@
             <editor class="row" :type='type' :value="item">
               <slot :item="item"></slot>
               <div class="col-sm-1">
-                <router-link :to="item.transient.url">
-                  &gt;
-                </router-link>
+                <div class="form-control">
+                  <router-link :to="item.transient.url">
+                    <i class="fa fa-chevron-right"></i>
+                  </router-link>
+                </div>
               </div>
             </editor>
         </div>
@@ -37,7 +39,7 @@
 
     export default {
         name: 'list',
-        props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy'],
+        props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain'],
         components: {editor},
         computed: {
             clazz() { return 'col-sm-' + this.cols },

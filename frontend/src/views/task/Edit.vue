@@ -23,23 +23,27 @@
         </template>
       </ressource>
     </row>
+
     <row>
-      <list label="Actions" type="action" cols="12" with="created_by:user" :query="userQuery" :reload="latestId" orderBy="created_at:desc">
+      <ressource label="What have you done" type="action" id="new" :tmpl="actionTmpl" cols="12" :next="actionCreated">
+        <template scope="$">
+          <row>
+            <textarea-input label="Comment" v-model="$.item.comment" cols="12"></textarea-input>
+          </row>
+          <row>
+            <date-input label="Started" v-model="$.item.from" cols="3" time=true></date-input>
+            <date-input label="Stopped" v-model="$.item.to" cols="3" time=true></date-input>
+            <div class="col-sm-3">
+              <button class="btn btn-primary" v-on:click="toggle($.item)">{{running ? 'Stop' : 'Start'}}</button>
+            </div>
+          </row>
+        </template>
+      </ressource>
+    </row>
+
+    <row>
+      <list label="Actions" type="action" cols="12" with="created_by:user" :query="userQuery" :reload="latestId" orderBy="created_at:desc" plain=true>
         <template slot="header">
-          <ressource label="What have you done" type="action" id="new" :tmpl="actionTmpl" cols="12" :next="actionCreated">
-            <template scope="$">
-              <row>
-                <textarea-input label="Comment" v-model="$.item.comment" cols="12"></textarea-input>
-              </row>
-              <row>
-                <date-input label="Started" v-model="$.item.from" cols="3" time=true></date-input>
-                <date-input label="Stopped" v-model="$.item.to" cols="3" time=true></date-input>
-                <div class="col-sm-3">
-                  <button class="btn btn-primary" v-on:click="toggle($.item)">{{running ? 'Stop' : 'Start'}}</button>
-                </div>
-              </row>
-            </template>
-          </ressource>
         </template>
         <template scope="row">
           <column v-if="row.item.created_by.id==1" span="3"></column>
