@@ -49,7 +49,7 @@
 
     export default {
         name: 'list',
-        props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash'],
+        props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash', 'tmpl'],
         components: {editor},
         computed: {
             clazz() { return 'col-sm-' + this.cols },
@@ -69,6 +69,7 @@
         },
         mounted() {
             this.load()
+            this.$on('returnTyped', this.returnTyped)
         },
         methods : {
             load() {
@@ -103,6 +104,13 @@
                             );
                     }
                 });
+            },
+            returnTyped(row) {
+                if (this.tmpl) {
+                    const index = this.items.indexOf(row)
+                    this.tmpl.transient = {}
+                    this.items.splice(index+1, 0, this.tmpl)
+                }
             }
         }
     }

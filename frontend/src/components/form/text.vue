@@ -3,7 +3,8 @@
         <label v-if="label" :for="field">{{label}}</label>
         <input type="text" :name="field" :id="field" class="form-control"
                v-bind:value="value" v-on:input="updateValue($event.target.value)"
-               v-on:blur="$parent.$emit('blur', $event.target.value)">
+               v-on:blur="$parent.$emit('blur', $event.target.value)"
+               v-on:keyup="keyUp($event)">
     </div>
 </template>
 
@@ -21,6 +22,11 @@ export default {
         updateValue: function (value) {
             // Emit the number value through the input event
             this.$emit('input', value)
+        },
+        keyUp: function(event) {
+            if (event.keyCode==13) {
+                this.$parent.$emit('returnTyped')
+            }
         }
     }
 }

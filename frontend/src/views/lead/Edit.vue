@@ -20,7 +20,7 @@
       </column>
     </row>
     <row v-if="!company">
-      <ressource label="Lead" type="project" :id="$route.params.id" cols="12" :tmpl="taskTmpl">
+      <ressource label="Lead" type="project" :id="$route.params.id" cols="12" :tmpl="leadTmpl">
         <template scope="$">
           <row>
             <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
@@ -37,7 +37,7 @@
       </ressource>
     </row>
     <row v-if="!isNew">
-      <list label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
+      <list label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl">
         <template slot="header">
           <column span="7"><b>Name</b></column>
           <column span="2"><b>Due</b></column>
@@ -66,15 +66,15 @@
         },
         data() {
             return {
-                taskTmpl: {state: 'Lead'},
+                leadTmpl: {state: 'Lead'},
+                taskTmpl: {project_id: this.$route.params.id},
                 company: this.$route.params.id=='new',
             }
         },
         methods: {
             companyCreated(company) {
-                console.log('CALLED', company)
                 this.company = false
-                this.$nextTick(() => this.taskTmpl = {name: '', client_id: company, state: 'Lead'})
+                this.$nextTick(() => this.leadTmpl = {name: '', client_id: company, state: 'Lead'})
                 // Im nextTick, weil Lead noch ausgeblendet ist und kein watch bekommt.
                 // Warum name:''? Keine Ahnung!
 

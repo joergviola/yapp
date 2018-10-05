@@ -13,6 +13,7 @@
         props: ['type','value'],
         mounted() {
             this.$on('blur', this.save)
+            this.$on('returnTyped', () => this.$parent.$emit('returnTyped', this.value))
         },
         methods: {
             save() {
