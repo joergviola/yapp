@@ -103,7 +103,7 @@
                 this.task = task
             },
             actionCreated(action) {
-                this.latestId = action.body.id
+                this.latestId = action.id
                 this.task.refreshUsed()
                 console.log("LID", action)
             },
