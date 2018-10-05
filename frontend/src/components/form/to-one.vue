@@ -44,7 +44,7 @@ export default {
     },
     watch: {
         value: function(val) {
-            console.log('updated', val)
+            console.log('to-one updated', val)
             this.selected = val
             this.edit = val==null
             this.input = this.value?this.value[this.display]:''

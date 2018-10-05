@@ -88,7 +88,7 @@ export default {
 
     update: (type, item) => {
         dehydrate(item)
-        console.log('UPDATE', item)
+        console.log('UPDATE', JSON.stringify(item))
         return Vue.http.put(config.api + '/api/1.0/'+type, item, {credentials: true})
     },
 

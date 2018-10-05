@@ -15,22 +15,26 @@ export default {
     },
     data() {
         return {
-            timeValue: "00:00"
+            timeValue: this.toTime()
         }
     },
     watch: {
         value() {
+            this.timeValue = this.toTime();
+            console.log('TIME', this.value, this.timeValue)
+        }
+    },
+    methods: {
+        toTime() {
             let m = Math.floor(this.value/60)
             let h = Math.floor(m/60)
             m = m % 60;
-            this.timeValue = f(h) + ":" + f(m)
+            return f(h) + ":" + f(m)
 
             function f(t) {
                 return (t<10 ? "0" : "") + t
             }
-        }
-    },
-    methods: {
+        },
         updateValue: function (value) {
             const values = value.split(':');
             while (values.length<3) values.push(0)
@@ -38,6 +42,7 @@ export default {
             values.forEach(c => time = 60*time+(parseInt(c)||0));
             console.log(value, values, time)
             this.$emit('input', time)
+            this.$parent.$emit('blur', time)
         }
     }
 }

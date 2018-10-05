@@ -41,7 +41,10 @@
             }
         },
         watch: {
-            tmpl() {this.setItem(api.mixin(this.type, this.tmpl || {}))}
+            tmpl(val) {
+                console.log("ressource tmpl watch", val)
+                this.setItem(api.mixin(this.type, this.tmpl || {}))
+            }
         },
         methods : {
             setItem(item) {

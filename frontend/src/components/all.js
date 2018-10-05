@@ -7,6 +7,7 @@ import enuminput from '../components/form/enum.vue'
 import passwordinput from '../components/form/password.vue'
 import progress from '../components/form/progress.vue'
 import toOne from '../components/form/to-one.vue'
+import button from '../components/form/button.vue'
 import ressource from '../components/layout/ressource.vue'
 import editor from '../components/layout/editor.vue'
 import list from '../components/layout/list.vue'
@@ -21,6 +22,7 @@ const all = {
     'enum-input': enuminput,
     'password-input': passwordinput,
     'progressbar': progress,
+    'link-button': button,
     'to-one': toOne,
     ressource,
     list,

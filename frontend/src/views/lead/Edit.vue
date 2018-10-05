@@ -1,20 +1,25 @@
 <template>
   <div class="animated fadeIn">
-    <row v-if="isNew">
-        <ressource label="Company" type="company" :id="$route.params.id" cols="12" :next="companyCreated">
-          <template scope="$">
+    <row v-if="company">
+        <ressource label="New Client" type="company" :id="$route.params.id" cols="12" :next="companyCreated">
+          <template scope="client">
             <row>
-              <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
-              <text-input label="E-Mail" v-model="$.item.email" cols="6"></text-input>
+              <text-input label="Name" v-model="client.item.name" cols="6"></text-input>
+              <text-input label="E-Mail" v-model="client.item.email" cols="6"></text-input>
             </row>
             <row>
-              <text-input label="Website" v-model="$.item.website" cols="6"></text-input>
-              <text-input label="Telefone" v-model="$.item.telefone" cols="6"></text-input>
+              <text-input label="Website" v-model="client.item.website" cols="6"></text-input>
+              <text-input label="Telefone" v-model="client.item.telefone" cols="6"></text-input>
             </row>
           </template>
         </ressource>
     </row>
-    <row>
+    <row v-if="company">
+      <column span="12">
+        <link-button type="primary" align="right" label="Use existing client" v-on:click="companyCreated"></link-button>
+      </column>
+    </row>
+    <row v-if="!company">
       <ressource label="Lead" type="project" :id="$route.params.id" cols="12" :tmpl="taskTmpl">
         <template scope="$">
           <row>
@@ -34,12 +39,14 @@
     <row v-if="!isNew">
       <list label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
         <template slot="header">
-          <column span="4"><b>name</b></column>
-          <column span="4"><b>Due</b></column>
+          <column span="7"><b>Name</b></column>
+          <column span="2"><b>Due</b></column>
+          <column span="2"><b>Planned</b></column>
         </template>
         <template scope="row">
-          <column span="4">{{row.item.name}}</column>
-          <column span="4">{{row.item.due_at}}</column>
+          <text-input v-model="row.item.name" cols="7"></text-input>
+          <date-input v-model="row.item.due_at" cols="2"></date-input>
+          <time-input v-model="row.item.planned" cols="2"></time-input>
         </template>
       </list>
     </row>
@@ -59,12 +66,18 @@
         },
         data() {
             return {
-                taskTmpl: {}
+                taskTmpl: {state: 'Lead'},
+                company: this.$route.params.id=='new',
             }
         },
         methods: {
             companyCreated(company) {
-                this.taskTmpl = {client_id: company}
+                console.log('CALLED', company)
+                this.company = false
+                this.$nextTick(() => this.taskTmpl = {name: '', client_id: company, state: 'Lead'})
+                // Im nextTick, weil Lead noch ausgeblendet ist und kein watch bekommt.
+                // Warum name:''? Keine Ahnung!
+
             }
         }
     }
