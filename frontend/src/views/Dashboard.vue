@@ -2,7 +2,7 @@
   <div class="animated fadeIn">
 
     <row>
-      <list label="My Tasks" type="task" cols="12" with="project_id:project" :detail="taskDetail" :query="'user_id=' + userId ">
+      <list icon="icon-check" label="My Tasks" type="task" cols="12" with="project_id:project" :detail="taskDetail" :query="'user_id=' + userId ">
         <template slot="header">
           <column span="7"><b>Name</b></column>
           <column span="2"><b>Project</b></column>
@@ -23,7 +23,7 @@
     </row>
 
     <row>
-      <list label="Leads" type="project" with="client_id:company" cols="6" detail="/lead/" query="state=Lead">
+      <list icon="icon-like" label="Leads" type="project" with="client_id:company" cols="6" detail="/lead/" query="state=Lead">
         <template slot="header">
           <column span="4"><b>Name</b></column>
           <column span="4"><b>Client</b></column>
@@ -36,7 +36,7 @@
         </template>
       </list>
 
-      <list label="My Time Entries" type="action" cols="6" with="task_id:task" :query="'created_by='+userId" trash=true>
+      <list icon="icon-clock" label="My Time Entries" type="action" cols="6" with="task_id:task" :query="'created_by='+userId" trash=true>
         <template slot="header">
           <column span="4"><b>From</b></column>
           <column span="4"><b>To</b></column>

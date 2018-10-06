@@ -2,7 +2,10 @@
   <div :class="clazz">
     <div class="card">
       <div class="card-header">
-        <strong>{{label}}</strong>
+        <h4>
+          <i v-if="icon" :class="icon"></i>
+          {{label}}
+        </h4>
       </div>
       <div class="card-block" v-on:fieldchange="fieldChange" v-on:with="addWith" id="1">
         <slot :item="item"></slot>
@@ -22,7 +25,7 @@
 
     export default {
         name: 'ressource',
-        props: ['label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad'],
+        props: ['icon', 'label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad'],
         computed: {
             clazz() { return 'col-sm-' + this.cols },
             isNew() { return this.id=='new' }

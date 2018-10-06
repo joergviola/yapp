@@ -2,7 +2,10 @@
   <div :class="clazz">
     <div class="card">
       <div class="card-header">
-        <strong>{{label}}</strong>
+        <h4>
+          <i v-if="icon" :class="icon"></i>
+          {{label}}
+        </h4>
       </div>
       <div :class="'card-block'+(plain?'':' table')">
         <div class="row header">
@@ -35,7 +38,7 @@
         </div>
       </div>
       <div class="card-footer">
-        <router-link :to="detailNew"  class="btn btn-default pull-right">
+        <router-link :to="detailNew"  class="pull-right">
           Create
         </router-link>
       </div>
@@ -49,7 +52,7 @@
 
     export default {
         name: 'list',
-        props: ['label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash', 'tmpl'],
+        props: ['icon', 'label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash', 'tmpl'],
         components: {editor},
         computed: {
             clazz() { return 'col-sm-' + this.cols },

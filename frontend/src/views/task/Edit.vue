@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource label="Task" type="task" :id="$route.params.id" :tmpl="tmpl" cols="12" :afterLoad="taskLoaded">
+      <ressource icon="icon-check" label="Task" type="task" :id="$route.params.id" :tmpl="tmpl" cols="12" :afterLoad="taskLoaded">
         <template scope="$">
           <row>
             <text-input label="Name" v-model="$.item.name" cols="12"></text-input>
@@ -25,7 +25,7 @@
     </row>
 
     <row>
-      <ressource label="What have you done" type="action" id="new" :tmpl="actionTmpl" cols="12" :next="actionCreated">
+      <ressource icon="icon-clock" label="What have you done?" type="action" id="new" :tmpl="actionTmpl" cols="12" :next="actionCreated">
         <template scope="$">
           <row>
             <textarea-input label="Comment" v-model="$.item.comment" cols="12"></textarea-input>
@@ -42,7 +42,7 @@
     </row>
 
     <row>
-      <list label="Actions" type="action" cols="12" with="created_by:user" :query="userQuery" :reload="latestId" orderBy="created_at:desc" plain=true>
+      <list icon="icon-clock" label="Actions" type="action" cols="12" with="created_by:user" :query="userQuery" :reload="latestId" orderBy="created_at:desc" plain=true>
         <template slot="header">
         </template>
         <template scope="row">

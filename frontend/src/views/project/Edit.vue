@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource label="Project" type="project" :id="$route.params.id" cols="12">
+      <ressource icon="icon-control-play" label="Project" type="project" :id="$route.params.id" cols="12">
         <template scope="$">
           <row>
             <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
@@ -16,7 +16,7 @@
       </ressource>
     </row>
     <row v-if="!isNew">
-      <list label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
+      <list icon="icon-check" label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
         <template slot="header">
           <column span="5"><b>Name</b></column>
           <column span="2"><b>Due</b></column>

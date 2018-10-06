@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource label="User" type="user" :id="$route.params.id" cols="12">
+      <ressource icon="icon-user" label="User" type="user" :id="$route.params.id" cols="12">
         <template scope="$">
           <text-input label="Name" v-model="$.item.name"></text-input>
           <text-input label="E-Mail" v-model="$.item.email"></text-input>

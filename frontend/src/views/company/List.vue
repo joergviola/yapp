@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
       <row>
-        <list label="Companies" type="company" cols="12" detail="/companies/company/">
+        <list icon="icon-organization" label="Companies" type="company" cols="12" detail="/companies/company/">
           <template slot="header">
             <column span="6"><b>Name</b></column>
             <column span="5"><b>E-Mail</b></column>
