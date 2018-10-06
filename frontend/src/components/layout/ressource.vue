@@ -5,6 +5,7 @@
         <h4>
           <i v-if="icon" :class="icon"></i>
           {{label}}
+          <slot name="header" :item="item"></slot>
         </h4>
       </div>
       <div class="card-block" v-on:fieldchange="fieldChange" v-on:with="addWith" id="1">

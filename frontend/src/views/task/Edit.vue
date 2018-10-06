@@ -1,11 +1,11 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource icon="icon-check" label="Task" type="task" :id="$route.params.id" :tmpl="tmpl" cols="12" :afterLoad="taskLoaded">
+      <ressource icon="icon-check" label="Task: " type="task" :id="$route.params.id" :tmpl="tmpl" cols="12" :afterLoad="taskLoaded">
+        <template slot="header" scope="$">
+          <text-input inline=true v-model="$.item.name"></text-input>
+        </template>
         <template scope="$">
-          <row>
-            <text-input label="Name" v-model="$.item.name" cols="12"></text-input>
-          </row>
           <row>
             <textarea-input label="Description" v-model="$.item.description" cols="12"></textarea-input>
           </row>
@@ -51,17 +51,19 @@
             <img src="static/img/avatars/6.jpg" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
           </column>
           <column span="8">
-            <div class="card">
-              <div class="card-block">
+                <div>
+                  <b>{{row.item.created_by.name}}</b>
+                  <small class="light-grey">
+                    <span :title="row.item.created_at">
+                      {{fromNow(row.item.created_at)}}
+                    </span>
+                    <span v-if="duration(row.item)">, booked: {{ duration(row.item) }} </span>
+                  </small>
+                </div>
                 <div> {{row.item.comment}} </div>
-                <div v-if="duration(row.item)"> Booked: {{ duration(row.item) }} </div>
-              </div>
-              <div class="card-footer" id="2">
-                <small> {{row.item.created_by.name}} <span :title="row.item.created_at">{{fromNow(row.item.created_at)}}</span></small>
-              </div>
-            </div>
-            <column v-if="row.item.created_by.id!=userId" span="3"></column>
+                <hr>
           </column>
+          <column v-if="row.item.created_by.id!=userId" span="3"></column>
         </template>
       </list>
     </row>

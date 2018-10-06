@@ -1,20 +1,17 @@
 <template>
-    <div  :class="clazz">
+    <span :class="inline?'':'form-group col-sm-' + this.cols">
         <label v-if="label" :for="field">{{label}}</label>
-        <input type="text" :name="field" :id="field" class="form-control"
+        <input type="text" :name="field" :id="field" :class="inline?'inline-control ':'form-control '"
                v-bind:value="value" v-on:input="updateValue($event.target.value)"
                v-on:blur="$parent.$emit('blur', $event.target.value)"
                v-on:keyup="keyUp($event)">
-    </div>
+    </span>
 </template>
 
 <script>
 export default {
     name: 'text-input',
-    props:['label', 'field', 'value', 'cols'],
-    computed: {
-        clazz() { return 'form-group col-sm-' + this.cols }
-    },
+    props:['label', 'field', 'value', 'cols', 'inline'],
     methods: {
         // Instead of updating the value directly, this
         // method is used to format and place constraints

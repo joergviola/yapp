@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row v-if="company">
-        <ressource icon="icon-organisation" label="New Client" type="company" :id="$route.params.id" cols="12" :next="companyCreated">
+        <ressource icon="icon-organization" label="New Client" type="company" :id="$route.params.id" cols="12" :next="companyCreated">
           <template scope="client">
             <row>
               <text-input label="Name" v-model="client.item.name" cols="6"></text-input>
@@ -20,16 +20,16 @@
       </column>
     </row>
     <row v-if="!company">
-      <ressource icon="icon-like" label="Lead" type="project" :id="$route.params.id" cols="12" :tmpl="leadTmpl">
+      <ressource icon="icon-like" label="Lead: " type="project" :id="$route.params.id" cols="12" :tmpl="leadTmpl">
+        <template slot="header" scope="$">
+          <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
+        </template>
         <template scope="$">
           <row>
-            <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
-            <enum-input label="State" v-model="$.item.state" cols="6" enum="Lead, Ordered, Running, Closed"></enum-input>
-          </row>
-          <row>
+            <enum-input label="State" v-model="$.item.state" cols="3" enum="Lead, Ordered, Running, Closed"></enum-input>
             <date-input label="From" v-model="$.item.starts_at" cols="3"></date-input>
             <date-input label="To" v-model="$.item.ends_at" cols="3"></date-input>
-            <to-one label="Client" v-model="$.item.client_id" with="client_id:company" display="name" to="/companies/company/" cols="6"></to-one>
+            <to-one label="Client" v-model="$.item.client_id" with="client_id:company" display="name" to="/companies/company/" cols="3"></to-one>
           </row>
         </template>
       </ressource>

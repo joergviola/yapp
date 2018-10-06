@@ -2,15 +2,15 @@
   <div class="animated fadeIn">
     <row>
       <ressource icon="icon-control-play" label="Project" type="project" :id="$route.params.id" cols="12">
+        <template slot="header" scope="$">
+          <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
+        </template>
         <template scope="$">
           <row>
-            <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
-            <enum-input label="State" v-model="$.item.state" cols="6" enum="Lead, Ordered, Running, Closed"></enum-input>
-          </row>
-          <row>
+            <enum-input label="State" v-model="$.item.state" cols="3" enum="Lead, Ordered, Running, Closed"></enum-input>
             <date-input label="From" v-model="$.item.starts_at" cols="3"></date-input>
             <date-input label="To" v-model="$.item.ends_at" cols="3"></date-input>
-            <to-one label="Client" v-model="$.item.client_id" with="client_id:company" display="name" to="/companies/company/" cols="6"></to-one>
+            <to-one label="Client" v-model="$.item.client_id" with="client_id:company" display="name" to="/companies/company/" cols="3"></to-one>
           </row>
         </template>
       </ressource>
