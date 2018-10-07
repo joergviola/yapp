@@ -25,26 +25,36 @@
     </row>
 
     <row>
-      <ressource icon="icon-clock" label="What have you done?" type="action" id="new" :tmpl="actionTmpl" cols="12" :next="actionCreated">
-        <template scope="$">
-          <row>
-            <textarea-input label="Comment" v-model="$.item.comment" cols="12"></textarea-input>
-          </row>
-          <row>
-            <date-input label="Started" v-model="$.item.from" cols="3" time=true></date-input>
-            <date-input label="Stopped" v-model="$.item.to" cols="3" time=true></date-input>
-            <div class="col-sm-3">
-              <button class="btn btn-primary" v-on:click="toggle($.item)">{{running ? 'Stop' : 'Start'}}</button>
-            </div>
-          </row>
-        </template>
-      </ressource>
-    </row>
-
-    <row>
       <list icon="icon-clock" label="Actions" type="action" cols="12" with="created_by:user" :query="userQuery" :reload="latestId" orderBy="created_at:desc" plain=true>
-        <template slot="header">
-        </template>
+        <ressource ref="newAction" slot="rawheader" type="action" id="new" raw="true" :tmpl="newAction" :next="actionCreated">
+          <template scope="$">
+            <row>
+              <column span="3"></column>
+              <column span="1">
+                <img src="static/img/avatars/6.jpg" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
+              </column>
+              <column span="8">
+                <row>
+                  <column span="2"><b>{{user.name}}</b></column>
+                    <date-input v-model="$.item.from" cols="4" time=true></date-input>
+                    <date-input v-model="$.item.to" cols="4" time=true></date-input>
+                  <column span="2">
+                    <button class="btn btn-primary" v-on:click="toggle($.item)">{{running ? 'Stop' : 'Timer'}}</button>
+                  </column>
+                </row>
+                <row>
+                  <column span="10">
+                    <textarea-input v-model="$.item.comment"></textarea-input>
+                  </column>
+                  <column span="2">
+                    <button class="btn btn-primary" v-on:click="saveAction">Save</button>
+                  </column>
+                </row>
+              </column>
+
+            </row>
+          </template>
+        </ressource>
         <template scope="row">
           <column v-if="row.item.created_by.id==userId" span="3"></column>
           <column span="1">
@@ -71,6 +81,7 @@
 </template>
 
 <script>
+    import Vue from 'vue'
     import {all} from '@/components/all.js'
     import moment from 'moment'
 
@@ -81,7 +92,9 @@
             return {
                 latestId : null,
                 running: null,
-                task: null
+                task: null,
+                newAction: this.createAction(),
+                user: STATE.user,
             }
         },
         computed: {
@@ -90,13 +103,6 @@
             tmpl() {
                 return {
                     project_id: this.$route.params.pid,
-                }
-            },
-            actionTmpl() {
-                return {
-                    task_id: this.$route.params.id,
-                    from: moment().format('YYYY-MM-DDTHH:mm'),
-                    to: moment().format('YYYY-MM-DDTHH:mm'),
                 }
             },
         },
@@ -138,6 +144,17 @@
             fromNow(date) {
                 return moment(date).fromNow()
             },
-        }
+            saveAction() {
+                this.$refs.newAction.save()
+                Vue.nextTick(() => this.newAction = this.createAction())
+            },
+            createAction() {
+                return {
+                    task_id: this.$route.params.id,
+                    from: moment().format('YYYY-MM-DDTHH:mm'),
+                    to: moment().format('YYYY-MM-DDTHH:mm'),
+                }
+            }
+        },
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div :class="clazz">
-    <div class="card">
+    <div v-if="!raw" class="card">
       <div class="card-header">
         <h4>
           <i v-if="icon" :class="icon"></i>
@@ -17,6 +17,7 @@
         <a class="btn btn-default pull-right" v-on:click="cancel()">Cancel</a>
       </div>
     </div>
+    <slot v-if="raw" :item="item"></slot>
   </div>
 </template>
 
@@ -26,9 +27,9 @@
 
     export default {
         name: 'ressource',
-        props: ['icon', 'label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad'],
+        props: ['icon', 'label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad', 'raw'],
         computed: {
-            clazz() { return 'col-sm-' + this.cols },
+            clazz() { return this.cols?'col-sm-' + this.cols:'' },
             isNew() { return this.id=='new' }
         },
         data() {
@@ -38,7 +39,9 @@
             }
         },
         mounted() {
-            if (!this.isNew) {
+          this.$on('save', this.save)
+
+          if (!this.isNew) {
                 api.read(this.type, this.id, this.with).then(item => this.setItem(item));
             } else {
                 Vue.nextTick(() => this.setItem(api.mixin(this.type, this.tmpl || {})))

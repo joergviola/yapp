@@ -17,6 +17,7 @@
         },
         methods: {
             save() {
+              alert('save')
                 const request = this.value.id
                     ? api.update(this.type, this.value)
                     : api.create(this.type, this.value)

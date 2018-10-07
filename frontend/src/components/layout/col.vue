@@ -10,7 +10,7 @@
         props: ['span'],
         computed: {
             clazz() { return 'col-sm-' + this.span }
-        }
+        },
     }
 
 </script>

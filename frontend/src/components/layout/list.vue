@@ -2,47 +2,48 @@
   <div :class="clazz">
     <div class="card">
       <div class="card-header">
-        <h4>
+        <h4 class="clearfix">
           <i v-if="icon" :class="icon"></i>
           {{label}}
         </h4>
       </div>
-      <div :class="'card-block'+(plain?'':' table')">
-        <div class="row header">
-          <slot name="header"></slot>
-        </div>
-        <div v-if="!detail" v-for="item in items" class="row">
-          <slot :item="item"></slot>
-          <div class="col-sm-1">
-            <div class="form-control">
-              <a v-if="trash" href="#" v-on:click.prevent="remove(item)">
-                <i class="fa fa-trash"></i>
-              </a>
+        <div :class="'card-block'+(plain?'':' table')">
+          <div class="row header">
+            <slot name="header"></slot>
+          </div>
+          <slot name="rawheader"></slot>
+          <div v-if="!detail" v-for="item in items" class="row">
+            <slot :item="item"></slot>
+            <div class="col-sm-1">
+              <div class="form-control">
+                <a v-if="trash" href="#" v-on:click.prevent="remove(item)">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-if="detail" v-for="item in items">
-            <editor class="row" :type='type' :value="item">
-              <slot :item="item"></slot>
-              <div class="col-sm-1">
-                <div class="form-control">
-                  <router-link :to="item.transient.url">
-                    <i class="fa fa-chevron-right"></i>
-                  </router-link>
-                  <a v-if="trash" href="#">
-                    <i class="fa fa-trash"></i>
-                  </a>
+          <div v-if="detail" v-for="item in items">
+              <editor class="row" :type='type' :value="item">
+                <slot :item="item"></slot>
+                <div class="col-sm-1">
+                  <div class="form-control">
+                    <router-link :to="item.transient.url">
+                      <i class="fa fa-chevron-right"></i>
+                    </router-link>
+                    <a v-if="trash" href="#">
+                      <i class="fa fa-trash"></i>
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </editor>
+              </editor>
+          </div>
+        </div>
+        <div class="card-footer clearfix">
+          <router-link :to="detailNew"  class="float-right">
+            Create
+          </router-link>
         </div>
       </div>
-      <div class="card-footer">
-        <router-link :to="detailNew"  class="pull-right">
-          Create
-        </router-link>
-      </div>
-    </div>
   </div>
 </template>
 
