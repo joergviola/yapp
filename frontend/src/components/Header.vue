@@ -10,6 +10,12 @@
           <img src="static/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
           <span class="d-md-down-none">{{ user }}</span>
         </template>
+        <b-dropdown-item>
+          <router-link to="/actions">
+            <i class="icon-clock"></i> Time Entries
+          </router-link>
+
+        </b-dropdown-item>
         <b-dropdown-item @click="logout"><i class="fa fa-lock"></i> Logout</b-dropdown-item>
       </b-nav-item-dropdown>
     </b-nav>

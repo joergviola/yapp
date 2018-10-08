@@ -11,7 +11,7 @@ import Task from '@/views/task/Edit'
 
 
 export default [
-    { name: 'Home', url: '/dashboard', icon: 'icon-home', component: Dashboard },
+    { name: 'My Tasks', url: '/dashboard', icon: 'icon-home', component: Dashboard },
 //    { name: 'Users', url: '/users', icon: 'icon-user', component: Users },
     { name: 'User', url: '/users/user/:id', component: User },
     { name: 'Companies', url: '/companies', icon: 'icon-organization', component: Companies },
@@ -21,4 +21,5 @@ export default [
     { name: 'Projects', url: '/project', icon: 'icon-control-play', component: Projects },
     { name: 'Project', url: '/project/:id', component: Project },
     { name: 'Task', url: '/project/:pid/task/:id', component: Task },
+    { name: 'Actions', url: '/Actions', component: () => import('@/views/action/List') },
   ]

@@ -2,12 +2,15 @@
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
         <input :type="type" :name="field" :id="field" class="form-control"
-               :value="value" v-on:input="updateValue($event.target.value)"
+               :value="dateValue" v-on:input="updateValue($event.target.value)"
                v-on:blur="$parent.$emit('blur', $event.target.value)">
     </div>
 </template>
 
 <script>
+
+import moment from 'moment'
+
 export default {
     name: 'date-input',
     props:['label', 'field', 'value', 'cols', 'time'],
@@ -15,13 +18,27 @@ export default {
         clazz() { return 'form-group col-sm-' + this.cols },
         type() { return this.time ? 'datetime-local' : 'date' },
     },
+    data() {
+        return {
+            dateValue: this.toDate()
+        }
+    },
+    watch: {
+        value() {
+            this.dateValue = this.toDate();
+        }
+    },
     methods: {
-        // Instead of updating the value directly, this
-        // method is used to format and place constraints
-        // on the input's value
+        // "2018-09-15 12:06:23" => "2018-09-15T12:06:23"
+
+        toDate() {
+            if (this.time) return moment(this.value).format('YYYY-MM-DDTHH:mm:ss')
+            else return this.value
+        },
+
         updateValue: function (value) {
             // Emit the number value through the input event
-            this.$emit('input', value)
+            this.$emit('input', moment(value).toDate())
         }
     }
 }
