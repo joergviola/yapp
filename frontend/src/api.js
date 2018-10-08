@@ -39,7 +39,7 @@ function handleError(err) {
 
 let dehydrate = function (item) {
     Object.keys(item).forEach(key => {
-        if (item[key] && typeof item[key] === 'object') {
+        if (item[key] && item[key].id) {
             item[key] = item[key].id
         }
     });

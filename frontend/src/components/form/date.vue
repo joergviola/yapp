@@ -2,7 +2,7 @@
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
         <input :type="type" :name="field" :id="field" class="form-control"
-               :value="dateValue" v-on:input="updateValue($event.target.value)"
+               :value="dateValue" v-on:change="updateValue($event.target.value)"
                v-on:blur="$parent.$emit('blur', $event.target.value)">
     </div>
 </template>
@@ -33,12 +33,12 @@ export default {
 
         toDate() {
             if (this.time) return moment(this.value).format('YYYY-MM-DDTHH:mm:ss')
-            else return this.value
+            else return moment(this.value).format('YYYY-MM-DD')
         },
 
         updateValue: function (value) {
             // Emit the number value through the input event
-            this.$emit('input', moment(value).toDate())
+            this.$emit('input', moment(value).format('YYYY-MM-DD HH:mm:ss'))
         }
     }
 }
