@@ -7,10 +7,14 @@
         </template>
         <template scope="$">
           <row>
+            <textarea-input v-model="$.item.description" cols="12"></textarea-input>
+          </row>
+          <row>
             <enum-input label="State" v-model="$.item.state" cols="3" enum="Lead, Ordered, Running, Closed"></enum-input>
-            <date-input label="From" v-model="$.item.starts_at" cols="3"></date-input>
-            <date-input label="To" v-model="$.item.ends_at" cols="3"></date-input>
+            <date-input label="From" v-model="$.item.starts_at" cols="2"></date-input>
+            <date-input label="To" v-model="$.item.ends_at" cols="2"></date-input>
             <to-one label="Client" v-model="$.item.client_id" with="client_id:company" display="name" to="/companies/company/" cols="3"></to-one>
+            <checkbox label="Template" v-model="$.item.template" cols="2"></checkbox>
           </row>
         </template>
       </ressource>

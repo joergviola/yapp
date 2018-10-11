@@ -35,6 +35,7 @@ class Base extends Migration
             $table->integer('client_id')->unsigned();
             $table->integer('planned')->unsigned()->nullable();
             $table->integer('used')->unsigned()->nullable();
+            $table->boolean('template')->default(false);
 
             $table->foreign('client_id')->references('id')->on('company');
         });
