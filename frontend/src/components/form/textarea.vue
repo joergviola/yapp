@@ -1,8 +1,8 @@
 <template>
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
-        <textarea :name="field" :id="field" class="form-control" rows="5"
-                 v-bind:value="value" v-on:input="updateValue($event.target.value)"></textarea>
+        <b-form-textarea :name="field" :id="field" class="form-control"
+                 v-bind:value="value" v-on:input="value => updateValue(value)"></b-form-textarea>
     </div>
 </template>
 

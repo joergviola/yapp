@@ -34,22 +34,34 @@
         </template>
       </ressource>
     </row>
-    <row v-if="!isNew">
-      <list icon="icon-check" label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl">
-        <template slot="header">
-          <column span="7"><b>Name</b></column>
-          <column span="2"><b>Pos-Offer</b></column>
-          <column span="2"><b>Planned</b></column>
-        </template>
-        <template scope="row">
-          <text-input v-model="row.item.name" cols="7"></text-input>
-          <text-input v-model="row.item.position" cols="2"></text-input>
-          <time-input v-model="row.item.planned" cols="2"></time-input>
-        </template>
-      </list>
+    <b-tabs v-if="!isNew">
+      <b-tab title="Tasks" active>
+          <list icon="icon-check" label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl">
+            <template slot="header">
+              <column span="7"><b>Name</b></column>
+              <column span="2"><b>Pos-Offer</b></column>
+              <column span="2"><b>Planned</b></column>
+            </template>
+            <template scope="row">
+              <text-input v-model="row.item.name" cols="7"></text-input>
+              <text-input v-model="row.item.position" cols="2"></text-input>
+              <time-input v-model="row.item.planned" cols="2"></time-input>
+            </template>
+          </list>
+      </b-tab>
+      <b-tab title="Actions" >
+        <Actions :projectId="$route.params.id"></Actions>
+      </b-tab>
+      <b-tab title="Team" >
 
-    </row>
-    <Actions :projectId="$route.params.id"></Actions>
+      </b-tab>
+      <b-tab title="Documents" >
+
+      </b-tab>
+      <b-tab title="Burndown" >
+
+      </b-tab>
+    </b-tabs>
 
   </div>
 </template>
