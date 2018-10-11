@@ -31,7 +31,7 @@
             <row>
               <column span="3"></column>
               <column span="1">
-                <img src="static/img/avatars/6.jpg" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
+                <img :src="avatar(user)" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
               </column>
               <column span="8">
                 <row>
@@ -58,7 +58,7 @@
         <template scope="row">
           <column v-if="row.item.created_by.id==userId" span="3"></column>
           <column span="1">
-            <img src="static/img/avatars/6.jpg" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
+            <img :src="avatar(row.item.created_by)" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
           </column>
           <column span="8">
                 <div>
@@ -84,6 +84,7 @@
     import Vue from 'vue'
     import {all} from '@/components/all.js'
     import moment from 'moment'
+    import api from '@/api'
 
     export default {
         name: 'task',
@@ -154,7 +155,11 @@
                     from: moment().format('YYYY-MM-DDTHH:mm'),
                     to: moment().format('YYYY-MM-DDTHH:mm'),
                 }
+            },
+            avatar(user) {
+              return api.url() + '/img/users/'+ user.id + '.jpg'
             }
+
         },
     }
 </script>

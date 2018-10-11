@@ -56,8 +56,8 @@ export default {
     methods : {
         login() {
             api.login(this.username, this.password)
-                .then(response => {
-                        STATE.user = response.body.user
+                .then(user => {
+                        STATE.user = user
                         this.$router.push('/')
                     },
                     err => {

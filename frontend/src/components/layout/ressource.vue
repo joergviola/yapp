@@ -1,21 +1,31 @@
 <template>
   <div :class="clazz">
     <div v-if="!raw" class="card">
-      <div class="card-header">
-        <h4>
+      <div class="card-header clearfix">
+        <h4 class="float-left">
           <i v-if="icon" :class="icon"></i>
           {{label}}
           <slot name="header" :item="item"></slot>
         </h4>
+
+        <div class="float-right card-header-actions">
+          <b-btn v-b-toggle.collapse1 variant="link" @click="showCollapse = !showCollapse">
+            <i v-if="showCollapse"  class="icon-arrow-up"></i>
+            <i v-if="!showCollapse"  class="icon-arrow-down"></i>
+          </b-btn>
+        </div>
+
       </div>
-      <div class="card-block" v-on:fieldchange="fieldChange" v-on:with="addWith" id="1">
-        <slot :item="item"></slot>
-      </div>
-      <div class="card-footer" id="2">
-        <a class="btn btn-danger" v-if="!isNew" v-on:click="remove()">Remove</a>
-        <a class="btn btn-primary pull-right" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
-        <a class="btn btn-default pull-right" v-on:click="cancel()">Cancel</a>
-      </div>
+      <b-collapse id="collapse1" class="mt-2" :visible=true>
+        <div id="collapse1" class="card-block container-fluid" v-on:fieldchange="fieldChange" v-on:with="addWith">
+          <slot :item="item"></slot>
+        </div>
+        <div class="card-footer" id="2">
+          <a class="btn btn-danger" v-if="!isNew" v-on:click="remove()">Remove</a>
+          <a class="btn btn-primary pull-right" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
+          <a class="btn btn-default pull-right" v-on:click="cancel()">Cancel</a>
+        </div>
+      </b-collapse>
     </div>
     <slot v-if="raw" :item="item"></slot>
   </div>
@@ -36,6 +46,7 @@
             return {
                 item: {},
                 with: [],
+                showCollapse: true
             }
         },
         mounted() {
@@ -79,7 +90,7 @@
 
                 request.then(response => {
                         if (this.next) {
-                            this.next(response.body)
+                            this.next(response)
                         } else {
                             this.$router.go(-1)
                         }
@@ -115,7 +126,8 @@
                           );
                   }
                 });
-            }
+            },
+
         }
     }
 </script>

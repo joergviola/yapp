@@ -5,7 +5,7 @@ import Vue from 'vue'
 import Router from './router';
 
 function queryUrl(type, query, withs=null, orderBy=null) {
-    let url = config.api + '/api/1.0/'+type
+    let url = '/'+type
     let sep = '?'
     if (query) {
         url += sep + "q="+ query
@@ -30,11 +30,11 @@ function mixin(type, item) {
     return item
 }
 
-function handleError(err) {
-    if (err.status==401) {
+function handleError(response) {
+    if (response.status==401) {
         Router.push("/login")
     }
-    Vue.swal( err.statusText, err.body.message?err.body.message:err.body, 'error')
+    Vue.swal( response.statusText, 'Error', 'error')
 }
 
 let dehydrate = function (item) {
@@ -44,75 +44,76 @@ let dehydrate = function (item) {
         }
     });
     delete item.transient
+    return item
 };
+
+function options(method, body=null) {
+  const result = {
+    method: method,
+    mode: "cors",
+    credentials: "include",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+  if (body) result.body = JSON.stringify(body)
+  return result;
+}
+
+
+function perform(method, endpoint, body=null, cb=null) {
+  return new Promise(function(resolve, reject) {
+    let  url = config.api + '/api/1.0' + endpoint
+    fetch(url, options(method, body))
+      .then(response => {
+          if (response.status != 200) {
+            console.log("API STATUS", method, endpoint, response.status);
+            if (response.status==401) resolve(null);
+            handleError(response)
+            reject(response)
+          } else {
+            response.json().then(result => {
+              if (cb) result = cb(result)
+              console.log("API OK", method, endpoint, result);
+              resolve(result)
+            })
+          }
+        },
+        err => {
+          console.log("API ERROR", method, endpoint, err);
+          handleError(err)
+          reject(err)
+        })
+  })
+}
 
 export default {
 
     mixin: mixin,
 
-    list: (type, query, withs, orderBy) => new Promise(function(resolve, reject) {
-        Vue.http.get(queryUrl(type, encodeURIComponent(query), withs, orderBy), {credentials: true})
-            .then(response => {
-                    const result = response.body
-                    console.log('GET RESULT', result);
-                    result.forEach(item => mixin(type, item))
-                    resolve(result)
-                },
-                err => {
-                    handleError(err)
-                    reject(err)
-                })
-            }
-        ),
+    url: () => config.api,
 
-    create: (type, item) => {
-        dehydrate(item)
-        console.log('CREATE', item)
-        return Vue.http.post(config.api + '/api/1.0/'+type, item, {credentials: true})
+    list: (type, query, withs, orderBy) => perform("GET", queryUrl(type, encodeURIComponent(query), withs, orderBy), null, result => result.map(item => mixin(type, item))),
+
+    create: (type, item) => perform("POST", '/'+type, dehydrate(item), result => mixin(type, result)),
+
+    read: (type, id, withs) => {
+      let url = '/' + type + '/' + id
+      if (withs.length > 0) {
+        url += '?with=' + withs.map(w => w.field + ':' + w.type).join(',')
+      }
+      return perform("GET", url, null, result => mixin(type, result))
     },
 
-    read: (type, id, withs) => new Promise(function(resolve, reject) {
-        let  url = config.api + '/api/1.0/'+type+'/' + id
-        if (withs.length>0) {
-            url += '?with=' + withs.map(w => w.field+':'+w.type).join(',')
-        }
-        Vue.http.get(url, {credentials: true})
-            .then(response => {
-                    resolve(mixin(type, response.body));
-                },
-                err => {
-                    handleError(err)
-                    reject(err)
-                })
-    }),
+    update: (type, item) => perform("PUT", '/'+type, dehydrate(item), result => mixin(type, result)),
 
-    update: (type, item) => {
-        dehydrate(item)
-        console.log('UPDATE', JSON.stringify(item))
-        return Vue.http.put(config.api + '/api/1.0/'+type, item, {credentials: true})
-    },
+    delete: (type, id) => perform("DELETE", '/'+type + '/' + id),
 
-    delete: (type, id) => Vue.http.delete(config.api + '/api/1.0/'+type + '/' + id, {credentials: true}),
+    user : () => perform("GET", "/login", null, result => mixin('user', result)),
 
+    login :  (username, password) => perform("POST", "/login", {username: username, password: password}, result => mixin('user', result)),
 
-    user : () => new Promise(function(resolve, reject) {
-        let  url = config.api + '/api/1.0/login'
-        Vue.http.get(url, {credentials: true})
-            .then(response => {
-                    resolve(mixin('user', response.body));
-                },
-                err => {
-                    if (err.status==401) resolve(null);
-                    handleError(err)
-                    reject(err)
-                })
-    }),
-
-    login :  (username, password) => Vue.http.post(config.api + '/api/1.0/login', {
-        username: username,
-        password: password
-    }, {credentials: true}),
-
-    logout :  () => Vue.http.post(config.api + '/api/1.0/logout', {}, {credentials: true}),
+    logout :  () => perform("POST", '/logout'),
 
 }

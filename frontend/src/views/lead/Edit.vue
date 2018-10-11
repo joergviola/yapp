@@ -38,12 +38,12 @@
       <list icon="icon-check" label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl">
         <template slot="header">
           <column span="7"><b>Name</b></column>
-          <column span="2"><b>Due</b></column>
+          <column span="2"><b>Pos-Offer</b></column>
           <column span="2"><b>Planned</b></column>
         </template>
         <template scope="row">
           <text-input v-model="row.item.name" cols="7"></text-input>
-          <date-input v-model="row.item.due_at" cols="2"></date-input>
+          <text-input v-model="row.item.position" cols="2"></text-input>
           <time-input v-model="row.item.planned" cols="2"></time-input>
         </template>
       </list>

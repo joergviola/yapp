@@ -17,8 +17,8 @@ class APIController extends Controller {
     }
 
     public function login(Request $request) {
-        if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
-            return response()->json(['user'=>Auth::user()]);
+        if (Auth::attempt(['username' => $request->json('username'), 'password' => $request->json('password')])) {
+            return response()->json(Auth::user());
         } else {
             abort(401);
         }
@@ -118,13 +118,17 @@ class APIController extends Controller {
     }
 
     public function delete($entity, $id) {
-	    $result = $this->db($entity)
-	                   ->where("id", $id)
-	                   ->delete();
-	    if ($result==0) {
-		    abort(404);
-	    }
-	    return response()->json($result);
+      try {
+        $result = $this->db($entity)
+          ->where("id", $id)
+          ->delete();
+        if ($result==0) {
+          abort(404);
+        }
+        return response()->json($result);
+      } catch (QueryException $qe) {
+        return response()->json($qe->getMessage(), 403);
+      }
     }
 
     private function data($request) {

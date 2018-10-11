@@ -7,7 +7,7 @@
           {{label}}
         </h4>
       </div>
-        <div :class="'card-block'+(plain?'':' table')">
+        <div :class="'card-block container-fluid'+(plain?'':' table')">
           <div class="row header">
             <slot name="header"></slot>
           </div>

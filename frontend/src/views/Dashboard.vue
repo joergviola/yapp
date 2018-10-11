@@ -8,7 +8,7 @@
           <column span="2"><b>Project</b></column>
           <column span="2"><b>Due</b></column>
         </template>
-        <template scope="row">
+        <template slot-scope="row">
           <text-input v-model="row.item.name" cols="7"></text-input>
           <column span="2">
             <div class="form-control">

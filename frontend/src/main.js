@@ -1,31 +1,28 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
-import VueResource from 'vue-resource'
-import App from './App'
+import App from './App.vue'
 import router from './router'
 import VueSweetalert2 from 'vue-sweetalert2';
-import api from './api.js'
+import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(VueSweetalert2);
-Vue.use(BootstrapVue)
-Vue.use(VueResource);
+Vue.use(BootstrapVue);
+
+Vue.config.productionTip = false
+
+import ModuleLibrary from '@coreui/vue';
+import api from "./api";
+
+// Install this library
+Vue.use(ModuleLibrary);
 
 window.STATE = {}
 
-
 api.user().then(user => {
-    STATE.user = user
-    console.log('USER:', STATE.user)
-    /* eslint-disable no-new */
-    new Vue({
-        el: '#app',
-        router,
-        template: '<App/>',
-        components: {
-            App
-        }
-    })
-})
+  STATE.user = user
+  console.log('USER:', STATE.user)
 
+  new Vue({
+    router,
+    render: h => h(App)
+  }).$mount('#app')
+})

@@ -37,13 +37,13 @@ export default {
         'TypeAhead': TypeAhead
     },
     mounted() {
-        this.$parent.addWith(this.with)
         const v = this.with.split(':')
         this.field = v[0]
         this.type = v[1]
     },
     watch: {
         value: function(val) {
+            console.log("WATCH ON ", this.field)
             this.selected = val
             this.edit = val==null
             this.input = this.value?this.value[this.display]:''
@@ -70,6 +70,7 @@ export default {
         updateValue: function (value) {
             // Emit the number value through the input event
             this.$emit('input', this.selected)
+            this.$parent.$emit('blur', this.selected)
         },
         startEdit() {
             this.edit = true;

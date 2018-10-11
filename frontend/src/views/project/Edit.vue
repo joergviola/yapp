@@ -16,15 +16,17 @@
       </ressource>
     </row>
     <row v-if="!isNew">
-      <list icon="icon-check" label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery">
+      <list icon="icon-check" label="Tasks" type="task" with="user_id:user" cols="12" :detail="taskDetail" :query="userQuery">
         <template slot="header">
-          <column span="5"><b>Name</b></column>
+          <column span="3"><b>Name</b></column>
+          <column span="2"><b>Assigned</b></column>
           <column span="2"><b>Due</b></column>
           <column span="1"><b>Planned</b></column>
           <column span="1"><b>Used</b></column>
         </template>
         <template scope="row">
-          <text-input v-model="row.item.name" cols="5"></text-input>
+          <text-input v-model="row.item.name" cols="3"></text-input>
+          <to-one v-model="row.item.user_id" with="user_id:user" display="name" cols="2"></to-one>
           <date-input v-model="row.item.due_at" cols="2"></date-input>
           <time-input v-model="row.item.planned" cols="1"></time-input>
           <time-input v-model="row.item.used" cols="1" disabled></time-input>
