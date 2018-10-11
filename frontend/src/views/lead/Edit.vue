@@ -47,7 +47,10 @@
           <time-input v-model="row.item.planned" cols="2"></time-input>
         </template>
       </list>
+
     </row>
+    <Actions :projectId="$route.params.id"></Actions>
+
   </div>
 </template>
 

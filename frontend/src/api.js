@@ -68,7 +68,7 @@ function perform(method, endpoint, body=null, cb=null) {
     fetch(url, options(method, body))
       .then(response => {
           if (response.status != 200) {
-            console.log("API STATUS", method, endpoint, response.status);
+            console.log("API STATUS", method, endpoint, body, response.status);
             if (response.status==401) resolve(null);
             handleError(response)
             reject(response)

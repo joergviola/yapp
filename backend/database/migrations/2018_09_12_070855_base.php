@@ -62,12 +62,28 @@ class Base extends Migration
 
         Schema::create('action', function (Blueprint $table) {
             $this->standard($table);
-            $table->string('comment')->nullable();
+            $table->text('comment')->nullable();
             $table->dateTime('from')->nullable();
             $table->dateTime('to')->nullable();
-            $table->integer('task_id')->unsigned();
+            $table->integer('project_id')->unsigned();
+            $table->integer('task_id')->unsigned()->nullable();
 
+            $table->foreign('project_id')->references('id')->on('project');
             $table->foreign('task_id')->references('id')->on('task');
+        });
+
+
+        Schema::create('allocation', function (Blueprint $table) {
+          $this->standard($table);
+          $table->text('comment')->nullable();
+          $table->dateTime('from')->nullable();
+          $table->dateTime('to')->nullable();
+          $table->integer('percent')->unsigned()->nullable();
+          $table->integer('project_id')->unsigned()->nullable();
+          $table->integer('user_id')->unsigned();
+
+          $table->foreign('project_id')->references('id')->on('project');
+          $table->foreign('user_id')->references('id')->on('user');
         });
 
         $this->seed();
@@ -75,6 +91,7 @@ class Base extends Migration
 
     public function down()
     {
+        Schema::dropIfExists('allocation');
         Schema::dropIfExists('action');
         Schema::dropIfExists('task');
         Schema::dropIfExists('project');
@@ -141,11 +158,27 @@ class Base extends Migration
         ]);
 
         $this->insert('user', [
-            'name' => 'SuperAdmin',
-            'email' => 'admin@admin.admin',
-            'username' => 'SuperAdmin',
-            'password' => Hash::make('Admin'),
-            'role_id' => 1,
+          'name' => 'SuperAdmin',
+          'email' => 'admin@admin.admin',
+          'username' => 'SuperAdmin',
+          'password' => Hash::make('Admin'),
+          'role_id' => 1,
+        ]);
+
+        $this->insert('user', [
+          'name' => 'User1',
+          'email' => 'user1@admin.admin',
+          'username' => 'user1',
+          'password' => Hash::make('blabla'),
+          'role_id' => 1,
+        ]);
+
+        $this->insert('user', [
+          'name' => 'User2',
+          'email' => 'user2@admin.admin',
+          'username' => 'user2',
+          'password' => Hash::make('blabla'),
+          'role_id' => 1,
         ]);
 
         DB::table('right')->insert([

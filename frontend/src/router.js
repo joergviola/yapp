@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 import DefaultContainer from './containers/DefaultContainer'
 import Login from './views/pages/Login.vue'
 import nav from './nav.js'

@@ -95,12 +95,7 @@
                             this.$router.go(-1)
                         }
                     },
-                    err => {
-                        this.$swal(err.statusText,
-                            err.body.message ? err.body.message : err.body,
-                            'error');
-                        console.log(err)
-                    }
+                    err => {}
                 );
             },
             cancel() {
