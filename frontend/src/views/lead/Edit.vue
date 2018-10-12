@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row v-if="company">
-        <ressource icon="icon-organization" label="New Client" type="company" with="client_id:company" :id="$route.params.id" cols="12" :next="companyCreated">
+        <ressource icon="icon-organization" label="New Client" type="company" :id="$route.params.id" cols="12" :next="companyCreated">
           <template scope="client">
             <row>
               <text-input label="Name" v-model="client.item.name" cols="6"></text-input>
@@ -20,7 +20,7 @@
       </column>
     </row>
     <row v-if="!company">
-      <ressource icon="icon-like" label="Lead: " type="project" :id="$route.params.id" cols="12" :tmpl="leadTmpl">
+      <ressource icon="icon-like" label="Lead: " type="project" with="client_id:company" :id="$route.params.id" cols="12" :tmpl="leadTmpl">
         <template slot="header" scope="$">
           <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
         </template>

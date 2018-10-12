@@ -49,10 +49,10 @@ export default {
     },
     data() {
         return {
-            edit: true,
-            input: null,
+            edit: this.value==null,
+            input: this.value?this.value[this.display]:'',
             data: null,
-            selected: null
+            selected: this.value
         }
     },
     methods: {
