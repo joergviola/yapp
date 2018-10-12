@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource icon="icon-check" label="Task: " type="task" :id="$route.params.id" :tmpl="tmpl" cols="12" :afterLoad="taskLoaded">
+      <ressource icon="icon-check" label="Task: " type="task" :id="$route.params.id" with="user_id:user,project_id:project" :tmpl="tmpl" cols="12" :afterLoad="taskLoaded">
         <template slot="header" scope="$">
           <text-input inline=true v-model="$.item.name"></text-input>
         </template>
@@ -12,8 +12,8 @@
           <row>
             <date-input label="Starts" v-model="$.item.starts_at" cols="3"></date-input>
             <date-input label="Due" v-model="$.item.due_at" cols="3"></date-input>
-            <to-one label="Assigned" v-model="$.item.user_id" with="user_id:user" display="name" cols="3"></to-one>
-            <to-one label="Project" v-model="$.item.project_id" with="project_id:project" display="name" cols="3" to="/project/" ></to-one>
+            <to-one label="Assigned" v-model="$.item.user_id" type="user" display="name" cols="3"></to-one>
+            <to-one label="Project" v-model="$.item.project_id" type="project" display="name" cols="3" to="/project/" ></to-one>
           </row>
           <row>
             <time-input label="Planned" v-model="$.item.planned" cols="3"></time-input>

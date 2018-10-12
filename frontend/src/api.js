@@ -100,8 +100,8 @@ export default {
 
     read: (type, id, withs) => {
       let url = '/' + type + '/' + id
-      if (withs.length > 0) {
-        url += '?with=' + withs.map(w => w.field + ':' + w.type).join(',')
+      if (withs) {
+        url += '?with=' + withs
       }
       return perform("GET", url, null, result => mixin(type, result))
     },

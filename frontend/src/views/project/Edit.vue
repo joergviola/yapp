@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource icon="icon-control-play" label="Project" type="project" :id="$route.params.id" cols="12">
+      <ressource icon="icon-control-play" label="Project" type="project" with="client_id:company"  :id="$route.params.id" cols="12">
         <template slot="header" scope="$">
           <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
         </template>
@@ -13,7 +13,7 @@
             <enum-input label="State" v-model="$.item.state" cols="3" enum="Lead, Ordered, Running, Closed"></enum-input>
             <date-input label="From" v-model="$.item.starts_at" cols="2"></date-input>
             <date-input label="To" v-model="$.item.ends_at" cols="2"></date-input>
-            <to-one label="Client" v-model="$.item.client_id" with="client_id:company" display="name" to="/companies/company/" cols="3"></to-one>
+            <to-one label="Client" v-model="$.item.client_id" type="company" display="name" to="/companies/company/" cols="3"></to-one>
             <checkbox label="Template" v-model="$.item.template" cols="2"></checkbox>
           </row>
         </template>
@@ -30,7 +30,7 @@
         </template>
         <template scope="row">
           <text-input v-model="row.item.name" cols="3"></text-input>
-          <to-one v-model="row.item.user_id" with="user_id:user" display="name" cols="2"></to-one>
+          <to-one v-model="row.item.user_id" type="user" display="name" cols="2"></to-one>
           <date-input v-model="row.item.due_at" cols="2"></date-input>
           <time-input v-model="row.item.planned" cols="1"></time-input>
           <time-input v-model="row.item.used" cols="1" disabled></time-input>

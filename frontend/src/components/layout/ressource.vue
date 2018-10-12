@@ -17,7 +17,7 @@
 
       </div>
       <b-collapse id="collapse1" class="mt-2" :visible=true>
-        <div id="collapse1" class="card-block container-fluid" v-on:fieldchange="fieldChange" v-on:with="addWith">
+        <div id="collapse1" class="card-block container-fluid" v-on:fieldchange="fieldChange">
           <slot :item="item"></slot>
         </div>
         <div class="card-footer" id="2">
@@ -37,7 +37,7 @@
 
     export default {
         name: 'ressource',
-        props: ['icon', 'label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad', 'raw'],
+        props: ['icon', 'label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad', 'raw', "with"],
         computed: {
             clazz() { return this.cols?'col-sm-' + this.cols:'' },
             isNew() { return this.id=='new' }
@@ -45,7 +45,6 @@
         data() {
             return {
                 item: {},
-                with: [],
                 showCollapse: true
             }
         },
@@ -75,10 +74,6 @@
             },
             setValue(field, value) {
                 this.item[field] = value
-            },
-            addWith: function(arg) {
-                const [field, type] = arg.split(':')
-                this.with.push({field,type})
             },
             fieldChange(event) {
                 console.log('field-change', event)

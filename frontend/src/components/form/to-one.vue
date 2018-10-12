@@ -1,6 +1,6 @@
 <template>
     <div  :class="clazz">
-        <label v-if="label" :for="field">{{label}}</label>
+        <label v-if="label" >{{label}}</label>
         <div v-if="edit" class="input-group">
             <TypeAhead ref="edit" v-model="input" src=":keyword" :getResponse="getResponse" :onHit="onHit" :minChars=1 :fetch="fetch"></TypeAhead>
             <span class="input-group-btn">
@@ -32,18 +32,12 @@ import api from '@/api.js'
 
 export default {
     name: 'to-one',
-    props:['label', 'cols', 'to', 'with', 'value', 'display', ],
+    props:['label', 'cols', 'to', 'type', 'value', 'display'],
     components: {
         'TypeAhead': TypeAhead
     },
-    mounted() {
-        const v = this.with.split(':')
-        this.field = v[0]
-        this.type = v[1]
-    },
     watch: {
         value: function(val) {
-            console.log("WATCH ON ", this.field)
             this.selected = val
             this.edit = val==null
             this.input = this.value?this.value[this.display]:''
@@ -55,8 +49,6 @@ export default {
     },
     data() {
         return {
-            field: null,
-            type: null,
             edit: true,
             input: null,
             data: null,
