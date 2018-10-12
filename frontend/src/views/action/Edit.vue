@@ -14,19 +14,21 @@
                     <date-input v-model="$.item.from" cols="4" time=true></date-input>
                     <date-input v-model="$.item.to" cols="4" time=true></date-input>
                   <column span="2">
-                    <button class="btn btn-primary" v-on:click="toggle($.item)">{{running ? 'Stop' : 'Timer'}}</button>
+                    <b-button :variant="running?'outline-primary':'outline'" :pressed.sync="running" v-on:click="toggle($.item)">
+                      <i class="icon-clock"></i>
+                    </b-button>
                   </column>
                 </row>
                 <row>
                   <column span="10">
-                    <textarea-input v-model="$.item.comment"></textarea-input>
+                    <textarea-input placeholder="Your comment..." v-model="$.item.comment"></textarea-input>
                   </column>
                   <column span="2">
                     <button class="btn btn-primary" v-on:click="saveAction">Save</button>
                   </column>
                 </row>
+                <hr>
               </column>
-
             </row>
           </template>
         </ressource>
@@ -94,7 +96,6 @@
             actionCreated(action) {
                 this.latestId = action.id
                 this.task.refreshUsed()
-                console.log("LID", action)
             },
             duration(action) {
                 const duration = action.duration()

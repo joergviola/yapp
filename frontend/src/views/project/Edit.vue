@@ -11,10 +11,15 @@
           </row>
           <row>
             <enum-input label="State" v-model="$.item.state" cols="3" enum="Lead, Ordered, Running, Closed"></enum-input>
-            <date-input label="From" v-model="$.item.starts_at" cols="2"></date-input>
-            <date-input label="To" v-model="$.item.ends_at" cols="2"></date-input>
+            <date-input label="From" v-model="$.item.starts_at" cols="3"></date-input>
+            <date-input label="To" v-model="$.item.ends_at" cols="3"></date-input>
             <to-one label="Client" v-model="$.item.client_id" type="company" display="name" to="/companies/company/" cols="3"></to-one>
-            <checkbox label="Template" v-model="$.item.template" cols="2"></checkbox>
+          </row>
+          <row>
+            <time-input label="Planned" v-model="$.item.planned" cols="3" disabled></time-input>
+            <time-input label="Used" v-model="$.item.used" cols="3" disabled></time-input>
+            <progressbar label="Progress" :value="$.item.progress ? $.item.progress() : 0" cols="3"></progressbar>
+            <checkbox label="Template" v-model="$.item.template" cols="3"></checkbox>
           </row>
         </template>
       </ressource>

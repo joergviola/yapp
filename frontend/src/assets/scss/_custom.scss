@@ -42,6 +42,12 @@
   margin-right: 10px;
 }
 
+.input-group {
+  span.form-control, a.form-control {
+    padding-top: 9px;
+  }
+}
+
 input.form-control, select.form-control, a.form-control, span.form-control, textarea.form-control {
   border: none;
   border-bottom: solid #DDDDDD 1px;

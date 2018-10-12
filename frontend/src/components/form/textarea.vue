@@ -1,7 +1,7 @@
 <template>
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
-        <b-form-textarea :name="field" :id="field" class="form-control"
+        <b-form-textarea  :placeholder="placeholder" :name="field" :id="field" class="form-control"
                  v-bind:value="value" v-on:input="value => updateValue(value)"></b-form-textarea>
     </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 export default {
     name: 'textarea-input',
-    props:['label', 'field', 'value', 'cols'],
+    props:['label', 'field', 'value', 'cols', 'placeholder'],
     computed: {
         clazz() { return 'form-group col-sm-' + this.cols }
     },

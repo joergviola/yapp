@@ -38,13 +38,14 @@ function handleError(response) {
 }
 
 let dehydrate = function (item) {
-    Object.keys(item).forEach(key => {
-        if (item[key] && item[key].id) {
-            item[key] = item[key].id
+    const result = Object.assign({}, item);
+    Object.keys(result).forEach(key => {
+        if (result[key] && result[key].id) {
+          result[key] = result[key].id
         }
     });
-    delete item.transient
-    return item
+    delete result.transient
+    return result
 };
 
 function options(method, body=null) {
