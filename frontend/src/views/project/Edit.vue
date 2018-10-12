@@ -25,7 +25,7 @@
       </ressource>
     </row>
     <row v-if="!isNew">
-      <list icon="icon-check" label="Tasks" type="task" with="user_id:user" cols="12" :detail="taskDetail" :query="userQuery">
+      <list icon="icon-check" label="Tasks" type="task" with="user_id:user,project_id:project" cols="12" :detail="taskDetail" :query="userQuery">
         <template slot="header">
           <column span="3"><b>Name</b></column>
           <column span="2"><b>Assigned</b></column>

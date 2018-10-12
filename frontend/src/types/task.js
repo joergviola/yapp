@@ -27,5 +27,10 @@ export default {
         if (this.used > this.planned) return 100
         if (this.used < 0 ) return 0
         return Math.round(100*this.used/this.planned)
+    },
+    afterUpdate() {
+      if (this._old.planned!=this.planned) {
+        this.refreshProject()
+      }
     }
 }

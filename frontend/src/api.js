@@ -22,11 +22,12 @@ function queryUrl(type, query, withs=null, orderBy=null) {
     return url;
 }
 
-function mixin(type, item) {
+function mixinAndOld(type, item) {
     const o = types[type];
     if (o) {
         Object.assign(item, o)
     }
+    item._old = Object.assign({}, item);
     return item
 }
 
@@ -44,6 +45,7 @@ let dehydrate = function (item) {
           result[key] = result[key].id
         }
     });
+    delete result._old
     delete result.transient
     return result
 };
@@ -89,31 +91,42 @@ function perform(method, endpoint, body=null, cb=null) {
   })
 }
 
+function trigger(item, event) {
+  if (item[event]) item[event]()
+}
+
 export default {
 
-    mixin: mixin,
+    mixin: mixinAndOld,
 
     url: () => config.api,
 
-    list: (type, query, withs, orderBy) => perform("GET", queryUrl(type, encodeURIComponent(query), withs, orderBy), null, result => result.map(item => mixin(type, item))),
+    list: (type, query, withs, orderBy) => perform(
+      "GET",
+      queryUrl(type, encodeURIComponent(query), withs, orderBy),
+      null,
+      result => result.map(item => mixinAndOld(type, item))),
 
-    create: (type, item) => perform("POST", '/'+type, dehydrate(item), result => mixin(type, result)),
+    create: (type, item) => perform("POST", '/'+type, dehydrate(item), result => mixinAndOld(type, result)),
 
     read: (type, id, withs) => {
       let url = '/' + type + '/' + id
       if (withs) {
         url += '?with=' + withs
       }
-      return perform("GET", url, null, result => mixin(type, result))
+      return perform("GET", url, null, result => mixinAndOld(type, result))
     },
 
-    update: (type, item) => perform("PUT", '/'+type, dehydrate(item), result => mixin(type, result)),
+    update: (type, item) => perform("PUT", '/'+type, dehydrate(item), result => {
+      trigger(item, 'afterUpdate')
+      return mixinAndOld(type, result)
+    }),
 
     delete: (type, id) => perform("DELETE", '/'+type + '/' + id),
 
-    user : () => perform("GET", "/login", null, result => mixin('user', result)),
+    user : () => perform("GET", "/login", null, result => mixinAndOld('user', result)),
 
-    login :  (username, password) => perform("POST", "/login", {username: username, password: password}, result => mixin('user', result)),
+    login :  (username, password) => perform("POST", "/login", {username: username, password: password}, result => mixinAndOld('user', result)),
 
     logout :  () => perform("POST", '/logout'),
 
