@@ -103,6 +103,7 @@
                 let m = Math.round(duration/60)
                 let h = Math.round(m/60)
                 m = m % 60;
+                console.log('DURATION', duration, h, m,  f(h) + ":" + f(m))
                 return f(h) + ":" + f(m)
 
                 function f(t) {

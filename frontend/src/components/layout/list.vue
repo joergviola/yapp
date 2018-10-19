@@ -23,17 +23,15 @@
             </div>
           </div>
           <div v-if="detail" v-for="item in items">
-              <editor class="row" :type='type' :value="item">
+              <editor :ref="'row'+item.id" class="row" :type='type' :value="item" :afterSave="saved(item)" with="project_id:project">
                 <slot :item="item"></slot>
                 <div class="col-sm-1">
-                  <div class="form-control">
-                    <router-link :to="item.transient.url">
+                    <router-link  v-if="item.transient.url" class="btn" :to="item.transient.url">
                       <i class="fa fa-chevron-right"></i>
                     </router-link>
-                    <a v-if="trash" href="#">
+                    <button v-if="trash" class="btn" v-on:click="remove(item)">
                       <i class="fa fa-trash"></i>
-                    </a>
-                  </div>
+                    </button>
                 </div>
               </editor>
           </div>
@@ -50,6 +48,8 @@
 <script>
     import api from '@/api.js'
     import editor from './editor.vue'
+    import Vue from 'vue'
+
 
     export default {
         name: 'list',
@@ -62,8 +62,6 @@
         watch: {
             reload() {
                 this.load()
-                console.log("reload")
-
             }
         },
         data() {
@@ -89,6 +87,14 @@
             save() {
                 console.log("save")
             },
+            saved(oldItem) {
+              return newItem => {
+                const index = this.items.indexOf(oldItem)
+                newItem.transient = {url : this.detail+newItem.id}
+                this.items = this.items.map(i=>i)
+                this.items[index] = newItem
+              }
+            },
             remove(item) {
                 this.$swal(
                     {
@@ -113,7 +119,8 @@
                 if (this.tmpl) {
                     const index = this.items.indexOf(row)
                     this.tmpl.transient = {}
-                    this.items.splice(index+1, 0, this.tmpl)
+                    this.items.splice(index+1, 0, Object.assign({}, this.tmpl))
+                    Vue.nextTick(() => this.$refs.rowundefined[0].$el.getElementsByTagName('input')[0].focus())
                 }
             }
         }

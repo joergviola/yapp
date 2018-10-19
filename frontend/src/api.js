@@ -107,7 +107,7 @@ export default {
       null,
       result => result.map(item => mixinAndOld(type, item))),
 
-    create: (type, item) => perform("POST", '/'+type, dehydrate(item), result => mixinAndOld(type, result)),
+    create: (type, item, withs) => perform("POST", '/'+type+(withs?'?with='+withs:''), dehydrate(item), result => mixinAndOld(type, result)),
 
     read: (type, id, withs) => {
       let url = '/' + type + '/' + id
@@ -117,7 +117,7 @@ export default {
       return perform("GET", url, null, result => mixinAndOld(type, result))
     },
 
-    update: (type, item) => perform("PUT", '/'+type, dehydrate(item), result => {
+    update: (type, item, withs) => perform("PUT", '/'+type+(withs?'?with='+withs:''), dehydrate(item), result => {
       trigger(item, 'afterUpdate')
       return mixinAndOld(type, result)
     }),

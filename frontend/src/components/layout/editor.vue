@@ -10,7 +10,7 @@
 
     export default {
         name: 'editor',
-        props: ['type','value'],
+        props: ['type','value','afterSave','with'],
         mounted() {
             this.$on('blur', this.save)
             this.$on('returnTyped', () => this.$parent.$emit('returnTyped', this.value))
@@ -18,10 +18,11 @@
         methods: {
             save() {
                 const request = this.value.id
-                    ? api.update(this.type, this.value)
-                    : api.create(this.type, this.value)
+                    ? api.update(this.type, this.value, this.with)
+                    : api.create(this.type, this.value, this.with)
 
                 request.then(response => {
+                      if (this.afterSave) this.afterSave(response)
                     },
                     err => {
                         this.$swal(err.statusText,

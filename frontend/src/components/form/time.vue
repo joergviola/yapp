@@ -21,11 +21,11 @@ export default {
     watch: {
         value() {
             this.timeValue = this.toTime();
-            console.log('TIME', this.value, this.timeValue)
         }
     },
     methods: {
         toTime() {
+            if (!this.value) return "";
             let m = Math.floor(this.value/60)
             let h = Math.floor(m/60)
             m = m % 60;

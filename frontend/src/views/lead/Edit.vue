@@ -31,12 +31,19 @@
             <date-input label="To" v-model="$.item.ends_at" cols="3"></date-input>
             <to-one label="Client" v-model="$.item.client_id" type="company" display="name" to="/companies/company/" cols="3"></to-one>
           </row>
+          <row>
+            <time-input label="Planned" v-model="$.item.planned" cols="3" disabled></time-input>
+            <time-input label="Used" v-model="$.item.used" cols="3" disabled></time-input>
+            <progressbar label="Progress" :value="$.item.progress ? $.item.progress() : 0" cols="3"></progressbar>
+            <checkbox label="Template" v-model="$.item.template" cols="3"></checkbox>
+          </row>
+
         </template>
       </ressource>
     </row>
     <b-tabs v-if="!isNew">
       <b-tab title="Tasks" active>
-          <list icon="icon-check" label="Tasks" type="task" cols="12" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl">
+          <list icon="icon-check" label="Tasks" type="task" cols="12" with="project_id:project" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl" trash=true>
             <template slot="header">
               <column span="7"><b>Name</b></column>
               <column span="2"><b>Pos-Offer</b></column>
