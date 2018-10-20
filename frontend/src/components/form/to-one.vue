@@ -2,9 +2,9 @@
     <div  :class="clazz">
         <label v-if="label" >{{label}}</label>
         <div v-if="edit" class="input-group">
-            <TypeAhead ref="edit" v-model="input" src=":keyword" :getResponse="getResponse" :onHit="onHit" :minChars=1 :fetch="fetch"></TypeAhead>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" v-on:click="cancel()">
+            <TypeAhead style="width:1%; flex: 1 1 auto" ref="edit" v-model="input" src=":keyword" :getResponse="getResponse" :onHit="onHit" :minChars=1 :fetch="fetch"></TypeAhead>
+            <span class="input-group-append">
+                <button type="button" class="btn btn-secondary" v-on:click="cancel()">
                     <i class="fa fa-ban"></i>
                 </button>
             </span>
@@ -16,8 +16,8 @@
             <span v-if="!toUrl"class="form-control">
                 {{ selected.name }}
             </span>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" v-on:click="startEdit()">
+            <span class="input-group-append">
+                <button type="button" class="btn btn-secondary" v-on:click="startEdit()">
                     <i class="fa fa-pencil"></i>
                 </button>
             </span>
