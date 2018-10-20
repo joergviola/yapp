@@ -23,7 +23,7 @@
             </div>
           </div>
           <div v-if="detail" v-for="item in items">
-              <editor :ref="'row'+item.id" class="row" :type='type' :value="item" :afterSave="saved(item)" with="project_id:project">
+              <editor :ref="'row'+item.id" class="row" :type='type' :value="item" :afterSave="saved(item)" :with="withFixed">
                 <slot :item="item"></slot>
                 <div class="col-sm-1">
                     <router-link  v-if="item.transient.url" class="btn" :to="item.transient.url">
@@ -57,7 +57,8 @@
         components: {editor},
         computed: {
             clazz() { return 'col-sm-' + this.cols },
-            detailNew() { return this.detail + 'new' }
+            detailNew() { return this.detail + 'new' },
+            withFixed() { return this.with }
         },
         watch: {
             reload() {
