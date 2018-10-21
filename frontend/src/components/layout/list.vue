@@ -15,21 +15,19 @@
           <div v-if="!detail" v-for="item in items" class="row">
             <slot :item="item"></slot>
             <div class="col-sm-1">
-              <div class="form-control">
-                <a v-if="trash" href="#" v-on:click.prevent="remove(item)">
+                <button v-if="trash" class="btn btn-link" href="#" v-on:click.prevent="remove(item)">
                   <i class="fa fa-trash"></i>
-                </a>
-              </div>
+                </button>
             </div>
           </div>
           <div v-if="detail" v-for="item in items">
               <editor :ref="'row'+item.id" class="row" :type='type' :value="item" :afterSave="saved(item)" :with="withFixed">
                 <slot :item="item"></slot>
                 <div class="col-sm-1">
-                    <router-link  v-if="item.transient.url" class="btn" :to="item.transient.url">
+                    <router-link tag="button" v-if="item.transient.url" class="btn btn-link" :to="item.transient.url">
                       <i class="fa fa-chevron-right"></i>
                     </router-link>
-                    <button v-if="trash" class="btn" v-on:click="remove(item)">
+                    <button v-if="trash" class="btn btn-link" v-on:click="remove(item)">
                       <i class="fa fa-trash"></i>
                     </button>
                 </div>
