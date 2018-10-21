@@ -48,7 +48,8 @@
         computed: {
             tmpl() {
                 return {
-                    project_id: this.$route.params.pid,
+                    user_id: STATE.user.id,
+                    project_id: this.$route.params.id,
                 }
             },
         },

@@ -1,7 +1,9 @@
 <template>
   <div class="animated fadeIn">
       <row>
-        <list icon="icon-clock" label="My Time Entries" type="action" cols="12" with="task_id:task,project_id:project" :query="'created_by='+userId" trash=true>
+        <list icon="icon-clock" label="My Time Entries" type="action" cols="12"
+              with="task_id:task,project_id:project" :query="'created_by='+userId" orderBy="from:desc"
+              trash=true>
           <template slot="header">
             <column span="3"><b>From</b></column>
             <column span="3"><b>To</b></column>
