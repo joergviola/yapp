@@ -20,7 +20,7 @@
         <div id="collapse1" class="card-block container-fluid" v-on:fieldchange="fieldChange">
           <slot :item="item"></slot>
         </div>
-        <div class="card-footer" id="2">
+        <div class="card-footer clearfix" id="2">
           <a class="btn btn-danger" v-if="!isNew" v-on:click="remove()">Remove</a>
           <a class="btn btn-primary pull-right" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
           <a class="btn btn-default pull-right" v-on:click="cancel()">Cancel</a>

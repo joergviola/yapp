@@ -24,8 +24,7 @@
         <SidebarMinimizer/>
       </AppSidebar>
       <main class="main">
-        <Breadcrumb :list="list"/>
-        <div class="container-fluid">
+        <div class="mt-4 container">
           <router-view></router-view>
         </div>
       </main>

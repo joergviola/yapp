@@ -7,11 +7,13 @@
           {{label}}
         </h4>
       </div>
-        <div :class="'card-block container-fluid'+(plain?'':' table')">
+        <div :class="'card-block mb-4 container-fluid'+(plain?'':' table')">
           <div class="row header">
             <slot name="header"></slot>
           </div>
-          <slot name="rawheader"></slot>
+          <div class="mt-4">
+            <slot name="rawheader"></slot>
+          </div>
           <div v-if="!detail" v-for="item in items" class="row">
             <slot :item="item"></slot>
             <div class="col-sm-1">
@@ -35,7 +37,7 @@
           </div>
         </div>
         <div class="card-footer clearfix">
-          <router-link :to="detailNew"  class="float-right">
+          <router-link :to="detailNew"  class="btn btn-primary float-right">
             Create
           </router-link>
         </div>
