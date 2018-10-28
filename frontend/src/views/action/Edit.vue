@@ -44,7 +44,7 @@
                     <span :title="row.item.created_at">
                       {{fromNow(row.item.created_at)}}
                     </span>
-                    <span v-if="duration(row.item)">, booked: {{ duration(row.item) }} </span>
+                    <span v-if="row.item.duration()">, booked: {{ row.item.duration() | duration }} </span>
                   </small>
                 </div>
                 <div> {{row.item.comment}} </div>
@@ -96,19 +96,6 @@
             actionCreated(action) {
                 this.latestId = action.id
                 this.task.refreshUsed()
-            },
-            duration(action) {
-                const duration = action.duration()
-                if (duration==0) return false
-                let m = Math.round(duration/60)
-                let h = Math.round(m/60)
-                m = m % 60;
-                console.log('DURATION', duration, h, m,  f(h) + ":" + f(m))
-                return f(h) + ":" + f(m)
-
-                function f(t) {
-                    return (t<10 ? "0" : "") + t
-                }
             },
             toggle: function (item) {
                 const self = this;
