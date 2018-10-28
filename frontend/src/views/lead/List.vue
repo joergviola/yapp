@@ -17,7 +17,7 @@
         </list>
       </row>
       <row>
-        <bar-chart icon="icon-like" label="Leads" type="project" cols="12" query="state=Lead" :x="monthCreated" :xaxis="xdata" :height=100>
+        <bar-chart icon="icon-like" label="Leads" type="project" cols="12" query="state=Lead" :point="point" :xaxis="xdata" :height=100>
         </bar-chart>
       </row>
     </div>
@@ -44,9 +44,11 @@
         }
       },
       methods: {
-        monthCreated(lead) {
-          console.log(lead.created_at, moment(lead.created_at).format('MM-YYYY'))
-          return moment(lead.created_at).format('MM-YYYY')
+        point(lead) {
+          return {
+            x: moment(lead.created_at).format('MM-YYYY'),
+            y: 1
+          }
         }
       }
     }

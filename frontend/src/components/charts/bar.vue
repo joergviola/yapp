@@ -31,7 +31,7 @@
               labels: Object.keys(this.data),
               datasets: [
                 {
-                  backgroundColor: '#f87979',
+                  backgroundColor: '#20a8d8',
                   data: Object.values(this.data)
                 }
               ]
@@ -62,7 +62,7 @@
 
     export default {
         name: 'Barchart',
-        props: ['icon', 'label', 'cols', 'query', 'type', 'x', 'xaxis', 'height'],
+        props: ['icon', 'label', 'cols', 'query', 'type', 'point', 'xaxis', 'height'],
         components: {chart},
         computed: {
             clazz() { return 'col-sm-' + this.cols },
@@ -82,7 +82,8 @@
                     .then(items => {
                       const data = Object.assign({}, this.xaxis)
                       items.forEach(item => {
-                        data[this.x(item)]++
+                        const p = this.point(item)
+                        data[p.x] += p.y
                       })
                       this.data = data
                       console.log("NEW DATA", JSON.stringify(data))

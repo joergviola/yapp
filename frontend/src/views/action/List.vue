@@ -1,5 +1,9 @@
 <template>
   <div class="animated fadeIn">
+    <row>
+      <bar-chart icon="icon-clock" label="Your work stats" type="action" cols="12" :query="'created_by='+userId" :point="point" :xaxis="xdata" :height=100>
+      </bar-chart>
+    </row>
       <row>
         <list icon="icon-clock" label="My Time Entries" type="action" cols="12"
               with="task_id:task,project_id:project" :query="'created_by='+userId" orderBy="from:desc"
@@ -35,12 +39,31 @@
 
 <script>
     import {all} from '@/components/all.js'
+    import moment from 'moment'
 
     export default {
       name: 'actions',
       components: all,
         computed: {
-            userId() { return STATE.user.id },
+          userId() { return STATE.user.id },
+          xdata() {
+            const date = moment()
+            date.subtract(10, "weeks")
+            const result = {}
+            for(var i=0; i<10; i++) {
+              date.add(1, "weeks")
+              const key = date.format('w')
+              result[key] = 0
+            }
+            return result;
+          }
         },
+      methods: {
+        point: action => ({
+          x: moment(action.from).format('w'),
+          y: action.duration() / (60*60)
+        })
+      }
+
     }
 </script>
