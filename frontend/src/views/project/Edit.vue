@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource icon="icon-control-play" label="Project" type="project" with="client_id:company"  :id="$route.params.id" cols="12">
+      <ressource icon="icon-control-play" label="Project" type="project" with="client_id:company"  :id="$route.params.id" cols="12" :afterLoad="project => this.links={project_id: project}">
         <template slot="header" scope="$">
           <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
         </template>
@@ -26,7 +26,7 @@
     </row>
     <b-tabs v-if="!isNew">
       <b-tab title="Tasks" active>
-        <list icon="icon-check" label="Tasks" type="task" with="user_id:user,project_id:project" cols="12" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl" trash=true>
+        <list icon="icon-check" label="Tasks" type="task" :links=links with="user_id:user" cols="12" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl" trash=true>
           <template slot="header">
             <column span="3"><b>Name</b></column>
             <column span="2"><b>Assigned</b></column>
@@ -74,6 +74,7 @@
       data() {
         return {
           taskTmpl: {project_id: this.$route.params.id},
+          links: {project_id: null},
         }
       },
     }

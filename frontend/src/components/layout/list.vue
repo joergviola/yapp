@@ -60,7 +60,10 @@
         watch: {
             reload() {
                 this.load()
-            }
+            },
+            links() {
+                this.items.forEach(item => Object.assign(item, this.links))
+            },
         },
         data() {
             return {

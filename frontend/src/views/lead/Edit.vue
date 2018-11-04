@@ -89,7 +89,7 @@
                 leadTmpl: {state: 'Lead'},
                 taskTmpl: {project_id: this.$route.params.id},
                 company: this.$route.params.id=='new',
-                links: {project_id: null}
+                links: {project_id: null},
             }
         },
         methods: {
