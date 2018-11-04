@@ -1,5 +1,5 @@
 <template>
-    <span :class="'input-group '+(inline?'':'form-group col-sm-' + this.cols)">
+    <span :class="'input-group1 '+(inline?'':'form-group col-sm-' + this.cols)">
         <label v-if="label" :for="field">{{label}}</label>
         <input type="text" :name="field" :id="field" :class="inline?'inline-control ':'form-control '"
                v-bind:value="value" v-on:input="updateValue($event.target.value)"
