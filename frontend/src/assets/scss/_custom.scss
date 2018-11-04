@@ -21,6 +21,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: transparent;
+    box-shadow: none;
   }
 
   select.form-control {
@@ -29,6 +30,13 @@
 
   .form-group {
     margin-bottom: 0px;
+  }
+
+  .link {
+    color: $primary;
+    padding-top: 12px;
+    padding-left: 5px;
+    cursor: pointer;
   }
 }
 

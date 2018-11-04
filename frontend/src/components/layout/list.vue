@@ -11,7 +11,7 @@
           <div class="row header">
             <slot name="header"></slot>
           </div>
-          <div class="mt-4">
+          <div>
             <slot name="rawheader"></slot>
           </div>
           <div v-if="!detail" v-for="item in items" class="row">
@@ -26,12 +26,8 @@
               <editor :ref="'row'+item.id" class="row" :type='type' :value="item" :afterSave="saved(item)" :with="withFixed">
                 <slot :item="item"></slot>
                 <div class="col-sm-1">
-                    <router-link tag="button" v-if="item.transient.url" class="btn btn-link" :to="item.transient.url">
-                      <i class="fa fa-chevron-right"></i>
-                    </router-link>
-                    <button v-if="trash" class="btn btn-link" v-on:click="remove(item)">
-                      <i class="fa fa-trash"></i>
-                    </button>
+                    <i v-if="item.transient.url" class="link fa fa-chevron-right"  v-on:click="jump(item)"></i>
+                    <i class="link fa fa-trash" v-on:click="remove(item)"></i>
                 </div>
               </editor>
           </div>
@@ -49,11 +45,12 @@
     import api from '@/api.js'
     import editor from './editor.vue'
     import Vue from 'vue'
+    import Router from '@/router';
 
 
     export default {
         name: 'list',
-        props: ['icon', 'label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash', 'tmpl'],
+        props: ['icon', 'label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash', 'tmpl', 'links'],
         components: {editor},
         computed: {
             clazz() { return 'col-sm-' + this.cols },
@@ -75,12 +72,16 @@
             this.$on('returnTyped', this.returnTyped)
         },
         methods : {
+            jump(item) {
+              Router.push(item.transient.url)
+            },
             load() {
                 api.list(this.type, this.query, this.with, this.orderBy)
                     .then(response => {
                             this.items = response;
                             this.items.forEach(item => {
-                                item.transient = {url : this.detail+item.id}
+                              Object.assign(item, this.links)
+                              item.transient = {url : this.detail+item.id}
                             })
                         }
                     );
@@ -91,6 +92,7 @@
             saved(oldItem) {
               return newItem => {
                 const index = this.items.indexOf(oldItem)
+                Object.assign(newItem, this.links)
                 newItem.transient = {url : this.detail+newItem.id}
                 this.items = this.items.map(i=>i)
                 this.items[index] = newItem

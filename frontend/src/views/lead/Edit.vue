@@ -20,7 +20,7 @@
       </column>
     </row>
     <row v-if="!company">
-      <ressource icon="icon-like" label="Lead: " type="project" with="client_id:company" :id="$route.params.id" cols="12" :tmpl="leadTmpl">
+      <ressource icon="icon-like" label="Lead: " type="project" with="client_id:company" :id="$route.params.id" cols="12" :tmpl="leadTmpl" :afterLoad="project => this.links={project_id: project}">
         <template slot="header" scope="$">
           <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
         </template>
@@ -43,7 +43,7 @@
     </row>
     <b-tabs v-if="!isNew">
       <b-tab title="Tasks" active>
-          <list icon="icon-check" label="Tasks" type="task" cols="12" with="project_id:project" :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl" trash=true>
+          <list icon="icon-check" label="Tasks" type="task" cols="12" :links=links  :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl" trash=true>
             <template slot="header">
               <column span="7"><b>Name</b></column>
               <column span="2"><b>Pos-Offer</b></column>
@@ -89,6 +89,7 @@
                 leadTmpl: {state: 'Lead'},
                 taskTmpl: {project_id: this.$route.params.id},
                 company: this.$route.params.id=='new',
+                links: {project_id: null}
             }
         },
         methods: {

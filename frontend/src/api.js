@@ -34,6 +34,7 @@ function mixinAndOld(type, item) {
 function handleError(response) {
     if (response.status==401) {
         Router.push("/login")
+        return
     }
     Vue.swal( response.statusText, 'Error', 'error')
 }

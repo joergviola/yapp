@@ -10,12 +10,14 @@
               </column>
               <column span="8">
                 <row>
-                  <column span="2"><b>{{user.name}}</b></column>
-                    <date-input v-model="$.item.from" cols="4" time=true></date-input>
-                    <date-input v-model="$.item.to" cols="4" time=true></date-input>
+                  <column span="12"><b>{{user.name}}</b></column>
+                </row>
+                <row>
+                  <date-input v-model="$.item.from" cols="6" time=true ></date-input>
+                  <text-input v-model="duration" cols="4" time=true :propose="propose($.item.from)" v-on:input="value => setDuration($.item, value)"></text-input>
                   <column span="2">
-                    <b-button :variant="running?'outline-primary':'outline'" :pressed.sync="running" v-on:click="toggle($.item)">
-                      <i class="icon-clock"></i>
+                    <b-button :variant="running?'outline-secondary':'primary'" :pressed.sync="running" v-on:click="toggle($.item)">
+                      <i :class="running?'icon-control-pause':'icon-control-play'"></i>
                     </b-button>
                   </column>
                 </row>
@@ -24,7 +26,9 @@
                     <textarea-input placeholder="Your comment..." v-model="$.item.comment"></textarea-input>
                   </column>
                   <column span="2">
-                    <button class="btn btn-primary" v-on:click="saveAction">Save</button>
+                    <button class="btn btn-primary" v-on:click="saveAction">
+                      <i class="icon-folder"></i>
+                    </button>
                   </column>
                 </row>
                 <hr>
@@ -68,10 +72,11 @@
         props: ['task', 'projectId'],
         data() {
             return {
-                latestId : null,
-                running: null,
-                newAction: this.createAction(),
-                user: STATE.user,
+              latestId : null,
+              running: null,
+              newAction: this.createAction(),
+              user: STATE.user,
+              duration: '00:00',
             }
         },
         watch: {
@@ -90,6 +95,21 @@
             },
         },
         methods: {
+            propose(from) {
+              return ['00:15','00:30', '00:45', '01:00','01:15','01:30'].map(min => {
+                const hm = min.split(':')
+                return {
+                  value: min,
+                  display: min + '(' + moment().add(hm[0]*60+1*hm[1], 'minutes').format('HH:mm') + ')'
+                }
+              })
+            },
+            setDuration(action, duration) {
+              console.log('DUR', action, duration)
+              const hm = duration.split(':')
+              const min = hm[0]*60+1*hm[1]
+              action.to = moment(action.from).add(min, 'minutes').format('YYYY-MM-DDTHH:mm:ss')
+            },
             taskLoaded(task) {
                 this.task = task
             },
