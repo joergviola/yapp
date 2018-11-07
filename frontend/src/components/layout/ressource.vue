@@ -21,7 +21,7 @@
           <slot :item="item"></slot>
         </div>
         <div class="card-footer clearfix" id="2">
-          <a class="btn btn-danger" v-if="!isNew" v-on:click="remove()">Remove</a>
+          <a class="btn btn-danger" v-if="!isNew && canDelete" v-on:click="remove()">Remove</a>
           <a class="btn btn-primary pull-right" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
           <a class="btn btn-default pull-right" v-on:click="cancel()">Cancel</a>
         </div>
@@ -40,7 +40,8 @@
         props: ['icon', 'label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad', 'raw', "with"],
         computed: {
             clazz() { return this.cols?'col-sm-' + this.cols:'' },
-            isNew() { return this.id=='new' }
+            isNew() { return this.id=='new' },
+            canDelete() { return STATE.user.allows(this.type, 'D')}
         },
         data() {
             return {
