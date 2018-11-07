@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use function var_dump;
 
 class User extends Authenticatable
 {
@@ -28,4 +29,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+  public function rights()
+  {
+    return $this->hasMany('App\Right', 'role_id', 'role_id');
+  }
+
+  public function check($entity, $operation) {
+    foreach ($this->rights as $right) {
+      if ($right->allows($entity, $operation)) return true;
+    }
+    return false;
+  }
 }
