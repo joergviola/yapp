@@ -15,13 +15,17 @@ class APIController extends Controller
 
   public function user()
   {
-    return response()->json(Auth::user());
+    $user = Auth::user();
+    $user->rights = $user->rights;
+    return response()->json($user);
   }
 
   public function login(Request $request)
   {
     if (Auth::attempt(['username' => $request->json('username'), 'password' => $request->json('password')])) {
-      return response()->json(Auth::user());
+      $user = Auth::user();
+      $user->rights = $user->rights;
+      return response()->json($user);
     } else {
       abort(401);
     }

@@ -45,7 +45,6 @@
     import api from '@/api.js'
     import editor from './editor.vue'
     import Vue from 'vue'
-    import Router from '@/router';
 
 
     export default {
@@ -76,7 +75,7 @@
         },
         methods : {
             jump(item) {
-              Router.push(item.transient.url)
+              this.$router.push(item.transient.url)
             },
             load() {
                 api.list(this.type, this.query, this.with, this.orderBy)

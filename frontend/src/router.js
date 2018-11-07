@@ -7,6 +7,7 @@ import Dashboard from './views/Dashboard.vue'
 
 Vue.use(Router)
 
+
 function mapRoutes(routes) {
   if (!routes) return null;
   return routes.map(n => ({
@@ -18,14 +19,14 @@ function mapRoutes(routes) {
 }
 
 
-export default new Router({
+export default () => new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       component: DefaultContainer,
-      children: mapRoutes(nav.items)
+      children: mapRoutes(nav().items)
     },
     {path: '/login', name: 'login',  component: Login}
   ]

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import VueSweetalert2 from 'vue-sweetalert2';
 import BootstrapVue from 'bootstrap-vue'
 import filters from './filters'
+import router from './router'
 
 Vue.use(VueSweetalert2);
 Vue.use(BootstrapVue);
@@ -23,7 +23,7 @@ api.user().then(user => {
   console.log('USER:', STATE.user)
 
   new Vue({
-    router,
+    router: router(),
     render: h => h(App)
   }).$mount('#app')
 })
