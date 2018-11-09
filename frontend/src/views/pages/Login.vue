@@ -21,9 +21,6 @@
                     <b-col cols="6">
                       <b-button variant="primary" class="px-4" v-on:click="login()">Login</b-button>
                     </b-col>
-                    <b-col cols="6" class="text-right">
-                      <b-button variant="link" class="px-0" v-on:click="forgot()">Forgot password?</b-button>
-                    </b-col>
                   </b-row>
                 </b-form>
               </b-card-body>
@@ -32,8 +29,7 @@
               <b-card-body class="text-center">
                 <div>
                   <h2>Sign up</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                  <b-button variant="primary" class="active mt-3">Register Now!</b-button>
+                  <p>Just ask an administrator of your company to add you as a user.</p>
                 </div>
               </b-card-body>
             </b-card>

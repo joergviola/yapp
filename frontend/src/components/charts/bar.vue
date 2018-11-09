@@ -42,6 +42,22 @@
               legend: {
                 display: false
               },
+              scales: {
+                yAxes:[{
+                  ticks: {
+                    callback: function(value, index, values) {
+                      if (Math.floor(value) === value) {
+                        return value;
+                      }
+                    }
+                  }
+                }],
+                xAxes:[{
+                  gridLines: {
+                    display:false
+                  }
+                }]
+              },
               tooltips: {
                 enabled: false,
                 custom: CustomTooltips,
