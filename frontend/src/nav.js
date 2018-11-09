@@ -12,7 +12,7 @@ import Actions from '@/views/action/List'
 function allowed(types) {
   let result = false;
   types.forEach(type => {
-    if (window.STATE.user.allows(type,'R')) result=true;
+    if (window.STATE && window.STATE.user && window.STATE.user.allows(type,'R')) result=true;
   })
   return result;
 }
