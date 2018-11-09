@@ -22,7 +22,7 @@
         </div>
         <div class="card-footer clearfix" id="2">
           <a class="btn btn-danger" v-if="!isNew && canDelete" v-on:click="remove()">Remove</a>
-          <a class="btn btn-primary pull-right" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
+          <a class="btn btn-primary pull-right" v-if="!nosave" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
           <a class="btn btn-default pull-right" v-on:click="cancel()">Cancel</a>
         </div>
       </b-collapse>
@@ -37,7 +37,7 @@
 
     export default {
         name: 'ressource',
-        props: ['icon', 'label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad', 'raw', "with"],
+        props: ['icon', 'label', 'type', 'id', 'cols', 'tmpl', 'next', 'afterLoad', 'raw', "with", 'nosave'],
         computed: {
             clazz() { return this.cols?'col-sm-' + this.cols:'' },
             isNew() { return this.id=='new' },

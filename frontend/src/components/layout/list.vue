@@ -32,8 +32,8 @@
               </editor>
           </div>
         </div>
-        <div class="card-footer clearfix">
-          <router-link :to="detailNew"  class="btn btn-primary float-right">
+        <div class="card-footer clearfix"  v-if="!nofooter">
+          <router-link :to="detailNew" class="btn btn-primary float-right">
             Create
           </router-link>
         </div>
@@ -49,7 +49,7 @@
 
     export default {
         name: 'list',
-        props: ['icon', 'label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash', 'tmpl', 'links'],
+        props: ['icon', 'label', 'cols', 'query', 'type', 'detail', 'with', 'reload', 'orderBy', 'plain', 'trash', 'tmpl', 'links', 'nofooter'],
         components: {editor},
         computed: {
             clazz() { return 'col-sm-' + this.cols },

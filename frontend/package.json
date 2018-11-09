@@ -18,16 +18,18 @@
     "css-vars-ponyfill": "^1.11.1",
     "flag-icon-css": "^3.2.0",
     "font-awesome": "^4.7.0",
+    "luxon": "^1.5.0",
+    "moment": "^2.22.2",
     "perfect-scrollbar": "^1.4.0",
     "simple-line-icons": "^2.4.1",
-    "@coreui/vue": "^2.0.2",
-    "moment": "^2.22.2",
     "vue": "^2.5.17",
     "vue-chartjs": "^3.4.0",
+    "vue-datetime": "^1.0.0-beta.8",
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.0.1",
     "vue-sweetalert2": "^1.5.5",
-    "vue2-typeahead": "^1.1.0"
+    "vue2-typeahead": "^1.1.0",
+    "weekstart": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.5",

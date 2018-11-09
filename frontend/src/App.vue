@@ -18,4 +18,7 @@
   @import '~bootstrap-vue/dist/bootstrap-vue.css';
   // Import Main styles for this application
   @import 'assets/scss/style';
+
+  @import '~vue-datetime/dist/vue-datetime.css'
+
 </style>

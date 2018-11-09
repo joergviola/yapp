@@ -1,6 +1,6 @@
 <template>
     <row>
-      <list v-if="task || projectId" icon="icon-clock" label="Actions" type="action" cols="12" with="created_by:user" :query="actionQuery" :reload="latestId" orderBy="created_at:desc" plain=true>
+      <list v-if="task || projectId" icon="icon-clock" label="Actions" type="action" cols="12" with="created_by:user" :query="actionQuery" :reload="latestId" orderBy="created_at:desc" plain=true nofooter="true">
         <ressource ref="newAction" slot="rawheader" type="action" id="new" raw="true" :tmpl="newAction" :next="actionCreated">
           <template scope="$">
             <row>
@@ -96,16 +96,19 @@
         },
         methods: {
             propose(from) {
-              return ['00:15','00:30', '00:45', '01:00','01:15','01:30'].map(min => {
-                const hm = min.split(':')
-                return {
-                  value: min,
-                  display: min + '(' + moment().add(hm[0]*60+1*hm[1], 'minutes').format('HH:mm') + ')'
-                }
+//              return ['00:15','00:30', '00:45', '01:00','01:15','01:30'].map(min => {
+                return [...Array(10).keys()].map(i => {
+                  const min = 15*i
+                  const h = Math.floor(min / 60)
+                  const m = min % 60
+                  const display = moment({hours:h, minutes:m}).format('HH:mm')
+                  return {
+                    value: display,
+                    display: display + ' (' + moment().add(min, 'minutes').format('HH:mm') + ')'
+                  }
               })
             },
             setDuration(action, duration) {
-              console.log('DUR', action, duration)
               const hm = duration.split(':')
               const min = hm[0]*60+1*hm[1]
               action.to = moment(action.from).add(min, 'minutes').format('YYYY-MM-DDTHH:mm:ss')
@@ -136,6 +139,7 @@
             },
             saveAction() {
                 this.$refs.newAction.save()
+                this.duration = "00:00"
                 Vue.nextTick(() => this.newAction = this.createAction())
             },
             createAction() {
