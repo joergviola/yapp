@@ -1,5 +1,5 @@
 import Dashboard from '@/views/Dashboard'
-import User from '@/views/User'
+import User from '@/views/user/Edit'
 import Organisations from '@/views/organisation/List'
 import Organisation from '@/views/organisation/Edit'
 import Projects from '@/views/project/List'

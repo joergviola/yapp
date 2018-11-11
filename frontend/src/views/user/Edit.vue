@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import {all} from '../components/all.js'
+    import {all} from '@/components/all.js'
 
     export default {
       name: 'user',
