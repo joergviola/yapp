@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource icon="icon-control-play" label="Project" type="project" with="client_id:company"  :id="$route.params.id" cols="12" :afterLoad="project => this.links={project_id: project}">
+      <ressource icon="icon-control-play" label="Project" type="project" with="client_id:organisation"  :id="$route.params.id" cols="12" :afterLoad="project => this.links={project_id: project}">
         <template slot="header" scope="$">
           <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
         </template>
@@ -13,7 +13,7 @@
             <enum-input label="State" v-model="$.item.state" cols="3" enum="Lead, Ordered, Running, Closed"></enum-input>
             <date-input label="From" v-model="$.item.starts_at" cols="3"></date-input>
             <date-input label="To" v-model="$.item.ends_at" cols="3"></date-input>
-            <to-one label="Client" v-model="$.item.client_id" type="company" display="name" to="/companies/company/" cols="3"></to-one>
+            <to-one label="Client" v-model="$.item.client_id" type="organisation" display="name" to="/organisations/organisation/" cols="3"></to-one>
           </row>
           <row>
             <time-input label="Planned" v-model="$.item.planned" cols="3" disabled></time-input>

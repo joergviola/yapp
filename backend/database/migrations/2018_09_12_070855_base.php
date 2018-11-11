@@ -9,14 +9,14 @@ class Base extends Migration
 
     protected function standard($table, $foreign=true) {
         $table->increments('id');
-        $table->integer('company_id')->unsigned();
+        $table->integer('organisation_id')->unsigned();
         $table->string('state');
         $table->timestamps();
         $table->integer('created_by')->unsigned();
         $table->integer('updated_by')->unsigned();
 
         if ($foreign) {
-            $table->foreign('company_id')->references('id')->on('company');
+            $table->foreign('organisation_id')->references('id')->on('organisation');
             $table->foreign('created_by')->references('id')->on('user');
             $table->foreign('updated_by')->references('id')->on('user');
         }
@@ -37,7 +37,7 @@ class Base extends Migration
             $table->integer('used')->unsigned()->nullable();
             $table->boolean('template')->default(false);
 
-            $table->foreign('client_id')->references('id')->on('company');
+            $table->foreign('client_id')->references('id')->on('organisation');
         });
 
         Schema::create('task', function (Blueprint $table) {
@@ -73,6 +73,16 @@ class Base extends Migration
             $table->foreign('task_id')->references('id')->on('task');
         });
 
+        Schema::create('document', function (Blueprint $table) {
+            $this->standard($table);
+            $table->text('name')->nullable();
+            $table->integer('project_id')->unsigned();
+            $table->integer('task_id')->unsigned()->nullable();
+
+            $table->foreign('project_id')->references('id')->on('project');
+            $table->foreign('task_id')->references('id')->on('task');
+        });
+
 
         Schema::create('allocation', function (Blueprint $table) {
           $this->standard($table);
@@ -94,6 +104,7 @@ class Base extends Migration
     {
         Schema::dropIfExists('allocation');
         Schema::dropIfExists('action');
+        Schema::dropIfExists('document');
         Schema::dropIfExists('task');
         Schema::dropIfExists('project');
 
@@ -102,7 +113,7 @@ class Base extends Migration
 
     private function insert($table, $row) {
         DB::table($table)->insert(array_merge([
-            'company_id' => 1,
+            'organisation_id' => 1,
             'state' => 'New',
             'created_by' => 1,
             'updated_by' => 1,
@@ -118,7 +129,7 @@ class Base extends Migration
             $table->string('name');
         });
 
-        Schema::create('company', function (Blueprint $table) {
+        Schema::create('organisation', function (Blueprint $table) {
             $this->standard($table, false);
             $table->string('name');
             $table->text('address')->nullable();
@@ -131,6 +142,7 @@ class Base extends Migration
             $this->standard($table);
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('avatar')->nullable();
             $table->string('telefone')->nullable();
             $table->string('username')->nullable();
             $table->string('password')->nullable();
@@ -150,7 +162,7 @@ class Base extends Migration
         });
 
 
-        $this->insert('company', [
+        $this->insert('organisation', [
             'name' => 'Self',
         ]);
 
@@ -183,7 +195,7 @@ class Base extends Migration
         ]);
 
         DB::table('right')->insert([
-            'company_id' => 1,
+            'organisation_id' => 1,
             'state' => 'New',
             'created_by' => 1,
             'updated_by' => 1,
@@ -194,14 +206,14 @@ class Base extends Migration
             'role_id' => 1,
         ]);
 
-        Schema::table('company', function (Blueprint $table) {
-            $table->foreign('company_id')->references('id')->on('company');
+        Schema::table('organisation', function (Blueprint $table) {
+            $table->foreign('organisation_id')->references('id')->on('organisation');
             $table->foreign('created_by')->references('id')->on('user');
             $table->foreign('updated_by')->references('id')->on('user');
         });
 
         Schema::table('role', function (Blueprint $table) {
-            $table->foreign('company_id')->references('id')->on('company');
+            $table->foreign('organisation_id')->references('id')->on('organisation');
             $table->foreign('created_by')->references('id')->on('user');
             $table->foreign('updated_by')->references('id')->on('user');
         });
@@ -209,7 +221,7 @@ class Base extends Migration
 
     private function seed()
     {
-        $this->insert('company', [
+        $this->insert('organisation', [
             'name' => 'Acme',
         ]);
 
@@ -227,15 +239,15 @@ class Base extends Migration
 
     private function systemDown()
     {
-        Schema::table('company', function (Blueprint $table) {
-            $table->dropForeign(['company_id']);
+        Schema::table('organisation', function (Blueprint $table) {
+            $table->dropForeign(['organisation_id']);
             $table->dropForeign(['created_by']);
             $table->dropForeign(['updated_by']);
         });
 
         Schema::table('user', function (Blueprint $table) {
             $table->dropForeign(['role_id']);
-            $table->dropForeign(['company_id']);
+            $table->dropForeign(['organisation_id']);
             $table->dropForeign(['created_by']);
             $table->dropForeign(['updated_by']);
         });
@@ -243,6 +255,6 @@ class Base extends Migration
         Schema::dropIfExists('right');
         Schema::dropIfExists('role');
         Schema::dropIfExists('user');
-        Schema::dropIfExists('company');
+        Schema::dropIfExists('organisation');
     }
 }

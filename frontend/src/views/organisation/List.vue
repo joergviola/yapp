@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
       <row>
-        <list icon="icon-organization" label="Companies" type="company" cols="12" detail="/companies/company/">
+        <list icon="icon-organization" label="Organisations" type="organisation" cols="12" detail="/organisations/organisation/">
           <template slot="header">
             <column span="6"><b>Name</b></column>
             <column span="5"><b>E-Mail</b></column>
@@ -19,7 +19,7 @@
     import {all} from '@/components/all.js'
 
     export default {
-      name: 'companies',
+      name: 'organisations',
       components: all,
 
     }

@@ -107,7 +107,7 @@ class APIController extends Controller
     try {
       $user = Auth::user();
       $data = array_merge([
-        'company_id' => $user->company_id,
+        'organisation_id' => $user->organisation_id,
         'state' => 'New',
         'created_by' => $user->id,
         'updated_by' => $user->id,

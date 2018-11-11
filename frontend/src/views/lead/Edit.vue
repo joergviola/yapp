@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
-    <row v-if="company">
-        <ressource icon="icon-organization" label="New Client" type="company" :id="$route.params.id" cols="12" :next="companyCreated">
+    <row v-if="organisation">
+        <ressource icon="icon-organization" label="New Client" type="organisation" :id="$route.params.id" cols="12" :next="organisationCreated">
           <template scope="client">
             <row>
               <text-input label="Name" v-model="client.item.name" cols="6"></text-input>
@@ -14,13 +14,13 @@
           </template>
         </ressource>
     </row>
-    <row v-if="company">
+    <row v-if="organisation">
       <column span="12">
-        <link-button type="primary" align="right" label="Use existing client" v-on:click="companyCreated"></link-button>
+        <link-button type="primary" align="right" label="Use existing client" v-on:click="organisationCreated"></link-button>
       </column>
     </row>
-    <row v-if="!company">
-      <ressource icon="icon-like" label="Lead: " type="project" with="client_id:company" :id="$route.params.id" cols="12" :tmpl="leadTmpl" :afterLoad="project => this.links={project_id: project}">
+    <row v-if="!organisation">
+      <ressource icon="icon-like" label="Lead: " type="project" with="client_id:organisation" :id="$route.params.id" cols="12" :tmpl="leadTmpl" :afterLoad="project => this.links={project_id: project}">
         <template slot="header" scope="$">
           <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
         </template>
@@ -29,7 +29,7 @@
             <enum-input label="State" v-model="$.item.state" cols="3" enum="Lead, Ordered, Running, Closed"></enum-input>
             <date-input label="From" v-model="$.item.starts_at" cols="3"></date-input>
             <date-input label="To" v-model="$.item.ends_at" cols="3"></date-input>
-            <to-one label="Client" v-model="$.item.client_id" type="company" display="name" to="/companies/company/" cols="3"></to-one>
+            <to-one label="Client" v-model="$.item.client_id" type="organisation" display="name" to="/organisations/organisation/" cols="3"></to-one>
           </row>
           <row>
             <time-input label="Planned" v-model="$.item.planned" cols="3" disabled></time-input>
@@ -88,14 +88,14 @@
             return {
                 leadTmpl: {state: 'Lead'},
                 taskTmpl: {project_id: this.$route.params.id},
-                company: this.$route.params.id=='new',
+                organisation: this.$route.params.id=='new',
                 links: {project_id: null},
             }
         },
         methods: {
-            companyCreated(company) {
-                this.company = false
-                this.$nextTick(() => this.leadTmpl = {name: '', client_id: company, state: 'Lead'})
+            organisationCreated(organisation) {
+                this.organisation = false
+                this.$nextTick(() => this.leadTmpl = {name: '', client_id: organisation, state: 'Lead'})
                 // Im nextTick, weil Lead noch ausgeblendet ist und kein watch bekommt.
                 // Warum name:''? Keine Ahnung!
 

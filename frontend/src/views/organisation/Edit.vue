@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
     <row>
-      <ressource icon="icon-organization" label="Company" type="company" :id="$route.params.id" cols="12">
+      <ressource icon="icon-organization" label="Organisation" type="organisation" :id="$route.params.id" cols="12">
         <template scope="$">
           <row>
             <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
@@ -15,7 +15,7 @@
       </ressource>
     </row>
     <row>
-      <list icon="icon-user" label="Persons" type="user" with="company_id:company" cols="12" detail="/users/user/" :query="userQuery">
+      <list icon="icon-user" label="Persons" type="user" with="organisation_id:organisation" cols="12" detail="/users/user/" :query="userQuery">
         <template slot="header">
           <column span="4"><b>Name</b></column>
           <column span="4"><b>E-Mail</b></column>
@@ -33,10 +33,10 @@
     import {all} from '@/components/all.js'
 
     export default {
-      name: 'company',
+      name: 'organisation',
       components: all,
       computed: {
-          userQuery() { return 'company_id=' + this.$route.params.id },
+          userQuery() { return 'organisation_id=' + this.$route.params.id },
       },
     }
 </script>

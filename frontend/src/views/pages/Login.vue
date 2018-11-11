@@ -29,7 +29,7 @@
               <b-card-body class="text-center">
                 <div>
                   <h2>Sign up</h2>
-                  <p>Just ask an administrator of your company to add you as a user.</p>
+                  <p>Just ask an administrator of your organisation to add you as a user.</p>
                 </div>
               </b-card-body>
             </b-card>
