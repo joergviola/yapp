@@ -19,13 +19,13 @@ function mapRoutes(routes) {
 }
 
 
-export default () => new Router({
+export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       component: DefaultContainer,
-      children: mapRoutes(nav().items)
+      children: mapRoutes(nav.items)
     },
     {path: '/login', name: 'login',  component: Login}
   ]

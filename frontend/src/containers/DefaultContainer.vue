@@ -75,7 +75,7 @@ export default {
   },
   data () {
     return {
-      nav: nav().items.filter(i => i.nav)
+      nav: nav.items.filter(i => i.nav)
     }
   },
   computed: {

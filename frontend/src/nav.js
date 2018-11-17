@@ -9,16 +9,17 @@ import Lead from '@/views/lead/Edit'
 import Task from '@/views/task/Edit'
 import Actions from '@/views/action/List'
 
-function allowed(types) {
-  let result = false;
-  types.forEach(type => {
-    if (window.STATE && window.STATE.user && window.STATE.user.allows(type,'R')) result=true;
-  })
-  return result;
-}
+// For later reference...
+// function allowed(types) {
+//   let result = false;
+//   types.forEach(type => {
+//     if (window.STATE && window.STATE.user && window.STATE.user.allows(type,'R')) result=true;
+//   })
+//   return result;
+// }
 
 
-export default () => ({
+export default {
   items: [
     { name: 'Home', url: '/', icon: 'icon-home', nav: true, component: Dashboard, types:['task','action'] },
     { name: 'User', url: '/users/user/:id', component: User, types:['user'] },
@@ -30,5 +31,5 @@ export default () => ({
     { name: 'Project', url: '/project/:id', component: Project, types:['project', 'task'] },
     { name: 'Task', url: '/project/:pid/task/:id', component: Task, types:['task','action'] },
     { name: 'Actions', url: '/actions', component: Actions, types:['action'] },
-  ].filter(n => allowed(n.types))
-})
+  ]
+}

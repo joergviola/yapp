@@ -43,7 +43,7 @@ api.user().then(user => {
   console.log('USER:', STATE.user)
 
   new Vue({
-    router: router(),
+    router: router,
     render: h => h(App)
   }).$mount('#app')
 })

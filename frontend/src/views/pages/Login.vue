@@ -57,6 +57,7 @@ export default {
                 .then(user => {
                         STATE.user = user
                         this.$router.push('/')
+                        console.log('LOGGED IN', user)
                     },
                     err => {
                         this.$swal( err.statusText,
