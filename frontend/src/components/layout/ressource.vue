@@ -41,7 +41,8 @@
         computed: {
             clazz() { return this.cols?'col-sm-' + this.cols:'' },
             isNew() { return this.id=='new' },
-            canDelete() { return STATE.user.allows(this.type, 'D')}
+            canDelete() { return STATE.user.allows(this.type, 'D')},
+            docURL() { return api.url()+"/"+this.type+"/"+this.id },
         },
         data() {
             return {
@@ -118,7 +119,9 @@
                   }
                 });
             },
-
+            url(field, name) {
+                return api.doc(this.type, this.id, field, name)
+            },
         }
     }
 </script>

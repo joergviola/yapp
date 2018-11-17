@@ -34,9 +34,10 @@ function mixinAndOld(type, item) {
 function handleError(response) {
     if (response.status==401) {
         Router().push("/login")
-        return
+        return true
     }
     Vue.swal( response.statusText, 'Error', 'error')
+    return false
 }
 
 let dehydrate = function (item) {
@@ -72,9 +73,9 @@ function perform(method, endpoint, body=null, cb=null) {
     fetch(url, options(method, body))
       .then(response => {
           if (response.status != 200) {
-            console.log("API STATUS", method, endpoint, body, response.status);
-            if (response.status==401) resolve(null);
-            handleError(response)
+            console.log("API STATUS", response.status, method, endpoint, body);
+            //if (response.status==401) resolve(null);
+            if (handleError(response)) resolve(null)
             reject(response)
           } else {
             response.json().then(result => {
@@ -100,7 +101,9 @@ export default {
 
     mixin: mixinAndOld,
 
-    url: () => config.api,
+    url: () => config.api + '/api/1.0',
+
+    doc: (type, id, field, name) => config.api + '/api/1.0/' + type + '/' + id + '/' + field + '/' + name,
 
     list: (type, query, withs, orderBy) => perform(
       "GET",

@@ -3,6 +3,7 @@ import textinput from '../components/form/text.vue'
 import textareainput from '../components/form/textarea.vue'
 import dateinput from '../components/form/date.vue'
 import timeinput from '../components/form/time.vue'
+import file from '../components/form/file.vue'
 import enuminput from '../components/form/enum.vue'
 import checkbox from '../components/form/checkbox.vue'
 import passwordinput from '../components/form/password.vue'
@@ -27,6 +28,7 @@ const all = {
     'progressbar': progress,
     'link-button': button,
     'to-one': toOne,
+    file,
     ressource,
     list,
     editor,

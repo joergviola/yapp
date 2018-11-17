@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use function array_map;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Input;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use function implode;
+use function is_array;
 
 
 class APIController extends Controller
@@ -90,6 +93,7 @@ class APIController extends Controller
       if (!$result) {
         abort(404);
       }
+      $this->filter($result);
       $this->with([$result], $with);
       return response()->json($result);
     } catch (Exception $e) {
@@ -116,6 +120,7 @@ class APIController extends Controller
       ], $data);
       $id = $this->db($entity)
         ->insertGetId($data);
+    $this->attachements($request, $entity, $id);
       return $this->get($request, $entity, $id);
     } catch (QueryException $e) {
       $msg = [
@@ -133,7 +138,7 @@ class APIController extends Controller
     $this->db($entity)
       ->where('id', $id)
       ->update($data);
-
+    $this->attachements($request, $entity, $id);
     return $this->get($request, $entity, $id);
   }
 
@@ -153,16 +158,57 @@ class APIController extends Controller
     }
   }
 
-  private function data($request)
-  {
-    $data = $request->json()->all();
-    if (isset($data['password'])) {
-      \Log::info($data['password']);
-      $data['password'] = Hash::make($data['password']);
-      \Log::info($data['password']);
+    public function doc(Request $request, $entity, $id, $field, $doc)
+    {
+        $this->check($entity, 'R');
+        $file = "docs/$entity/$id/$field/$doc";
+//        $data = Storage::disk('public')->get($file);
+        return response()->file(storage_path('app/public/' . $file));
     }
-    return $data;
-  }
+
+
+
+    private function data($request)
+    {
+        $data = $request->all();
+        foreach ($data as $key => $value) {
+            if (is_array($data[$key])) {
+                if ($data[$key]['type']=='file') {
+                    $data[$key] = implode(',', array_map(function($f){return $f['name'];}, $data[$key]['files']));
+                }
+            }
+        }
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        return $data;
+    }
+
+    private function filter($data)
+    {
+        if (isset($data->password)) {
+            $data->password = null;
+        }
+        return $data;
+    }
+
+    private function attachements($request, $entity, $id)
+    {
+        $data = $request->all();
+        foreach ($data as $key => $value) {
+            if (is_array($data[$key])) {
+                if ($data[$key]['type']=='file') {
+                    foreach ($data[$key]['files'] as $file) {
+                        $base64_str = substr($file['content'], strpos($file['content'], ",")+1);
+                        $doc = base64_decode($base64_str);
+                        $directory = "docs/$entity/$id/$key";
+                        Storage::disk('public')->makeDirectory($directory);
+                        Storage::disk('public')->put($directory.'/'.$file['name'], $doc);
+                    }
+                }
+            }
+        }
+    }
 
   private function db($entity)
   {

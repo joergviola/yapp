@@ -20,4 +20,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/1.0/{entity}', 'APIController@create');
     Route::put('/api/1.0/{entity}', 'APIController@update');
     Route::delete('/api/1.0/{entity}/{id}', 'APIController@delete');
+    Route::get('/api/1.0/{entity}/{id}/{field}/{doc}', 'APIController@doc');
 });
