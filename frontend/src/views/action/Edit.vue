@@ -6,7 +6,7 @@
             <row>
               <column span="3"></column>
               <column span="1">
-                <img :src="avatar(user)" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
+                <img :src="avatar(user)" class="img-avatar pull-right" :alt="user.email">
               </column>
               <column span="8">
                 <row>
@@ -39,7 +39,7 @@
         <template scope="row">
           <column v-if="row.item.created_by.id==userId" span="3"></column>
           <column span="1">
-            <img :src="avatar(row.item.created_by)" class="img-avatar pull-right" alt="admin@bootstrapmaster.com">
+            <img :src="avatar(row.item.created_by)" class="img-avatar pull-right" :alt="row.item.email">
           </column>
           <column span="8">
                 <div>
@@ -152,7 +152,7 @@
                 }
             },
             avatar(user) {
-              return api.url() + '/img/users/'+ user.id + '.jpg'
+              return api.doc('user', user.id, 'avatar', user.avatar)
             }
 
         },

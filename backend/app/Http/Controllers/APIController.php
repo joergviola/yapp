@@ -135,9 +135,12 @@ class APIController extends Controller
     $this->check($entity, 'U');
     $data = $this->data($request);
     $id = $data['id'];
+    if (empty($data['password']))
+        unset($data['password']);
     $this->db($entity)
       ->where('id', $id)
       ->update($data);
+    \Log::info("UPDATED $entity #$id", $data);
     $this->attachements($request, $entity, $id);
     return $this->get($request, $entity, $id);
   }

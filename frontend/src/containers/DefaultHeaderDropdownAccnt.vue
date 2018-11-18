@@ -4,8 +4,8 @@
       <img
               :src="avatar"
               class="img-avatar"
-              alt="admin@bootstrapmaster.com" />
-      {{ username }}
+              :alt="user.email" />
+      {{ user.name }}
     </template>\
     <template slot="dropdown">
       <b-dropdown-item>
@@ -32,11 +32,11 @@
       return { itemsCount: 42 }
     },
     computed: {
-      username() {
-        return STATE.user.name
+      user() {
+        return STATE.user
       },
       avatar() {
-        return api.url() + '/img/users/'+ STATE.user.id + '.jpg'
+        return api.doc('user', STATE.user.id, 'avatar', STATE.user.avatar)
       }
     },
     methods: {
