@@ -2,7 +2,7 @@
     <div  :class="clazz">
         <label v-if="label" :for="field">{{label}}</label>
         <input type="text" :name="field" :id="field" class="form-control" :disabled="disabled"
-               :value="timeValue" v-on:blur="updateValue($event.target.value)">
+               :value="timeValue" v-on:blur="updateValue($event.target.value)" @click.prevent.stop="">
     </div>
 </template>
 

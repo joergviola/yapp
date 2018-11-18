@@ -23,13 +23,14 @@
             </div>
           </div>
           <div v-if="detail" v-for="item in items">
-              <editor :ref="'row'+item.id" class="row" :type='type' :value="item" :afterSave="saved(item)" :with="withFixed">
+            <div v-on:click="jump(item)">
+              <editor :ref="'row'+item.id" class="row" :type='type' :value="item" :afterSave="saved(item)"  :with="withFixed">
                 <slot :item="item"></slot>
                 <div class="col-sm-1">
-                    <i v-if="item.transient.url" class="link fa fa-chevron-right"  v-on:click="jump(item)"></i>
-                    <i class="link fa fa-trash" v-on:click="remove(item)"></i>
+                    <i class="link fa fa-trash" v-on:click.prevent.stop="remove(item)"></i>
                 </div>
               </editor>
+            </div>
           </div>
         </div>
         <div class="card-footer clearfix"  v-if="!nofooter">
