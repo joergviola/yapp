@@ -120,7 +120,8 @@ class APIController extends Controller
       ], $data);
       $id = $this->db($entity)
         ->insertGetId($data);
-    $this->attachements($request, $entity, $id);
+      \Log::info("CREATED $entity #$id", $data);
+      $this->attachements($request, $entity, $id);
       return $this->get($request, $entity, $id);
     } catch (QueryException $e) {
       $msg = [
@@ -137,6 +138,9 @@ class APIController extends Controller
     $id = $data['id'];
     if (empty($data['password']))
         unset($data['password']);
+      $user = Auth::user();
+      $data['updated_by'] = $user->id;
+      $data['updated_at'] = new \DateTime();
     $this->db($entity)
       ->where('id', $id)
       ->update($data);
@@ -155,6 +159,7 @@ class APIController extends Controller
       if ($result == 0) {
         abort(404);
       }
+      \Log::info("DELETED $entity #$id");
       return response()->json($result);
     } catch (QueryException $qe) {
       return response()->json($qe->getMessage(), 403);
