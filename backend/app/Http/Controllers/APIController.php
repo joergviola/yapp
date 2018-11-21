@@ -125,7 +125,8 @@ class APIController extends Controller
       return $this->get($request, $entity, $id);
     } catch (QueryException $e) {
       $msg = [
-        'message' => $e->getMessage()
+        'message' => $e->getMessage(),
+        'info' => $e->errorInfo,
       ];
       return response()->json($msg, 500);
     }

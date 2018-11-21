@@ -7,8 +7,8 @@
             <file v-model="$.item.avatar" image="true" :url="name => $refs.r.url('avatar', name)"></file>
           </column>
           <column span="10">
-          <text-input label="Name" v-model="$.item.name"></text-input>
-          <text-input label="E-Mail" v-model="$.item.email"></text-input>
+          <text-input label="Name" v-model="$.item.name" required=true></text-input>
+          <text-input label="E-Mail" v-model="$.item.email" required=true></text-input>
           </column>
         </row>
         <text-input label="Username" v-model="$.item.username"></text-input>

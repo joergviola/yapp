@@ -1,5 +1,5 @@
 <template>
-  <div :class="clazz">
+  <div :class="clazz" v-on:validation="event=>validation(event.detail)">
     <div v-if="!raw" class="card">
       <div class="card-header clearfix">
         <h4 class="float-left">
@@ -22,7 +22,7 @@
         </div>
         <div class="card-footer clearfix" id="2">
           <a class="btn btn-danger" v-if="!isNew && canDelete" v-on:click="remove()">Remove</a>
-          <a class="btn btn-primary pull-right" v-if="!nosave" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
+          <a :class="'btn pull-right ' + (valid?'btn-primary':'btn-secondary disabled')" v-if="!nosave" v-on:click="save()">{{ isNew ? 'Create' : 'Save' }}</a>
           <a class="btn btn-default pull-right" v-on:click="cancel()">Cancel</a>
         </div>
       </b-collapse>
@@ -47,6 +47,8 @@
         data() {
             return {
                 item: {},
+                validState: {},
+                valid: true,
                 showCollapse: true
             }
         },
@@ -61,7 +63,6 @@
         },
         watch: {
             tmpl(val) {
-                console.log("ressource tmpl watch", val)
                 this.setItem(api.mixin(this.type, this.tmpl || {}))
             }
         },
@@ -122,6 +123,10 @@
             url(field, name) {
                 return api.doc(this.type, this.id, field, name)
             },
+            validation(detail) {
+                this.validState[detail.component] = detail.valid
+                this.valid = Object.keys(this.validState).every(key => this.validState[key])
+            }
         }
     }
 </script>

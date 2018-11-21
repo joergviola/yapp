@@ -4,7 +4,7 @@
         <ressource icon="icon-organization" label="New Client" type="organisation" :id="$route.params.id" cols="12" :next="organisationCreated">
           <template scope="client">
             <row>
-              <text-input label="Name" v-model="client.item.name" cols="6"></text-input>
+              <text-input label="Name" v-model="client.item.name" cols="6" required=true></text-input>
               <text-input label="E-Mail" v-model="client.item.email" cols="6"></text-input>
             </row>
             <row>
@@ -22,7 +22,7 @@
     <row v-if="!organisation">
       <ressource icon="icon-like" label="Lead: " type="project" with="client_id:organisation" :id="$route.params.id" cols="12" :tmpl="leadTmpl" :afterLoad="project => this.links={project_id: project}">
         <template slot="header" scope="$">
-          <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
+          <text-input inline="true" v-model="$.item.name" cols="6" required=true></text-input>
         </template>
         <template scope="$">
           <row>

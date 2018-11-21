@@ -1,10 +1,13 @@
 <template>
     <span :class="(propose?'input-group ':'')+(inline?'':'form-group col-sm-' + this.cols)" >
         <label v-if="label" :for="field">{{label}}</label>
-        <input type="text" :name="field" :id="field" :class="inline?'inline-control ':'form-control '"
+        <input ref="input" type="text" :name="field" :id="field" :class="inline?'inline-control ':'form-control '"
                v-bind:value="value" v-on:input="updateValue($event.target.value)"
-               v-on:blur="$parent.$emit('blur', $event.target.value)"
-               v-on:keyup="keyUp($event)" @click.prevent.stop="">
+               v-on:blur="blur($event)"
+               v-on:keyup="keyUp($event)"
+               @click.prevent.stop=""
+               :placeholder="required?'Must be entered':''"
+               :required="required">
         <b-input-group-append v-if="propose">
           <b-dropdown text="" variant="primary" right>
             <b-dropdown-item v-for="item in propose" v-on:click="updateValue(item.value)">{{item.display}}</b-dropdown-item>
@@ -17,7 +20,10 @@
 <script>
 export default {
     name: 'text-input',
-    props:['label', 'field', 'value', 'cols', 'inline','propose'],
+    props:['label', 'field', 'value', 'cols', 'inline','propose','required'],
+    mounted() {
+        this.triggerValidation()
+    },
     methods: {
         // Instead of updating the value directly, this
         // method is used to format and place constraints
@@ -26,7 +32,20 @@ export default {
             // Emit the number value through the input event
             this.$emit('input', value)
         },
+        blur: function(event) {
+            const value = event.target.value;
+            this.$parent.$emit('blur', value)
+        },
+        triggerValidation() {
+            if (this.required) {
+                this.$refs.input.dispatchEvent(new CustomEvent('validation', {
+                    detail: {component: this, valid: this.value!=null && this.value != ""},
+                    bubbles: true
+                }))
+            }
+        },
         keyUp: function(event) {
+            this.triggerValidation()
             if (event.keyCode==13) {
                 this.$parent.$emit('returnTyped')
             }

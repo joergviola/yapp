@@ -4,7 +4,7 @@
       <ressource icon="icon-check" label="Task: " type="task" :id="$route.params.id" with="user_id:user,project_id:project"
                  :tmpl="tmpl" cols="4" :afterLoad="taskLoaded">
         <template slot="header" scope="$">
-          <text-input inline=true v-model="$.item.name"></text-input>
+          <text-input inline=true v-model="$.item.name" required=true></text-input>
         </template>
         <template scope="$">
           <row>

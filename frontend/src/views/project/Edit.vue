@@ -3,7 +3,7 @@
     <row>
       <ressource icon="icon-control-play" label="Project" type="project" with="client_id:organisation"  :id="$route.params.id" cols="12" :afterLoad="project => this.links={project_id: project}">
         <template slot="header" scope="$">
-          <text-input inline="true" v-model="$.item.name" cols="6"></text-input>
+          <text-input inline="true" v-model="$.item.name" cols="6" required=true></text-input>
         </template>
         <template scope="$">
           <row>
@@ -35,7 +35,7 @@
             <column span="1"><b>Used</b></column>
           </template>
           <template scope="row">
-            <text-input v-model="row.item.name" cols="3"></text-input>
+            <text-input v-model="row.item.name" cols="3" required=true></text-input>
             <to-one v-model="row.item.user_id" type="user" display="name" cols="2"></to-one>
             <date-input v-model="row.item.due_at" cols="2"></date-input>
             <time-input v-model="row.item.planned" cols="1"></time-input>

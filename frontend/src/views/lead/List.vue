@@ -7,7 +7,7 @@
             <column span="4"><b>Client</b></column>
           </template>
           <template scope="row">
-            <text-input v-model="row.item.name" cols="7"></text-input>
+            <text-input v-model="row.item.name" cols="7" required=true></text-input>
             <column span="4">
               <div class="form-control">
               {{row.item.client_id.name}}

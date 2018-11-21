@@ -9,7 +9,7 @@
             <column span="3"><b>Progress</b></column>
           </template>
           <template scope="row">
-            <text-input v-model="row.item.name" cols="4"></text-input>
+            <text-input v-model="row.item.name" cols="4" required=true></text-input>
             <column span="2">
               <div class="form-control">
                 {{row.item.client_id.name}}

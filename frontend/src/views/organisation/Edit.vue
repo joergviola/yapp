@@ -4,7 +4,7 @@
       <ressource icon="icon-organization" label="Organisation" type="organisation" :id="$route.params.id" cols="12">
         <template scope="$">
           <row>
-            <text-input label="Name" v-model="$.item.name" cols="6"></text-input>
+            <text-input label="Name" v-model="$.item.name" cols="6" required=true></text-input>
             <text-input label="E-Mail" v-model="$.item.email" cols="6"></text-input>
           </row>
           <row>

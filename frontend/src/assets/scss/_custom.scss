@@ -40,6 +40,14 @@
   }
 }
 
+input {
+  transition: border-color .5s ease-out;
+}
+
+input:invalid {
+  box-shadow: 0 0 4px 0 red;
+}
+
 /*
 .card-header-actions {
   display: inline;
