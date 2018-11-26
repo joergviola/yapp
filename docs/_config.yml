@@ -1,1 +1,28 @@
-theme: jekyll-theme-cayman
+title: yapp - yet another project planner
+description: Integrated agency project management
+author: joergviola
+logo: /hcz-jekyll-blog/static/img/avatar.png
+github: https://github.com/joergviola/yapp
+about: Leads, Projects, Tasks, Estimations & Quotes, Time Tracking & Invoices
+
+baseurl: ""
+url: ""
+
+allowsearch: true
+
+disqus_shortname: joergviola
+google_analytics: XXXX
+
+share:
+  twitter_username: joergviola
+  fb_appid: 000000000000
+
+
+enableTags: true
+tagarray: []
+
+paginate: 20
+per_page: 20
+paginate_path: "/page:num/"
+markdown: kramdown
+gems: [jekyll-paginate, jekyll-gist]

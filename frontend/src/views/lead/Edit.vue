@@ -41,7 +41,7 @@
         </template>
       </ressource>
     </row>
-    <b-tabs v-if="!isNew">
+    <b-tabs v-if="!isNew" pills card>
       <b-tab title="Tasks" active>
           <list icon="icon-check" label="Tasks" type="task" cols="12" :links=links  :detail="taskDetail" :query="userQuery" :tmpl="taskTmpl" trash=true>
             <template slot="header">
