@@ -1,11 +1,11 @@
 title: yapp - yet another project planner
 description: Integrated agency project management
 author: joergviola
-logo: /hcz-jekyll-blog/static/img/avatar.png
+logo: /yapp/static/img/avatar.png
 github: https://github.com/joergviola/yapp
 about: Leads, Projects, Tasks, Estimations & Quotes, Time Tracking & Invoices
 
-baseurl: ""
+baseurl: "/yapp"
 url: ""
 
 allowsearch: true
