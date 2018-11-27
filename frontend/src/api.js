@@ -1,8 +1,11 @@
 
-import config from '@/config.js'
 import types from '@/types'
 import Vue from 'vue'
-import Router from './router';
+import Router from './util/router';
+
+const base = process.env.NODE_ENV==='production'
+    ? window.location.href.split("#")[0] + '..'
+    : 'http://localhost/yapp/backend/public'
 
 function queryUrl(type, query, withs=null, orderBy=null) {
     let url = '/'+type
@@ -69,7 +72,7 @@ function options(method, body=null) {
 
 function perform(method, endpoint, body=null, cb=null) {
   return new Promise(function(resolve, reject) {
-    let  url = config.api + '/api/1.0' + endpoint
+    let  url = base + '/api/1.0' + endpoint
     fetch(url, options(method, body))
       .then(response => {
           if (response.status != 200) {
@@ -101,9 +104,9 @@ export default {
 
     mixin: mixinAndOld,
 
-    url: () => config.api + '/api/1.0',
+    url: () => base + '/api/1.0',
 
-    doc: (type, id, field, name) => config.api + '/api/1.0/' + type + '/' + id + '/' + field + '/' + name,
+    doc: (type, id, field, name) => base + '/api/1.0/' + type + '/' + id + '/' + field + '/' + name,
 
     list: (type, query, withs, orderBy) => perform(
       "GET",

@@ -2,8 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueSweetalert2 from 'vue-sweetalert2';
 import BootstrapVue from 'bootstrap-vue'
-import filters from './filters'
-import router from './router'
+import filters from './util/filters'
+import router from './util/router'
 
 Vue.use(VueSweetalert2);
 Vue.use(BootstrapVue);

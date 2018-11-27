@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import DefaultContainer from './containers/DefaultContainer'
-import Login from './views/pages/Login.vue'
-import nav from './nav.js'
-import Dashboard from './views/Dashboard.vue'
+import DefaultContainer from '../containers/DefaultContainer'
+import Login from '../views/pages/Login.vue'
+import nav from '../nav.js'
 
 Vue.use(Router)
 
