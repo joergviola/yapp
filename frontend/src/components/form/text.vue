@@ -18,6 +18,9 @@
 </template>
 
 <script>
+
+import bubble from "@/util/bubble"
+
 export default {
     name: 'text-input',
     props:['label', 'field', 'value', 'cols', 'inline','propose','required'],
@@ -38,10 +41,10 @@ export default {
         },
         triggerValidation() {
             if (this.required) {
-                this.$refs.input.dispatchEvent(new CustomEvent('validation', {
-                    detail: {component: this, valid: this.value!=null && this.value != ""},
-                    bubbles: true
-                }))
+                bubble(this.$refs.input, 'validation', {
+                    component: this,
+                    valid: this.value!=null && this.value != "",
+                })
             }
         },
         keyUp: function(event) {
